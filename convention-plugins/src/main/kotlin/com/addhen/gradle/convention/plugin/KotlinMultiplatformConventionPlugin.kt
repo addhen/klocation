@@ -17,8 +17,6 @@ class KotlinMultiplatformConventionPlugin : Plugin<Project> {
 
     kotlin {
       applyDefaultHierarchyTemplate()
-
-      jvm()
       if (pluginManager.hasPlugin("com.android.library")) {
         androidTarget {
           publishLibraryVariants("release")
