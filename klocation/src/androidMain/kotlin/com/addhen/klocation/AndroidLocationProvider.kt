@@ -39,6 +39,7 @@ class AndroidLocationProvider(
   private val minDistanceMeters: Float = MIN_DISTANCE_CHANGE_FOR_UPDATES,
   private val minTimeMs: Long = MIN_TIME_BW_UPDATES,
 ) : LocationProvider {
+
   private var locationListener: LocationListener? = null
 
   /**
@@ -90,7 +91,7 @@ class AndroidLocationProvider(
         close(e)
       }
       // This is to satisfy the return type of requestLocation.lambda but the location should be
-      // returned in the listener
+      // emitted in the listener
       LocationState.CurrentLocation(null)
     }
 
