@@ -8,12 +8,15 @@ import org.gradle.api.artifacts.ExternalModuleDependencyBundle
 import org.gradle.api.artifacts.MinimalExternalModuleDependency
 import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.api.artifacts.VersionConstraint
 import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 import org.gradle.kotlin.dsl.getByType
 
 val Project.libs
   get() = extensions.getByType<VersionCatalogsExtension>().named("libs")
+
+internal fun VersionCatalog.version(name: String): VersionConstraint = findVersion(name).get()
 
 internal fun VersionCatalog.library(name: String): MinimalExternalModuleDependency {
   return findLibrary(name).get().get()

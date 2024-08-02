@@ -7,6 +7,7 @@ import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
 import org.gradle.plugins.signing.SigningExtension
@@ -63,9 +64,11 @@ fun Project.configureMavenPublish() {
   }
 }
 
-private fun Project.publishing(action: PublishingExtension.() -> Unit) =  extensions.configure<PublishingExtension>(action)
+private fun Project.publishing(action: PublishingExtension.() -> Unit) =
+  extensions.configure<PublishingExtension>(action)
 
-private fun Project.signing(action: SigningExtension.() -> Unit) = extensions.configure<SigningExtension>(action)
+private fun Project.signing(action: SigningExtension.() -> Unit) =
+  extensions.configure<SigningExtension>(action)
 
-private val Project.publishing: PublishingExtension
-  get() = (this as org.gradle.api.plugins.ExtensionAware).extensions.getByName("publishing") as PublishingExtension
+internal val Project.publishing: PublishingExtension
+  get() = extensions.getByType<PublishingExtension>()

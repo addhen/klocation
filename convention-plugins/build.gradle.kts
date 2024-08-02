@@ -43,11 +43,33 @@ gradlePlugin {
       id = "convention.plugin.spotless"
       implementationClass = "com.addhen.gradle.convention.plugin.SpotlessConventionPlugin"
     }
+
+    register("metalava") {
+      id = "convention.plugin.metalava"
+      implementationClass = "com.addhen.gradle.convention.plugin.MetalavaConventionPlugin"
+    }
+
+    register("kotlinAndroid") {
+      id = "convention.plugin.android"
+      implementationClass = "com.addhen.gradle.convention.plugin.KotlinAndroidConventionPlugin"
+    }
+
+    register("androidLibrary") {
+      id = "convention.plugin.android.library"
+      implementationClass = "com.addhen.gradle.convention.plugin.AndroidLibraryConventionPlugin"
+    }
+
+    register("kotlinMultiplatform") {
+      id = "convention.plugin.kotlin.multiplatform"
+      implementationClass = "com.addhen.gradle.convention.plugin.KotlinMultiplatformConventionPlugin"
+    }
   }
 }
 
 dependencies {
   implementation(libs.nexus.publish.gradlePlugin)
+  compileOnly(libs.android.gradlePlugin)
+  compileOnly(libs.compose.gradlePlugin)
   compileOnly(libs.kotlin.gradlePlugin)
   compileOnly(libs.spotless.gradlePlugin)
   compileOnly(libs.metalava.gradlePlugin)

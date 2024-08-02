@@ -37,8 +37,8 @@ kotlin {
 
 android {
     namespace = "com.addhen.klocation"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
+        minSdk = libs.versions.minSdk.get().toInt()
     }
 }
