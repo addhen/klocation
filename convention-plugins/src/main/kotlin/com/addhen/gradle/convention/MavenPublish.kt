@@ -1,3 +1,5 @@
+// Copyright 2024, Addhen Ltd and the k-location project contributors
+// SPDX-License-Identifier: Apache-2.0
 package com.addhen.gradle.convention
 
 import gradle.kotlin.dsl.accessors._76a779107637b25b34866585d88a55c4.publishing
@@ -17,10 +19,12 @@ fun Project.configureMavenPublish() {
       // Configure all publications
       publications.withType<MavenPublication> {
         // Stub javadoc.jar artifact
-        artifact(tasks.register("${name}JavadocJar", Jar::class) {
-          archiveClassifier.set("javadoc")
-          archiveAppendix.set(this@withType.name)
-        })
+        artifact(
+          tasks.register("${name}JavadocJar", Jar::class) {
+            archiveClassifier.set("javadoc")
+            archiveAppendix.set(this@withType.name)
+          },
+        )
 
         // Provide artifacts information required by Maven Central
         pom {
@@ -58,8 +62,8 @@ fun Project.configureMavenPublish() {
   }
 }
 
-//private fun Project.publishing(action: PublishingExtension.() -> Unit) =
-  //extensions.configure<PublishingExtension>(action)
+// private fun Project.publishing(action: PublishingExtension.() -> Unit) =
+// extensions.configure<PublishingExtension>(action)
 
-//private fun Project.signing(action: SigningExtension.() -> Unit) =
-  //extensions.configure<SigningExtension>(action)
+// private fun Project.signing(action: SigningExtension.() -> Unit) =
+// extensions.configure<SigningExtension>(action)

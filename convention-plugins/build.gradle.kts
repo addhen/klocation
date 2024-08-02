@@ -30,8 +30,8 @@ gradlePlugin {
     }
 
     register("nexusPublication") {
-      id = "convention.plugin.root.publication"
-      implementationClass = "com.addhen.gradle.convention.plugin.RootPublicationConventionPlugin"
+      id = "convention.plugin.nexus.publication"
+      implementationClass = "com.addhen.gradle.convention.plugin.NexusPublicationConventionPlugin"
     }
 
     register("mavenPublication") {
