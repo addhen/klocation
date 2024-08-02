@@ -9,6 +9,7 @@ plugins {
   alias(libs.plugins.kotlin.multiplatform) apply false
   alias(libs.plugins.android.lint) apply false
   alias(libs.plugins.android.test) apply false
+  alias(libs.plugins.cacheFixPlugin) apply false
   alias(libs.plugins.spotless) apply false
   alias(libs.plugins.metalava) apply false
   alias(libs.plugins.compose.multiplatform) apply false

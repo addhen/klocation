@@ -2,9 +2,10 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.android.library)
-    id("convention.plugin.maven.publication")
+  id("convention.plugin.android.library")
+  id("convention.plugin.kotlin.multiplatform")
+  id("convention.plugin.metalava")
+  id("convention.plugin.maven.publication")
 }
 
 kotlin {

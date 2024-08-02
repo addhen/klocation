@@ -10,7 +10,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 
 fun Project.configureAndroid() {
-  val localCompileSdk = this.libs.version("compileSdk").requiredVersion
+  val localCompileSdk = this.libs.version("compileSdk").requiredVersion.toInt()
   val localMinSdk = libs.version("minSdk").requiredVersion.toInt()
   val localTargetSdk = libs.version("targetSdk").requiredVersion.toInt()
 
