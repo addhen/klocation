@@ -3,6 +3,7 @@
 plugins {
   `kotlin-dsl`
   alias(libs.plugins.spotless)
+  alias(libs.plugins.nexus.publish)
 }
 
 java { toolchain { languageVersion = JavaLanguageVersion.of(17) } }
@@ -28,6 +29,16 @@ gradlePlugin {
       implementationClass = "com.addhen.gradle.convention.plugin.RootConventionPlugin"
     }
 
+    register("nexusPublication") {
+      id = "convention.plugin.root.publication"
+      implementationClass = "com.addhen.gradle.convention.plugin.RootPublicationConventionPlugin"
+    }
+
+    register("mavenPublication") {
+      id = "convention.plugin.maven.publication"
+      implementationClass = "com.addhen.gradle.convention.plugin.MavenPublicationConventionPlugin"
+    }
+
     register("spotlessConvention") {
       id = "convention.plugin.spotless"
       implementationClass = "com.addhen.gradle.convention.plugin.SpotlessConventionPlugin"
@@ -36,7 +47,7 @@ gradlePlugin {
 }
 
 dependencies {
-  implementation(libs.nexus.publish)
+  implementation(libs.nexus.publish.gradlePlugin)
   compileOnly(libs.kotlin.gradlePlugin)
   compileOnly(libs.spotless.gradlePlugin)
 }
