@@ -16,10 +16,11 @@ kotlin {
 
     androidMain {
       dependencies {
+        implementation(libs.androidx.core.ktx)
       }
     }
 
-    val commonTest by getting {
+    commonTest {
       dependencies {
         implementation(libs.kotlin.test)
       }

@@ -11,6 +11,7 @@ compose-multiplatform = "1.7.0-alpha02"
 cacheFixPlugin = "3.0.1"
 dokka = "1.9.20"
 coroutines = "1.8.1"
+coreKtx = "1.13.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -22,6 +23,7 @@ nexus-publish-gradlePlugin = { module = "io.github.gradle-nexus.publish-plugin:i
 metalava-gradlePlugin = { module = "me.tylerbwong.gradle.metalava:plugin", version.ref = "metalava" }
 compose-gradlePlugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
