@@ -18,5 +18,11 @@ actual class LocationService(
     return locationProvider.getLastKnownLocation()
   }
 
+  /**
+   * Stops all location update requests.
+   *
+   * This method should be called when location updates are no longer needed
+   * to conserve system resources and battery life.
+   */
   actual fun stopLocating() = locationProvider.stopLocating()
 }

@@ -17,16 +17,40 @@ import kotlinx.coroutines.flow.callbackFlow
 private const val MIN_DISTANCE_CHANGE_FOR_UPDATES: Float = 30f // 30 meters
 private const val MIN_TIME_BW_UPDATES = (1000 * 60 * 2).toLong() // 2 minutes
 
+/**
+ * A [LocationProvider] using Android in-built location classes for location-related update using
+ * Kotlin Flow.
+ *
+ * It handles the complexities of interacting with the Android location services and provides a
+ * clean APIs to work with. Use this location provider if you don't want to use Google Play services
+ * or don't support Google Play services
+ *
+ * @property context The Android context used for accessing system services.
+ * @property locationManager The location manager
+ * @property minTimeMs    minimum time interval between location updates in milliseconds
+ * @property minDistanceMeters minimum distance between location updates in meters
+ * @property locationManager     the listener to receive location updates
+ */
 class AndroidLocationProvider(
   private val context: Context,
   private val locationManager: LocationManager = context.getSystemService(
     Context.LOCATION_SERVICE,
   ) as LocationManager,
-  private val minutesDistanceChangeUpdates: Float = MIN_DISTANCE_CHANGE_FOR_UPDATES,
-  private val minTimeBetweenUpdates: Long = MIN_TIME_BW_UPDATES,
+  private val minDistanceMeters: Float = MIN_DISTANCE_CHANGE_FOR_UPDATES,
+  private val minTimeMs: Long = MIN_TIME_BW_UPDATES,
 ) : LocationProvider {
   private var locationListener: LocationListener? = null
 
+  /**
+   * Provides a flow [LocationState] of location updates.
+   *
+   * This method sets up a continuous stream of location updates using either the network
+   * or GPS provider, depending on availability. It automatically manages the lifecycle
+   * of the location updates, stopping them when the flow is cancelled.
+   *
+   * @return A [Flow] emitting [LocationState] states as they become available.
+   * @throws IllegalStateException if no location provider is available.
+   */
   // Permission already being checked with requestLocation function
   @SuppressLint("MissingPermission")
   override fun observeLocationUpdates(): Flow<LocationState> = callbackFlow {
@@ -43,8 +67,8 @@ class AndroidLocationProvider(
           isNetworkEnabled() -> {
             locationManager.requestLocationUpdates(
               LocationManager.NETWORK_PROVIDER,
-              minTimeBetweenUpdates,
-              minutesDistanceChangeUpdates,
+              minTimeMs,
+              minDistanceMeters,
               locationListener!!,
               Looper.getMainLooper(),
             )
@@ -52,8 +76,8 @@ class AndroidLocationProvider(
           isGPSEnabled() -> {
             locationManager.requestLocationUpdates(
               LocationManager.GPS_PROVIDER,
-              minTimeBetweenUpdates,
-              minutesDistanceChangeUpdates,
+              minTimeMs,
+              minDistanceMeters,
               locationListener!!,
               Looper.getMainLooper(),
             )
@@ -74,6 +98,15 @@ class AndroidLocationProvider(
     awaitClose { locationManager.removeUpdates(locationListener!!) }
   }
 
+  /**
+   * Retrieves the last known location from the device.
+   *
+   * This method attempts to get the last known location from the network provider first,
+   * and if that's not available, it tries the GPS provider.
+   *
+   * @return The last known [LocationState], or a [LocationState.CurrentLocation]
+   * with a `null` [Point] if no location is available.
+   */
   // Permission already being checked with requestLocation function
   @SuppressLint("MissingPermission")
   override suspend fun getLastKnownLocation(): LocationState {
