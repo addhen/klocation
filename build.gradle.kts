@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 plugins {
   id("root.publication")
-  id("convention.plugin.spotless")
+  id("convention.plugin.root")
   // trick: for the same plugin versions in all sub-modules
   alias(libs.plugins.android.library).apply(false)
   alias(libs.plugins.kotlin.multiplatform) apply false

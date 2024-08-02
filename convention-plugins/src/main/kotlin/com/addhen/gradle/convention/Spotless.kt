@@ -1,3 +1,5 @@
+// Copyright 2024, Addhen Ltd and the k-location project contributors
+// SPDX-License-Identifier: Apache-2.0
 package com.addhen.gradle.convention
 
 import com.diffplug.gradle.spotless.SpotlessExtension
@@ -12,13 +14,13 @@ fun Project.configureSpotless() {
       target("src/**/*.kt")
       targetExclude("${layout.buildDirectory}/**/*.kt")
       targetExclude("bin/**/*.kt")
-      ktfmt("0.47")
+      ktlint()
       licenseHeaderFile(project.rootProject.file("spotless/copyright.txt"))
     }
 
     kotlinGradle {
       target("*.kts")
-      ktfmt("0.47")
+      ktlint()
       licenseHeaderFile(rootProject.file("spotless/copyright.txt"), "(^(?![\\/ ]\\**).*$)")
     }
 
