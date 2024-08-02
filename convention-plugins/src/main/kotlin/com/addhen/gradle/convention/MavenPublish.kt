@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 package com.addhen.gradle.convention
 
-import gradle.kotlin.dsl.accessors._76a779107637b25b34866585d88a55c4.publishing
-import gradle.kotlin.dsl.accessors._76a779107637b25b34866585d88a55c4.signing
 import org.gradle.api.Project
+import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.tasks.bundling.Jar
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
+import org.gradle.plugins.signing.SigningExtension
 
 fun Project.configureMavenPublish() {
   with(pluginManager) {
@@ -62,8 +63,9 @@ fun Project.configureMavenPublish() {
   }
 }
 
-// private fun Project.publishing(action: PublishingExtension.() -> Unit) =
-// extensions.configure<PublishingExtension>(action)
+private fun Project.publishing(action: PublishingExtension.() -> Unit) =  extensions.configure<PublishingExtension>(action)
 
-// private fun Project.signing(action: SigningExtension.() -> Unit) =
-// extensions.configure<SigningExtension>(action)
+private fun Project.signing(action: SigningExtension.() -> Unit) = extensions.configure<SigningExtension>(action)
+
+private val Project.publishing: PublishingExtension
+  get() = (this as org.gradle.api.plugins.ExtensionAware).extensions.getByName("publishing") as PublishingExtension

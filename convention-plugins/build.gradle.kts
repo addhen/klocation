@@ -50,4 +50,5 @@ dependencies {
   implementation(libs.nexus.publish.gradlePlugin)
   compileOnly(libs.kotlin.gradlePlugin)
   compileOnly(libs.spotless.gradlePlugin)
+  compileOnly(libs.metalava.gradlePlugin)
 }
