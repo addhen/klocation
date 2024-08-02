@@ -1,3 +1,5 @@
+// Copyright 2024, Addhen Ltd and the k-location project contributors
+// SPDX-License-Identifier: Apache-2.0
 package com.addhen.klocation
 
 import android.Manifest
@@ -17,17 +19,21 @@ private const val MIN_TIME_BW_UPDATES = (1000 * 60 * 2).toLong() // 2 minutes
 
 class AndroidLocationProvider(
   private val context: Context,
-  private val locationManager: LocationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager,
+  private val locationManager: LocationManager = context.getSystemService(
+    Context.LOCATION_SERVICE,
+  ) as LocationManager,
   private val minutesDistanceChangeUpdates: Float = MIN_DISTANCE_CHANGE_FOR_UPDATES,
-  private val minTimeBetweenUpdates: Long = MIN_TIME_BW_UPDATES
-): LocationProvider {
+  private val minTimeBetweenUpdates: Long = MIN_TIME_BW_UPDATES,
+) : LocationProvider {
   private var locationListener: LocationListener? = null
 
   // Permission already being checked with requestLocation function
   @SuppressLint("MissingPermission")
   override fun observeLocationUpdates(): Flow<LocationState> = callbackFlow {
     locationListener = LocationListener { location ->
-      val currentLocation = LocationState.CurrentLocation(Point(location.latitude, location.longitude))
+      val currentLocation = LocationState.CurrentLocation(
+        Point(location.latitude, location.longitude),
+      )
       trySend(currentLocation)
     }
 
@@ -40,7 +46,7 @@ class AndroidLocationProvider(
               minTimeBetweenUpdates,
               minutesDistanceChangeUpdates,
               locationListener!!,
-              Looper.getMainLooper()
+              Looper.getMainLooper(),
             )
           }
           isGPSEnabled() -> {
@@ -49,7 +55,7 @@ class AndroidLocationProvider(
               minTimeBetweenUpdates,
               minutesDistanceChangeUpdates,
               locationListener!!,
-              Looper.getMainLooper()
+              Looper.getMainLooper(),
             )
           }
           else -> {
@@ -75,7 +81,7 @@ class AndroidLocationProvider(
       val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
 
       LocationState.CurrentLocation(
-        if (location == null) null else Point(location.latitude, location.longitude)
+        if (location == null) null else Point(location.latitude, location.longitude),
       )
     }
   }
@@ -83,7 +89,6 @@ class AndroidLocationProvider(
   override fun stopLocating() {
     locationListener?.let { locationManager.removeUpdates(it) }
   }
-
 
   private fun isGPSEnabled(): Boolean {
     return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
@@ -93,14 +98,16 @@ class AndroidLocationProvider(
     return locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
   }
 
-  private suspend fun requestLocation(requestLocation: suspend() -> LocationState.CurrentLocation): LocationState {
+  private suspend fun requestLocation(
+    requestLocation: suspend() -> LocationState.CurrentLocation,
+  ): LocationState {
     return runCatching {
       if (ActivityCompat.checkSelfPermission(
           context,
-          Manifest.permission.ACCESS_FINE_LOCATION
+          Manifest.permission.ACCESS_FINE_LOCATION,
         ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
           context,
-          Manifest.permission.ACCESS_COARSE_LOCATION
+          Manifest.permission.ACCESS_COARSE_LOCATION,
         ) != PackageManager.PERMISSION_GRANTED
       ) {
         LocationState.PermissionMissing
