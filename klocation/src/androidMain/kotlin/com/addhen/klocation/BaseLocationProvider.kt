@@ -5,6 +5,7 @@ package com.addhen.klocation
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Location
 import android.location.LocationManager
 import androidx.core.app.ActivityCompat
 
@@ -17,7 +18,7 @@ import androidx.core.app.ActivityCompat
  * @property context The Android context used for accessing system services.
  * @property locationManager The location manager
  */
-abstract class BaseLocationProvider(
+abstract class BaseLocationProvider<T: Location>(
   private val context: Context,
   protected val locationManager: LocationManager = context
     .getSystemService(Context.LOCATION_SERVICE) as LocationManager,
@@ -32,7 +33,7 @@ abstract class BaseLocationProvider(
   }
 
   protected suspend fun requestLocation(
-    requestLocation: suspend() -> LocationState.CurrentLocation,
+    requestLocation: suspend() -> LocationState.CurrentLocation<T>,
   ): LocationState {
     return runCatching {
       if (ActivityCompat.checkSelfPermission(

@@ -4,6 +4,7 @@ package com.addhen.klocation
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Looper
@@ -32,7 +33,7 @@ class AndroidLocationProvider(
   private val context: Context,
   private val minDistanceMeters: Float = MIN_DISTANCE_CHANGE_FOR_UPDATES,
   private val minTimeMs: Long = MIN_TIME_BW_UPDATES,
-) : BaseLocationProvider(context) {
+) : BaseLocationProvider<Location>(context) {
 
   private var locationListener: LocationListener? = null
 
@@ -108,9 +109,7 @@ class AndroidLocationProvider(
     return requestLocation {
       val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
 
-      LocationState.CurrentLocation(
-        if (location == null) null else Point(location.latitude, location.longitude),
-      )
+      LocationState.CurrentLocation(location)
     }
   }
 

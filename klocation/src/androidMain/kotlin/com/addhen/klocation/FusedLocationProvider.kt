@@ -4,6 +4,7 @@ package com.addhen.klocation
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.location.Location
 import com.google.android.gms.location.CurrentLocationRequest
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -33,7 +34,7 @@ class FusedLocationProvider(
   context: Context,
   intervalMs: Long = 1000,
   private val priority: Int = Priority.PRIORITY_HIGH_ACCURACY,
-) : BaseLocationProvider(context) {
+) : BaseLocationProvider<Location>(context) {
 
   private val locationProviderClient: FusedLocationProviderClient =
     LocationServices.getFusedLocationProviderClient(context)
@@ -93,9 +94,7 @@ class FusedLocationProvider(
         .setPriority(priority)
         .build()
       val location = locationProviderClient.getCurrentLocation(request, null).await()
-      LocationState.CurrentLocation(
-        Point(location.latitude, location.longitude),
-      )
+      LocationState.CurrentLocation(location)
     }
   }
 
