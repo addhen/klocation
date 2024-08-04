@@ -40,6 +40,16 @@ class FusedLocationProvider(
   private val locationRequest = LocationRequest.Builder(priority, intervalMs).build()
   private lateinit var locationCallback: LocationCallback
 
+  /**
+   * Provides a flow [LocationState] of location updates.
+   *
+   * This method sets up a continuous stream of location updates using either the network
+   * or GPS provider, depending on availability. It automatically manages the lifecycle
+   * of the location updates, stopping them when the flow is cancelled.
+   *
+   * @return A [Flow] emitting [LocationState] states as they become available.
+   * @throws IllegalStateException if no location provider is available.
+   */
   // Permission already being checked with requestLocation function
   @SuppressLint("MissingPermission")
   override fun observeLocationUpdates(): Flow<LocationState> = callbackFlow {
@@ -66,6 +76,15 @@ class FusedLocationProvider(
     awaitClose { locationProviderClient.removeLocationUpdates(locationCallback) }
   }
 
+  /**
+   * Retrieves the last known location from the device.
+   *
+   * This method attempts to get the last known location from the network provider first,
+   * and if that's not available, it tries the GPS provider.
+   *
+   * @return The last known [LocationState], or a [LocationState.CurrentLocation]
+   * with a `null` [Point] if no location is available.
+   */
   // Permission already being checked with requestLocation function
   @SuppressLint("MissingPermission")
   override suspend fun getLastKnownLocation(): LocationState {
