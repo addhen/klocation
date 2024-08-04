@@ -19,6 +19,8 @@ kotlin {
     androidMain {
       dependencies {
         implementation(libs.androidx.core.ktx)
+        implementation(libs.play.services.location)
+        implementation(libs.kotlinx.coroutines.play.services)
       }
     }
 
