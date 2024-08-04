@@ -16,15 +16,28 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 
+/**
+ * A [LocationProvider] using Google Play services FusedLocationProviderClient for more
+ * efficient and accurate location updates. If you care about efficiency and accuracy and not an
+ * issue to rely on Google play services, the [FusedLocationProvider] is recommended.
+ *
+ * @property context The Android context used for accessing system services.
+ * @property locationManager The Android system's location manager.
+ * @property interval The rate in milliseconds at which the app prefers to receive location updates.
+ *                    The default is 1000 milliseconds.
+ * @property priority The priority of the request, which gives the Google Play services location
+ *                    services a strong hint about which location sources to use. The default value
+ *                    is [Priority.PRIORITY_HIGH_ACCURACY].
+ */
 class FusedLocationProvider(
   context: Context,
-  interval: Long = 1000,
+  intervalMs: Long = 1000,
   private val priority: Int = Priority.PRIORITY_HIGH_ACCURACY,
-) : BaseLocationProvider(context), LocationProvider {
+) : BaseLocationProvider(context) {
 
   private val locationProviderClient: FusedLocationProviderClient =
     LocationServices.getFusedLocationProviderClient(context)
-  private val locationRequest = LocationRequest.Builder(priority, interval).build()
+  private val locationRequest = LocationRequest.Builder(priority, intervalMs).build()
   private lateinit var locationCallback: LocationCallback
 
   // Permission already being checked with requestLocation function

@@ -9,25 +9,19 @@ import android.location.LocationManager
 import androidx.core.app.ActivityCompat
 
 /**
- * A [LocationProvider] using Android in-built location classes for location-related update using
- * Kotlin Flow.
+ * Base class for location-related operations.
  *
- * It handles the complexities of interacting with the Android location services and provides a
- * clean APIs to work with. Use this location provider if you don't want to use Google Play services
- * or don't support Google Play services
+ * This abstract class provides a foundation for implementing location-based features
+ * using Kotlin coroutines and Flow. Extend this if you want to implement .
  *
  * @property context The Android context used for accessing system services.
  * @property locationManager The location manager
- * @property minTimeMs    minimum time interval between location updates in milliseconds
- * @property minDistanceMeters minimum distance between location updates in meters
- * @property locationManager     the listener to receive location updates
  */
 abstract class BaseLocationProvider(
   private val context: Context,
-  protected val locationManager: LocationManager = context.getSystemService(
-    Context.LOCATION_SERVICE,
-  ) as LocationManager,
-) {
+  protected val locationManager: LocationManager = context
+    .getSystemService(Context.LOCATION_SERVICE) as LocationManager,
+) : LocationProvider {
 
   protected fun isGPSEnabled(): Boolean {
     return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)

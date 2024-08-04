@@ -32,7 +32,7 @@ class AndroidLocationProvider(
   private val context: Context,
   private val minDistanceMeters: Float = MIN_DISTANCE_CHANGE_FOR_UPDATES,
   private val minTimeMs: Long = MIN_TIME_BW_UPDATES,
-) : BaseLocationProvider(context), LocationProvider {
+) : BaseLocationProvider(context) {
 
   private var locationListener: LocationListener? = null
 
