@@ -1,16 +1,12 @@
+// Copyright 2024, Addhen Ltd and the k-location project contributors
+// SPDX-License-Identifier: Apache-2.0
 package com.addhen.klocation
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.LocationListener
 import android.location.LocationManager
-import android.os.Looper
 import androidx.core.app.ActivityCompat
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 
 /**
  * A [LocationProvider] using Android in-built location classes for location-related update using
@@ -27,8 +23,10 @@ import kotlinx.coroutines.flow.callbackFlow
  * @property locationManager     the listener to receive location updates
  */
 abstract class BaseLocationProvider(
-    private val context: Context,
-    protected val locationManager: LocationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+  private val context: Context,
+  protected val locationManager: LocationManager = context.getSystemService(
+    Context.LOCATION_SERVICE,
+  ) as LocationManager,
 ) {
 
   protected fun isGPSEnabled(): Boolean {
@@ -40,27 +38,27 @@ abstract class BaseLocationProvider(
   }
 
   protected suspend fun requestLocation(
-      requestLocation: suspend() -> LocationState.CurrentLocation,
+    requestLocation: suspend() -> LocationState.CurrentLocation,
   ): LocationState {
     return runCatching {
       if (ActivityCompat.checkSelfPermission(
           context,
-              Manifest.permission.ACCESS_FINE_LOCATION,
+          Manifest.permission.ACCESS_FINE_LOCATION,
         ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
           context,
-              Manifest.permission.ACCESS_COARSE_LOCATION,
+          Manifest.permission.ACCESS_COARSE_LOCATION,
         ) != PackageManager.PERMISSION_GRANTED
       ) {
-          LocationState.PermissionMissing
+        LocationState.PermissionMissing
       } else if (isGPSEnabled()) {
-          LocationState.LocationDisabled
+        LocationState.LocationDisabled
       } else if (isNetworkEnabled()) {
-          LocationState.NoNetworkEnabled
+        LocationState.NoNetworkEnabled
       } else {
         requestLocation()
       }
     }.getOrElse {
-        LocationState.Error(it.message ?: "")
+      LocationState.Error(it.message ?: "")
     }
   }
 }

@@ -1,3 +1,5 @@
+// Copyright 2024, Addhen Ltd and the k-location project contributors
+// SPDX-License-Identifier: Apache-2.0
 package com.addhen.klocation
 
 import android.annotation.SuppressLint
@@ -17,8 +19,8 @@ import kotlinx.coroutines.tasks.await
 class FusedLocationProvider(
   context: Context,
   interval: Long = 1000,
-  private val priority: Int = Priority.PRIORITY_HIGH_ACCURACY
-): BaseLocationProvider(context), LocationProvider {
+  private val priority: Int = Priority.PRIORITY_HIGH_ACCURACY,
+) : BaseLocationProvider(context), LocationProvider {
 
   private val locationProviderClient: FusedLocationProviderClient =
     LocationServices.getFusedLocationProviderClient(context)
@@ -28,12 +30,14 @@ class FusedLocationProvider(
   // Permission already being checked with requestLocation function
   @SuppressLint("MissingPermission")
   override fun observeLocationUpdates(): Flow<LocationState> = callbackFlow {
-    locationCallback = object: LocationCallback() {
+    locationCallback = object : LocationCallback() {
       override fun onLocationResult(locationResult: LocationResult) {
         locationResult.lastLocation?.let { location ->
-          trySend(LocationState.CurrentLocation(
-            Point(location.latitude, location.longitude)
-          ))
+          trySend(
+            LocationState.CurrentLocation(
+              Point(location.latitude, location.longitude),
+            ),
+          )
         }
       }
     }
@@ -47,7 +51,6 @@ class FusedLocationProvider(
 
     if (locationState != LocationState.CurrentLocation(null)) trySend(locationState)
     awaitClose { locationProviderClient.removeLocationUpdates(locationCallback) }
-
   }
 
   // Permission already being checked with requestLocation function
@@ -59,13 +62,13 @@ class FusedLocationProvider(
         .build()
       val location = locationProviderClient.getCurrentLocation(request, null).await()
       LocationState.CurrentLocation(
-        Point(location.latitude, location.longitude)
+        Point(location.latitude, location.longitude),
       )
     }
   }
 
   override fun stopLocating() {
-    if(::locationCallback.isInitialized) {
+    if (::locationCallback.isInitialized) {
       locationProviderClient.removeLocationUpdates(locationCallback)
     }
   }
