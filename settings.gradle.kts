@@ -17,11 +17,13 @@ dependencyResolutionManagement {
   }
 }
 
-//enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 // https://docs.gradle.org/7.6/userguide/configuration_cache.html#config_cache:stable
 enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 
-rootProject.name = "k-location"
+// setting project name to klocation-lib to curtail an issue with conflicts klocation name due to
+// gradle's typesafe project accessors feature
+rootProject.name = "klocation-lib"
 
 include(
   ":klocation",
