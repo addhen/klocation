@@ -13,9 +13,17 @@ dependencyResolutionManagement {
   repositories {
     google()
     mavenCentral()
+    mavenLocal()
   }
 }
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+// https://docs.gradle.org/7.6/userguide/configuration_cache.html#config_cache:stable
+enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
+
 rootProject.name = "k-location"
 
-include(":klocation")
+include(
+  ":klocation",
+  ":sample:android",
+)
