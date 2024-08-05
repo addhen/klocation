@@ -1,7 +1,9 @@
 package com.addhen.klocation.sample.android
 
 import android.os.Bundle
-import androidx.core.app.ComponentActivity
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import com.addhen.klocation.sample.shared.Samples
 
 class MainActivity : ComponentActivity() {
@@ -10,7 +12,7 @@ class MainActivity : ComponentActivity() {
     super.onCreate(savedInstanceState)
 
     setContent {
-      Samples(appTitle = title.toString())
+      //Samples(appTitle = title.toString())
     }
   }
 }
