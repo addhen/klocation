@@ -50,7 +50,7 @@ gradlePlugin {
     }
 
     register("kotlinAndroid") {
-      id = "convention.plugin.android"
+      id = "convention.plugin.kotlin.android"
       implementationClass = "com.addhen.gradle.convention.plugin.KotlinAndroidConventionPlugin"
     }
 
@@ -59,9 +59,19 @@ gradlePlugin {
       implementationClass = "com.addhen.gradle.convention.plugin.AndroidLibraryConventionPlugin"
     }
 
+    register("androidApplication") {
+      id = "convention.plugin.android.application"
+      implementationClass = "com.addhen.gradle.convention.plugin.AndroidApplicationConventionPlugin"
+    }
+
     register("kotlinMultiplatform") {
       id = "convention.plugin.kotlin.multiplatform"
       implementationClass = "com.addhen.gradle.convention.plugin.KotlinMultiplatformConventionPlugin"
+    }
+
+    register("compose") {
+      id = "convention.plugin.compose"
+      implementationClass = "com.addhen.gradle.convention.plugin.ComposeMultiplatformConventionPlugin"
     }
   }
 }
