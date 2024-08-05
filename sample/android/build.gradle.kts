@@ -2,6 +2,7 @@ plugins {
   id("convention.plugin.android.application")
   id("convention.plugin.kotlin.android")
   id("convention.plugin.compose")
+  alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -48,4 +49,6 @@ dependencies {
   implementation(projects.sample.shared)
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.activity.compose)
+  implementation(libs.material)
+  implementation(libs.androidx.appcompat)
 }

@@ -12,19 +12,20 @@
     android:label="@string/app_name"
     android:supportsRtl="true"
     android:theme="@android:style/Theme.Material.Light.NoActionBar">
-    <profileable
-      android:shell="true"
-      tools:targetApi="29" />
-
     <activity
       android:name=".MainActivity"
-      android:exported="true">
+      android:exported="true"
+      android:theme="@android:style/Theme.Material.Light.NoActionBar">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
+
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
 
+    <profileable
+      android:shell="true"
+      tools:targetApi="29" />
   </application>
 
 </manifest>
