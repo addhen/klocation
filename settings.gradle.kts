@@ -27,5 +27,6 @@ rootProject.name = "klocation-lib"
 
 include(
   ":klocation",
+  ":sample:shared",
   ":sample:android",
 )

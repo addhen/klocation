@@ -44,7 +44,8 @@ android {
 }
 
 dependencies {
-
+  implementation(projects.klocation)
+  implementation(projects.sample.shared)
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.activity.compose)
 }
