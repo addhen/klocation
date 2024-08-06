@@ -4,15 +4,41 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.addhen.klocation.sample.shared.Samples
+import androidx.navigation.compose.rememberNavController
+import com.addhen.klocation.sample.android.component.AppSurface
+import com.addhen.klocation.sample.android.navigation.AppNavGraph
+import com.addhen.klocation.sample.android.navigation.LocationPermissionRoute
+import com.addhen.klocation.sample.android.navigation.LocationRoute
+import com.addhen.klocation.sample.shared.SamplesTheme
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import kotlin.reflect.KClass
 
 class MainActivity : ComponentActivity() {
+  @OptIn(ExperimentalPermissionsApi::class)
   override fun onCreate(savedInstanceState: Bundle?) {
     enableEdgeToEdge()
     super.onCreate(savedInstanceState)
-
     setContent {
-      //Samples(appTitle = title.toString())
+      SamplesTheme {
+        val locationPermissionsState = rememberMultiplePermissionsState(
+          listOf(
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+          )
+        )
+        val navController = rememberNavController()
+        AppSurface {
+          val startDestination: KClass<*> =
+            if (locationPermissionsState.allPermissionsGranted) {
+              LocationRoute::class
+            } else {
+              LocationPermissionRoute::class
+            }
+
+          AppNavGraph(navController = navController, startDestination)
+        }
+      }
     }
   }
 }

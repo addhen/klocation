@@ -15,7 +15,10 @@ androidx-core-ktx = "1.13.1"
 playServicesLocation = "21.3.0"
 androidx-activity-compose = "1.9.1"
 material = "1.12.0"
-appcompat = "1.6.1"
+appcompat = "1.7.0"
+accompanist-permissions = "0.34.0"
+navigation-compose = "2.8.0-beta06" # Make use of type-safe compose navigation
+kotlinx-serializer = "1.7.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -33,6 +36,9 @@ kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-cor
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist-permissions" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
+kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serializer" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -48,3 +54,4 @@ compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-m
 cacheFixPlugin = { id = "org.gradle.android.cache-fix", version.ref = "cacheFixPlugin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

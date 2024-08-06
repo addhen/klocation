@@ -43,29 +43,25 @@ fun SamplesTheme(
 
 @Composable
 fun Samples(
-  appTitle: String,
+  trackerTitle: String,
+  currentLocation: String,
+  lastKnownLocation: String,
   locationProviderList: List<String>,
   selectedIndex: Int,
+  onItemClick: (Int) -> Unit,
   onStopClick: ()-> Unit
 ) {
-  SamplesTheme {
-    ScaffoldSample(
-      title = appTitle,
-    ) { contentPadding ->
-      Column(
-        modifier = Modifier
-          .padding(contentPadding)
-          .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-      ) {
-        Text("TrackerProvider: ")
-        Text("latLng: ")
-        //DropdownList(locationProviderList, selectedIndex )
-        HorizontalDivider(thickness = 2.dp)
-        Button(onClick = { onStopClick() }) {
-          Text("Stop")
-        }
-      }
+  Column(
+    modifier = Modifier.padding(16.dp).fillMaxSize(),
+    verticalArrangement = Arrangement.spacedBy(8.dp),
+  ) {
+    Text("TrackerProvider: $trackerTitle")
+    Text("Current Location: $currentLocation")
+    Text("Last known location: $lastKnownLocation")
+    //DropdownList(locationProviderList, selectedIndex, modifier = Modifier, onItemClick )
+    HorizontalDivider(thickness = 2.dp)
+    Button(onClick = { onStopClick() }) {
+      Text("Stop")
     }
   }
 }

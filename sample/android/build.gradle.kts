@@ -3,6 +3,7 @@ plugins {
   id("convention.plugin.kotlin.android")
   id("convention.plugin.compose")
   alias(libs.plugins.kotlin.android)
+  alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -51,4 +52,7 @@ dependencies {
   implementation(libs.androidx.activity.compose)
   implementation(libs.material)
   implementation(libs.androidx.appcompat)
+  implementation(libs.accompanist.permissions)
+  implementation(libs.androidx.navigation.compose)
+  implementation(libs.kotlinx.serialization)
 }
