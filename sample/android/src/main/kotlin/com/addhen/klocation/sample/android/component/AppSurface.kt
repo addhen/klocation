@@ -1,3 +1,5 @@
+// Copyright 2024, Addhen Ltd and the k-location project contributors
+// SPDX-License-Identifier: Apache-2.0
 package com.addhen.klocation.sample.android.component
 
 import androidx.compose.foundation.layout.Column
@@ -9,20 +11,16 @@ import androidx.compose.ui.Modifier
 import com.addhen.klocation.sample.shared.ScaffoldSample
 
 @Composable
-fun AppSurface(
-  appNavHost: @Composable () -> Unit
-) {
+fun AppSurface(appNavHost: @Composable () -> Unit) {
   AppBackground(modifier = Modifier.fillMaxSize()) {
     AppFrame(appNavHost = appNavHost)
   }
 }
 
 @Composable
-private fun AppFrame(
-  appNavHost: @Composable () -> Unit
-) {
+private fun AppFrame(appNavHost: @Composable () -> Unit) {
   ScaffoldSample(
-    title = "Sample Android App"
+    title = "Sample Android App",
   ) {
     Column(modifier = Modifier.fillMaxSize()) {
       appNavHost()
@@ -31,10 +29,7 @@ private fun AppFrame(
 }
 
 @Composable
-private fun AppBackground(
-  modifier: Modifier = Modifier,
-  content: @Composable () -> Unit,
-) {
+private fun AppBackground(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
   Surface(
     color = MaterialTheme.colorScheme.background,
     modifier = modifier,

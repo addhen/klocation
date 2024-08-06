@@ -70,7 +70,7 @@ class AndroidLocationProvider(
             minTimeMs,
             minDistanceMeters,
             listener,
-            Looper.getMainLooper()
+            Looper.getMainLooper(),
           )
         }
       } catch (cause: Throwable) {

@@ -1,8 +1,9 @@
+// Copyright 2024, Addhen Ltd and the k-location project contributors
+// SPDX-License-Identifier: Apache-2.0
 package com.addhen.klocation.sample.shared
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -36,7 +37,7 @@ fun ScaffoldSample(title: String, content: @Composable BoxScope.() -> Unit) {
         modifier = Modifier.fillMaxWidth(),
       )
     },
-    modifier = Modifier.fillMaxSize()
+    modifier = Modifier.fillMaxSize(),
   ) { contentPadding ->
 
     Box(
@@ -45,7 +46,7 @@ fun ScaffoldSample(title: String, content: @Composable BoxScope.() -> Unit) {
         .padding(contentPadding)
         .consumeWindowInsets(contentPadding)
         .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)),
-      content = content
+      content = content,
     )
   }
 }

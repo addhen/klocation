@@ -1,6 +1,7 @@
+// Copyright 2024, Addhen Ltd and the k-location project contributors
+// SPDX-License-Identifier: Apache-2.0
 package com.addhen.klocation.sample.android
 
-import android.app.Application
 import android.location.Location
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -19,24 +20,25 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class LocationViewModel(
-  private val locationService: LocationService
-): ViewModel() {
-  private val viewStateEmitter = MutableStateFlow<LocationState>(LocationState.CurrentLocation<Location>(null))
+  private val locationService: LocationService,
+) : ViewModel() {
+  private val viewStateEmitter =
+    MutableStateFlow<LocationState>(LocationState.CurrentLocation<Location>(null))
 
   val viewState: StateFlow<LocationState> = viewStateEmitter
     .stateIn(
       viewModelScope,
       started = SharingStarted.WhileSubscribed(5_000),
-      viewStateEmitter.value
+      viewStateEmitter.value,
     )
 
   init {
     locationService.observeLocationUpdates()
       .distinctUntilChanged()
       .onEach { state ->
-      Log.d(LocationViewModel::class.simpleName, "state $state")
-      viewStateEmitter.emit(state)
-    }.launchIn(viewModelScope)
+        Log.d(LocationViewModel::class.simpleName, "state $state")
+        viewStateEmitter.emit(state)
+      }.launchIn(viewModelScope)
   }
 
   fun getLastKnowLocation() {
@@ -53,7 +55,7 @@ class LocationViewModel(
 
 @Suppress("UNCHECKED_CAST")
 class LocationViewModelFactory(
-  private val locationService: LocationService
+  private val locationService: LocationService,
 ) : ViewModelProvider.Factory {
 
   override fun <T : ViewModel> create(modelClass: Class<T>): T {

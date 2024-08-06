@@ -18,7 +18,7 @@ import androidx.core.app.ActivityCompat
  * @property context The Android context used for accessing system services.
  * @property locationManager The location manager
  */
-abstract class BaseLocationProvider<T: Location>(
+abstract class BaseLocationProvider<T : Location>(
   private val context: Context,
   protected val locationManager: LocationManager = context
     .getSystemService(Context.LOCATION_SERVICE) as LocationManager,
@@ -33,7 +33,7 @@ abstract class BaseLocationProvider<T: Location>(
   }
 
   protected suspend fun requestLocation(
-    requestLocation: suspend () -> LocationState
+    requestLocation: suspend () -> LocationState,
   ): LocationState {
     return runCatching {
       if (ActivityCompat.checkSelfPermission(

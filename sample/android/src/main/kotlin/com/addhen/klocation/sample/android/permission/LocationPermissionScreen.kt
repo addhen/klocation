@@ -1,3 +1,5 @@
+// Copyright 2024, Addhen Ltd and the k-location project contributors
+// SPDX-License-Identifier: Apache-2.0
 package com.addhen.klocation.sample.android.permission
 
 import androidx.annotation.DrawableRes
@@ -11,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,7 +26,6 @@ import com.addhen.klocation.sample.shared.ScaffoldSample
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
-
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun LocationPermissionScreen() {
@@ -33,7 +33,7 @@ fun LocationPermissionScreen() {
     listOf(
       android.Manifest.permission.ACCESS_COARSE_LOCATION,
       android.Manifest.permission.ACCESS_FINE_LOCATION,
-    )
+    ),
   )
 
   ScaffoldSample(title = stringResource(R.string.request_permission)) {
@@ -42,10 +42,11 @@ fun LocationPermissionScreen() {
         .fillMaxSize()
         .padding(horizontal = 16.dp),
       verticalArrangement = Arrangement.Center,
-      horizontalAlignment = Alignment.CenterHorizontally
+      horizontalAlignment = Alignment.CenterHorizontally,
     ) {
       val allPermissionsRevoked =
-        locationPermissionsState.permissions.size == locationPermissionsState.revokedPermissions.size
+        locationPermissionsState
+          .permissions.size == locationPermissionsState.revokedPermissions.size
       val promptResId = when {
         allPermissionsRevoked.not() -> {
           // Both location permissions have been denied
@@ -79,7 +80,7 @@ fun LocationPermissionScreen() {
 fun RequestPermission(
   @StringRes promptResId: Int,
   @StringRes buttonTextResId: Int,
-  onButtonClick: () -> Unit
+  onButtonClick: () -> Unit,
 ) {
   ImageResource(modifier = Modifier.size(80.dp, 80.dp), image = R.drawable.ic_launcher_foreground)
   Spacer(modifier = Modifier.height(16.dp))
@@ -94,11 +95,11 @@ fun RequestPermission(
 private fun ImageResource(
   modifier: Modifier,
   @DrawableRes image: Int,
-  imageDescription: String? = null
+  imageDescription: String? = null,
 ) {
   Image(
     modifier = modifier,
     painter = painterResource(id = image),
-    contentDescription = imageDescription
+    contentDescription = imageDescription,
   )
 }

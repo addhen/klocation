@@ -1,3 +1,5 @@
+// Copyright 2024, Addhen Ltd and the k-location project contributors
+// SPDX-License-Identifier: Apache-2.0
 package com.addhen.klocation.sample.android
 
 import android.os.Bundle
@@ -25,7 +27,7 @@ class MainActivity : ComponentActivity() {
           listOf(
             android.Manifest.permission.ACCESS_COARSE_LOCATION,
             android.Manifest.permission.ACCESS_FINE_LOCATION,
-          )
+          ),
         )
         val navController = rememberNavController()
         AppSurface {

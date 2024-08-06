@@ -1,3 +1,5 @@
+// Copyright 2024, Addhen Ltd and the k-location project contributors
+// SPDX-License-Identifier: Apache-2.0
 package com.addhen.klocation.sample.shared
 
 import androidx.compose.foundation.background
@@ -31,10 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 
 @Composable
-fun SamplesTheme(
-  useDarkColors: Boolean = isSystemInDarkTheme(),
-  content: @Composable () -> Unit,
-) {
+fun SamplesTheme(useDarkColors: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
   MaterialTheme(
     colorScheme = if (useDarkColors) darkColorScheme() else lightColorScheme(),
     content = content,
@@ -49,7 +48,7 @@ fun Samples(
   locationProviderList: List<String>,
   selectedIndex: Int,
   onItemClick: (Int) -> Unit,
-  onStopClick: ()-> Unit
+  onStopClick: () -> Unit,
 ) {
   Column(
     modifier = Modifier.padding(16.dp).fillMaxSize(),
@@ -58,7 +57,7 @@ fun Samples(
     Text("TrackerProvider: $trackerTitle")
     Text("Current Location: $currentLocation")
     Text("Last known location: $lastKnownLocation")
-    //DropdownList(locationProviderList, selectedIndex, modifier = Modifier, onItemClick )
+    // DropdownList(locationProviderList, selectedIndex, modifier = Modifier, onItemClick )
     HorizontalDivider(thickness = 2.dp)
     Button(onClick = { onStopClick() }) {
       Text("Stop")
@@ -66,13 +65,13 @@ fun Samples(
   }
 }
 
-//Credits: https://medium.com/@itsuki.enjoy/android-kotlin-jetpack-compose-dropdown-selectable-list-menu-b7ad86ba6a5a
+// Credits: https://medium.com/@itsuki.enjoy/android-kotlin-jetpack-compose-dropdown-selectable-list-menu-b7ad86ba6a5a
 @Composable
 fun DropdownList(
   locationProviderList: List<String>,
   selectedIndex: Int,
   modifier: Modifier = Modifier,
-  onItemClick: (Int) -> Unit
+  onItemClick: (Int) -> Unit,
 ) {
   var showDropdown by rememberSaveable { mutableStateOf(true) }
   val scrollState = rememberScrollState()
@@ -80,27 +79,26 @@ fun DropdownList(
   Column(
     modifier = Modifier,
     horizontalAlignment = Alignment.CenterHorizontally,
-    verticalArrangement = Arrangement.Center) {
-
+    verticalArrangement = Arrangement.Center,
+  ) {
     // button
     Box(
       modifier = modifier
         .background(Color.Red)
         .clickable { showDropdown = true },
-      contentAlignment = Alignment.Center
+      contentAlignment = Alignment.Center,
     ) {
       Text(text = locationProviderList[selectedIndex], modifier = Modifier.padding(3.dp))
     }
 
     // dropdown list
-    Box() {
+    Box {
       if (showDropdown) {
         Popup(
           alignment = Alignment.TopCenter,
           // to dismiss on click outside
-          onDismissRequest = { showDropdown = false }
+          onDismissRequest = { showDropdown = false },
         ) {
-
           Column(
             modifier = modifier
               .heightIn(max = 90.dp)
@@ -108,7 +106,6 @@ fun DropdownList(
               .border(width = 1.dp, color = Color.Gray),
             horizontalAlignment = Alignment.CenterHorizontally,
           ) {
-
             locationProviderList.onEachIndexed { index, item ->
               if (index != 0) {
                 HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
@@ -121,9 +118,9 @@ fun DropdownList(
                     onItemClick(index)
                     showDropdown = !showDropdown
                   },
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center,
               ) {
-                Text(text = item,)
+                Text(text = item)
               }
             }
           }

@@ -1,8 +1,9 @@
+// Copyright 2024, Addhen Ltd and the k-location project contributors
+// SPDX-License-Identifier: Apache-2.0
 package com.addhen.klocation.sample.android
 
 import android.location.Location
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -11,7 +12,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.addhen.klocation.LocationState
 import com.addhen.klocation.sample.shared.Samples
-import kotlinx.coroutines.launch
 
 @Composable
 fun LocationScreen(locationViewModel: LocationViewModel) {
@@ -40,7 +40,7 @@ fun LocationScreen(locationViewModel: LocationViewModel) {
     }
   }*/
 
-  when( uiState) {
+  when (uiState) {
     is LocationState.LocationDisabled -> {
       Samples(
         trackerTitle = "Location Sample",
@@ -50,7 +50,8 @@ fun LocationScreen(locationViewModel: LocationViewModel) {
         selectedIndex = selectedProvider,
         onItemClick = { index ->
           trackerTitle = providers[index]
-        }) {
+        },
+      ) {
       }
     }
 
@@ -66,7 +67,8 @@ fun LocationScreen(locationViewModel: LocationViewModel) {
         selectedIndex = selectedProvider,
         onItemClick = { index ->
           trackerTitle = providers[index]
-        }) {
+        },
+      ) {
       }
     }
     is LocationState.Error -> Unit
