@@ -33,7 +33,7 @@ abstract class BaseLocationProvider<T: Location>(
   }
 
   protected suspend fun requestLocation(
-    requestLocation: suspend() -> LocationState.CurrentLocation<T>,
+    requestLocation: suspend () -> LocationState
   ): LocationState {
     return runCatching {
       if (ActivityCompat.checkSelfPermission(
@@ -45,9 +45,9 @@ abstract class BaseLocationProvider<T: Location>(
         ) != PackageManager.PERMISSION_GRANTED
       ) {
         LocationState.PermissionMissing
-      } else if (isGPSEnabled()) {
+      } else if (isGPSEnabled().not()) {
         LocationState.LocationDisabled
-      } else if (isNetworkEnabled()) {
+      } else if (isNetworkEnabled().not()) {
         LocationState.NoNetworkEnabled
       } else {
         requestLocation()

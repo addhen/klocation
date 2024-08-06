@@ -51,9 +51,7 @@ class AndroidLocationProvider(
   @SuppressLint("MissingPermission")
   override fun observeLocationUpdates(): Flow<LocationState> = callbackFlow {
     locationListener = LocationListener { location ->
-      val currentLocation = LocationState.CurrentLocation(
-        Point(location.latitude, location.longitude),
-      )
+      val currentLocation = LocationState.CurrentLocation(location)
       trySend(currentLocation)
     }
 

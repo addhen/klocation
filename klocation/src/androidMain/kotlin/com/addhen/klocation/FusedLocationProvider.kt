@@ -57,11 +57,7 @@ class FusedLocationProvider(
     locationCallback = object : LocationCallback() {
       override fun onLocationResult(locationResult: LocationResult) {
         locationResult.lastLocation?.let { location ->
-          trySend(
-            LocationState.CurrentLocation(
-              Point(location.latitude, location.longitude),
-            ),
-          )
+          trySend(LocationState.CurrentLocation(location))
         }
       }
     }
