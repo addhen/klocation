@@ -40,7 +40,7 @@ class FusedLocationProvider(
   private val locationProviderClient: FusedLocationProviderClient =
     LocationServices.getFusedLocationProviderClient(context)
   private val locationRequest = LocationRequest.Builder(priority, intervalMs).build()
-  private lateinit var locationCallback: LocationCallback
+  private var locationCallback: LocationCallback? = null
 
   /**
    * Provides a flow [LocationState] of location updates.
@@ -64,14 +64,16 @@ class FusedLocationProvider(
     }
 
     val locationState = requestLocation {
-      locationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
-      // This is to satisfy the return type of requestLocation.lambda but the location should be
-      // emitted in the listener already.
+      locationCallback?.let { callback ->
+        locationProviderClient.requestLocationUpdates(locationRequest, callback, null)
+        // This is to satisfy the return type of requestLocation.lambda but the location should be
+        // emitted in the listener already.
+      }
       LocationState.CurrentLocation(null)
     }
 
     if (locationState != LocationState.CurrentLocation(null)) trySend(locationState)
-    awaitClose { locationProviderClient.removeLocationUpdates(locationCallback) }
+    awaitClose { stopLocating() }
   }.catch { cause: Throwable ->
     // Handle any exceptions that occur during flow collection.
     emit(LocationState.Error(cause))
@@ -99,8 +101,7 @@ class FusedLocationProvider(
   }
 
   override fun stopLocating() {
-    if (::locationCallback.isInitialized) {
-      locationProviderClient.removeLocationUpdates(locationCallback)
-    }
+    locationCallback?.let { locationProviderClient.removeLocationUpdates(it) }
+    locationCallback = null
   }
 }

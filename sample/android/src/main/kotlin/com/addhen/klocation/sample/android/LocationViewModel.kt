@@ -12,6 +12,7 @@ import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
@@ -30,7 +31,9 @@ class LocationViewModel(
     )
 
   init {
-    locationService.observeLocationUpdates().onEach { state ->
+    locationService.observeLocationUpdates()
+      .distinctUntilChanged()
+      .onEach { state ->
       Log.d(LocationViewModel::class.simpleName, "state $state")
       viewStateEmitter.emit(state)
     }.launchIn(viewModelScope)
