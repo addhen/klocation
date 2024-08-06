@@ -42,7 +42,7 @@ class LocationViewModel(
         viewStateEmitter.emit(locationService.getLastKnownLocation())
       } catch (e: Throwable) {
         if (e is CancellationException) throw e
-        viewStateEmitter.emit(LocationState.Error(""))
+        viewStateEmitter.emit(LocationState.Error(e))
       }
     }
   }

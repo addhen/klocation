@@ -15,6 +15,7 @@ import com.google.android.gms.location.Priority
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.tasks.await
 
 /**
@@ -65,12 +66,15 @@ class FusedLocationProvider(
     val locationState = requestLocation {
       locationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
       // This is to satisfy the return type of requestLocation.lambda but the location should be
-      // emitted in the listener
+      // emitted in the listener already.
       LocationState.CurrentLocation(null)
     }
 
     if (locationState != LocationState.CurrentLocation(null)) trySend(locationState)
     awaitClose { locationProviderClient.removeLocationUpdates(locationCallback) }
+  }.catch { cause: Throwable ->
+    // Handle any exceptions that occur during flow collection.
+    emit(LocationState.Error(cause))
   }
 
   /**

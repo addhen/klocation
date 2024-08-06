@@ -11,6 +11,7 @@ import android.os.Looper
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.catch
 
 private const val MIN_DISTANCE_CHANGE_FOR_UPDATES: Float = 30f // 30 meters
 private const val MIN_TIME_BW_UPDATES = (1000 * 60 * 2).toLong() // 2 minutes
@@ -57,31 +58,23 @@ class AndroidLocationProvider(
 
     val locationState = requestLocation {
       try {
-        when {
-          isNetworkEnabled() -> {
-            locationManager.requestLocationUpdates(
-              LocationManager.NETWORK_PROVIDER,
-              minTimeMs,
-              minDistanceMeters,
-              locationListener!!,
-              Looper.getMainLooper(),
-            )
-          }
-          isGPSEnabled() -> {
-            locationManager.requestLocationUpdates(
-              LocationManager.GPS_PROVIDER,
-              minTimeMs,
-              minDistanceMeters,
-              locationListener!!,
-              Looper.getMainLooper(),
-            )
-          }
-          else -> {
-            throw IllegalStateException("No location provider available")
-          }
+        val provider = when {
+          isGPSEnabled() -> LocationManager.GPS_PROVIDER
+          isNetworkEnabled() -> LocationManager.NETWORK_PROVIDER
+          else -> throw IllegalStateException("No location provider available")
         }
-      } catch (e: Exception) {
-        close(e)
+
+        locationListener?.let { listener ->
+          locationManager.requestLocationUpdates(
+            provider,
+            minTimeMs,
+            minDistanceMeters,
+            listener,
+            Looper.getMainLooper()
+          )
+        }
+      } catch (cause: Throwable) {
+        trySend(LocationState.Error(cause))
       }
       // This is to satisfy the return type of requestLocation.lambda but the location should be
       // emitted in the listener
@@ -89,7 +82,9 @@ class AndroidLocationProvider(
     }
 
     if (locationState != LocationState.CurrentLocation(null)) trySend(locationState)
-    awaitClose { locationManager.removeUpdates(locationListener!!) }
+    awaitClose { stopLocating() }
+  }.catch { cause: Throwable ->
+    emit(LocationState.Error(cause))
   }
 
   /**
@@ -99,7 +94,7 @@ class AndroidLocationProvider(
    * and if that's not available, it tries the GPS provider.
    *
    * @return The last known [LocationState], or a [LocationState.CurrentLocation]
-   * with a `null` [Point] if no location is available.
+   * with a `null` [Location] if no location is available.
    */
   // Permission already being checked with requestLocation function
   @SuppressLint("MissingPermission")
@@ -113,5 +108,6 @@ class AndroidLocationProvider(
 
   override fun stopLocating() {
     locationListener?.let { locationManager.removeUpdates(it) }
+    locationListener = null
   }
 }

@@ -7,5 +7,5 @@ sealed interface LocationState {
   data object LocationDisabled : LocationState
   data object NoNetworkEnabled : LocationState
   data class CurrentLocation<out T>(val location: T?) : LocationState
-  data class Error(val message: String) : LocationState
+  data class Error(val cause: Throwable) : LocationState
 }

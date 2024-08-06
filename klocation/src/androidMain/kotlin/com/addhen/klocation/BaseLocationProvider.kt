@@ -53,7 +53,7 @@ abstract class BaseLocationProvider<T: Location>(
         requestLocation()
       }
     }.getOrElse {
-      LocationState.Error(it.message ?: "")
+      LocationState.Error(it)
     }
   }
 }
