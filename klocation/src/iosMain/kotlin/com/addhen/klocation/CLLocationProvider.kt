@@ -17,6 +17,11 @@ import platform.CoreLocation.CLLocation
 import platform.CoreLocation.CLLocationAccuracy
 import platform.CoreLocation.CLLocationManager
 import platform.CoreLocation.CLLocationManagerDelegateProtocol
+import platform.CoreLocation.kCLAuthorizationStatusAuthorizedAlways
+import platform.CoreLocation.kCLAuthorizationStatusAuthorizedWhenInUse
+import platform.CoreLocation.kCLAuthorizationStatusDenied
+import platform.CoreLocation.kCLAuthorizationStatusNotDetermined
+import platform.CoreLocation.kCLAuthorizationStatusRestricted
 import platform.CoreLocation.kCLLocationAccuracyBest
 import platform.Foundation.NSError
 import platform.Foundation.NSLog
@@ -39,20 +44,48 @@ class CLLocationProvider(
     delegate = lastKnownLocationDelegate
   }
 
-  override fun observeLocationUpdates(): Flow<LocationState> {
-    observeLocationManager.startUpdatingLocation()
-    return callbackFlow {
-      locationsChannel.tryReceive()
-        .onSuccess { trySend(it) }
-        .onFailure { trySend(LocationState.Error(it ?: Throwable())) }
-      awaitClose { observeLocationManager.stopUpdatingLocation() }
+  override fun observeLocationUpdates(): Flow<LocationState> = callbackFlow {
+    when (CLLocationManager.authorizationStatus()) {
+      kCLAuthorizationStatusNotDetermined -> {
+        observeLocationManager.requestWhenInUseAuthorization()
+      }
+
+      kCLAuthorizationStatusRestricted, kCLAuthorizationStatusDenied -> {
+        trySend(LocationState.PermissionMissing)
+      }
+
+      kCLAuthorizationStatusAuthorizedAlways, kCLAuthorizationStatusAuthorizedWhenInUse -> {
+        observeLocationManager.startUpdatingLocation()
+      }
+
+      else -> {
+        trySend(LocationState.CurrentLocation(null))
+      }
     }
+    locationsChannel.tryReceive()
+      .onSuccess { trySend(it) }
+      .onFailure { trySend(LocationState.Error(it ?: Throwable())) }
+    awaitClose { observeLocationManager.stopUpdatingLocation() }
   }
 
   override suspend fun getLastKnownLocation(): LocationState = suspendCoroutine { continuation ->
-    lastKnownLocationManager.requestLocation()
     lastKnownLocationDelegate.locationCallback = { locationState ->
       continuation.resume(locationState)
+    }
+
+    when (CLLocationManager.authorizationStatus()) {
+      kCLAuthorizationStatusNotDetermined -> {
+        observeLocationManager.requestWhenInUseAuthorization()
+      }
+      kCLAuthorizationStatusRestricted, kCLAuthorizationStatusDenied -> {
+        continuation.resume(LocationState.PermissionMissing)
+      }
+      kCLAuthorizationStatusAuthorizedAlways, kCLAuthorizationStatusAuthorizedWhenInUse -> {
+        lastKnownLocationManager.requestLocation()
+      }
+      else -> {
+        continuation.resume(LocationState.CurrentLocation(null))
+      }
     }
   }
 
