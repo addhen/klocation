@@ -97,6 +97,7 @@ class CLLocationProvider(
   }
 
   @OptIn(ExperimentalNativeApi::class)
+  @Suppress("UNCHECKED_CAST")
   private class ObserveLocationDelegate(
     locationsChannel: Channel<LocationState>,
     scope: CoroutineScope,
@@ -124,6 +125,7 @@ class CLLocationProvider(
     }
   }
 
+  @Suppress("UNCHECKED_CAST")
   private class LastKnownLocationDelegate : NSObject(), CLLocationManagerDelegateProtocol {
     var locationCallback: ((LocationState) -> Unit)? = null
 
