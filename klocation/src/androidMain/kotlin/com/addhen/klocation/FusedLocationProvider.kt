@@ -119,7 +119,7 @@ class FusedLocationProvider(
    * ```
    *
    * @return The last known [LocationState], or a [LocationState.CurrentLocation]
-   * with a `null` [Point] if no location is available.
+   * with a `null` [Location] if no location is available.
    */
   // Permission already being checked with requestLocation function
   @SuppressLint("MissingPermission")
