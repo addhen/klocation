@@ -4,6 +4,7 @@ package com.addhen.klocation
 
 import android.content.Context
 import kotlinx.coroutines.flow.Flow
+import android.location.LocationManager
 
 /**
  * This class provides methods to observe location updates, retrieve the last known location,
