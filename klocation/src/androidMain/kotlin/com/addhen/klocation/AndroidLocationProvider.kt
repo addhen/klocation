@@ -116,6 +116,9 @@ class AndroidLocationProvider(
     }
   }
 
+  /**
+   * Stops all location update requests.
+   */
   override fun stopLocating() {
     locationListener?.let { locationManager.removeUpdates(it) }
     locationListener = null

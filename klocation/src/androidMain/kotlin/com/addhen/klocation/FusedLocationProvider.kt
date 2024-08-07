@@ -21,7 +21,7 @@ import kotlinx.coroutines.tasks.await
 /**
  * A [LocationProvider] using Google Play services FusedLocationProviderClient for more
  * efficient and accurate location updates. If you care about efficiency and accuracy and not an
- * issue to rely on Google play services, the [FusedLocationProvider] is recommended.
+ * issue to rely on Google play services, then [FusedLocationProvider] is recommended.
  *
  * @property context The Android context used for accessing system services.
  * @property locationManager The Android system's location manager.
@@ -100,6 +100,9 @@ class FusedLocationProvider(
     }
   }
 
+  /**
+   * Stops all location update requests.
+   */
   override fun stopLocating() {
     locationCallback?.let { locationProviderClient.removeLocationUpdates(it) }
     locationCallback = null
