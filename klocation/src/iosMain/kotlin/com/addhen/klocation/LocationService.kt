@@ -5,7 +5,7 @@ package com.addhen.klocation
 import kotlinx.coroutines.flow.Flow
 
 actual class LocationService(
-  actual val locationProvider: LocationProvider = CLLocationProvider()
+  actual val locationProvider: LocationProvider = CLLocationProvider(),
 ) {
 
   actual fun observeLocationUpdates(): Flow<LocationState> {

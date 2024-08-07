@@ -1,3 +1,5 @@
+// Copyright 2024, Addhen Ltd and the k-location project contributors
+// SPDX-License-Identifier: Apache-2.0
 package com.addhen.klocation
 
 import kotlin.coroutines.resume
@@ -28,7 +30,7 @@ import platform.Foundation.NSLog
 import platform.darwin.NSObject
 
 class CLLocationProvider(
-  accuracy: CLLocationAccuracy = kCLLocationAccuracyBest
+  accuracy: CLLocationAccuracy = kCLLocationAccuracyBest,
 ) : LocationProvider {
 
   private val locationsChannel = Channel<LocationState>(Channel.BUFFERED)
@@ -97,7 +99,7 @@ class CLLocationProvider(
   @OptIn(ExperimentalNativeApi::class)
   private class ObserveLocationDelegate(
     locationsChannel: Channel<LocationState>,
-    scope: CoroutineScope
+    scope: CoroutineScope,
   ) : NSObject(), CLLocationManagerDelegateProtocol {
     private val coroutineScope = WeakReference(scope)
     private val locationsChannel = WeakReference(locationsChannel)
