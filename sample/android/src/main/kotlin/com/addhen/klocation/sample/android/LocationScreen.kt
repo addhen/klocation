@@ -3,87 +3,85 @@
 package com.addhen.klocation.sample.android
 
 import android.location.Location
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import com.addhen.klocation.LocationState
 import com.addhen.klocation.sample.shared.Samples
+import kotlinx.coroutines.launch
 
 @Composable
 fun LocationScreen(locationViewModel: LocationViewModel) {
-  val providers = listOf("Android", "Play Service Fuse")
-  var selectedProvider by rememberSaveable { mutableStateOf(0) }
-  var trackerTitle by rememberSaveable { mutableStateOf(providers[selectedProvider]) }
-  var currentLocation by rememberSaveable { mutableStateOf("") }
-  var lastKnownLocation by rememberSaveable { mutableStateOf("") }
   val uiState by locationViewModel.viewState.collectAsState()
   val coroutineScope = rememberCoroutineScope()
 
-  /*LaunchedEffect(lastKnownLocation) {
-    coroutineScope.launch {
-      when(val locationState = locationService.getLastKnownLocation()) {
-        is LocationState.LocationDisabled -> Unit
-
-        is LocationState.CurrentLocation<*> -> {
-          val location = (locationState.location as Location)
-          currentLocation = "${location.latitude},${location.longitude}"
-          println("Location")
-        }
-        is LocationState.Error -> Unit
-        LocationState.NoNetworkEnabled -> Unit
-        LocationState.PermissionMissing -> Unit
-      }
-    }
-  }*/
-
-  when (uiState) {
-    is LocationState.LocationDisabled -> {
-      Samples(
-        trackerTitle = "Location Sample",
-        currentLocation = currentLocation,
-        lastKnownLocation = lastKnownLocation,
-        locationProviderList = providers,
-        selectedIndex = selectedProvider,
-        onItemClick = { index ->
-          trackerTitle = providers[index]
-        },
-      ) {
-      }
-    }
-
-    is LocationState.CurrentLocation<*> -> {
-      val location = ((uiState as LocationState.CurrentLocation<*>).location as? Location)
-      currentLocation = "${location?.latitude},${location?.longitude}"
-      println("location $location")
-      Samples(
-        trackerTitle = "Location Sample",
-        currentLocation = currentLocation,
-        lastKnownLocation = lastKnownLocation,
-        locationProviderList = providers,
-        selectedIndex = selectedProvider,
-        onItemClick = { index ->
-          trackerTitle = providers[index]
-        },
-      ) {
-      }
-    }
-    is LocationState.Error -> Unit
-    LocationState.NoNetworkEnabled -> Unit
-    LocationState.PermissionMissing -> Unit
+  LaunchedEffect(Unit) {
+    coroutineScope.launch { locationViewModel.getLastKnowLocation() }
   }
 
-  /*Samples(
-    trackerTitle = "Location Sample",
-    currentLocation = currentLocation,
-    lastKnownLocation = lastKnownLocation,
-    locationProviderList = providers,
-    selectedIndex = selectedProvider,
-    onItemClick = { index ->
-      trackerTitle = providers[index]
-    }) {
-  }*/
+  when (uiState.flag) {
+    LocationViewModel.LocationUiState.Flag.LOADING -> FullScreenLoading()
+    LocationViewModel.LocationUiState.Flag.ERROR -> Unit
+    LocationViewModel.LocationUiState.Flag.IDLE -> {
+      val currentLocation = when (uiState.observeLocationState) {
+        is LocationState.LocationDisabled,
+        is LocationState.Error,
+        LocationState.NoNetworkEnabled,
+        LocationState.PermissionMissing,
+        -> {
+          ""
+        }
+
+        is LocationState.CurrentLocation<*> -> {
+          val observeLocationState = uiState.observeLocationState
+          val location =
+            ((observeLocationState as LocationState.CurrentLocation<*>).location as? Location)
+          "${location?.latitude},${location?.longitude}"
+        }
+      }
+
+      val lastKnownLocation = when (uiState.lastKnowLocationState) {
+        is LocationState.LocationDisabled,
+        is LocationState.Error,
+        LocationState.NoNetworkEnabled,
+        LocationState.PermissionMissing,
+        -> {
+          ""
+        }
+
+        is LocationState.CurrentLocation<*> -> {
+          val lastKnowLocation = uiState.lastKnowLocationState
+          val location =
+            ((lastKnowLocation as LocationState.CurrentLocation<*>).location as? Location)
+          "${location?.latitude},${location?.longitude}"
+        }
+      }
+
+      Samples(
+        currentLocation = currentLocation,
+        lastKnownLocation = lastKnownLocation,
+      ) {
+        locationViewModel.stopLocating()
+      }
+    }
+  }
+}
+
+@Composable
+private fun FullScreenLoading() {
+  Box(
+    modifier = Modifier
+      .fillMaxSize()
+      .wrapContentSize(Alignment.Center),
+  ) {
+    CircularProgressIndicator()
+  }
 }

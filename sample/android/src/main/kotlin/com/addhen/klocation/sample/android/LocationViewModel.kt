@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 package com.addhen.klocation.sample.android
 
-import android.location.Location
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -17,15 +16,16 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LocationViewModel(
   private val locationService: LocationService,
 ) : ViewModel() {
   private val viewStateEmitter =
-    MutableStateFlow<LocationState>(LocationState.CurrentLocation<Location>(null))
+    MutableStateFlow(LocationUiState(flag = LocationUiState.Flag.LOADING))
 
-  val viewState: StateFlow<LocationState> = viewStateEmitter
+  val viewState: StateFlow<LocationUiState> = viewStateEmitter
     .stateIn(
       viewModelScope,
       started = SharingStarted.WhileSubscribed(5_000),
@@ -37,18 +37,44 @@ class LocationViewModel(
       .distinctUntilChanged()
       .onEach { state ->
         Log.d(LocationViewModel::class.simpleName, "state $state")
-        viewStateEmitter.emit(state)
+        viewStateEmitter.update { currentUiState ->
+          currentUiState.copy(
+            flag = LocationUiState.Flag.IDLE,
+            observeLocationState = state,
+          )
+        }
       }.launchIn(viewModelScope)
   }
 
   fun getLastKnowLocation() {
     viewModelScope.launch {
       try {
-        viewStateEmitter.emit(locationService.getLastKnownLocation())
+        val locationState = locationService.getLastKnownLocation()
+        Log.d(LocationViewModel::class.simpleName, "lastKnownLocation $locationState")
+        viewStateEmitter.update { currentUiState ->
+          currentUiState.copy(
+            flag = LocationUiState.Flag.IDLE,
+            lastKnowLocationState = locationState,
+          )
+        }
       } catch (e: Throwable) {
         if (e is CancellationException) throw e
-        viewStateEmitter.emit(LocationState.Error(e))
+        viewStateEmitter.update { it.copy(flag = LocationUiState.Flag.ERROR) }
       }
+    }
+  }
+
+  fun stopLocating() = locationService.stopLocating()
+
+  data class LocationUiState(
+    val observeLocationState: LocationState = LocationState.CurrentLocation(null),
+    val lastKnowLocationState: LocationState = LocationState.CurrentLocation(null),
+    val flag: Flag = Flag.IDLE,
+  ) {
+    enum class Flag {
+      LOADING,
+      ERROR,
+      IDLE,
     }
   }
 }
