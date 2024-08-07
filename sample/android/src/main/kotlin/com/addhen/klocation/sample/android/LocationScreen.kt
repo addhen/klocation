@@ -31,39 +31,8 @@ fun LocationScreen(locationViewModel: LocationViewModel) {
     LocationViewModel.LocationUiState.Flag.LOADING -> FullScreenLoading()
     LocationViewModel.LocationUiState.Flag.ERROR -> Unit
     LocationViewModel.LocationUiState.Flag.IDLE -> {
-      val currentLocation = when (uiState.observeLocationState) {
-        is LocationState.LocationDisabled,
-        is LocationState.Error,
-        LocationState.NoNetworkEnabled,
-        LocationState.PermissionMissing,
-        -> {
-          ""
-        }
-
-        is LocationState.CurrentLocation<*> -> {
-          val observeLocationState = uiState.observeLocationState
-          val location =
-            ((observeLocationState as LocationState.CurrentLocation<*>).location as? Location)
-          "${location?.latitude},${location?.longitude}"
-        }
-      }
-
-      val lastKnownLocation = when (uiState.lastKnowLocationState) {
-        is LocationState.LocationDisabled,
-        is LocationState.Error,
-        LocationState.NoNetworkEnabled,
-        LocationState.PermissionMissing,
-        -> {
-          ""
-        }
-
-        is LocationState.CurrentLocation<*> -> {
-          val lastKnowLocation = uiState.lastKnowLocationState
-          val location =
-            ((lastKnowLocation as LocationState.CurrentLocation<*>).location as? Location)
-          "${location?.latitude},${location?.longitude}"
-        }
-      }
+      val currentLocation = getLocation(uiState.observeLocationState)
+      val lastKnownLocation = getLocation(uiState.lastKnowLocationState)
 
       Samples(
         currentLocation = currentLocation,
@@ -73,6 +42,25 @@ fun LocationScreen(locationViewModel: LocationViewModel) {
       }
     }
   }
+}
+
+@Composable
+private fun getLocation(locationState: LocationState): String {
+  val currentLocation = when (locationState) {
+    is LocationState.LocationDisabled,
+    is LocationState.Error,
+    LocationState.NoNetworkEnabled,
+    LocationState.PermissionMissing,
+    -> {
+      ""
+    }
+
+    is LocationState.CurrentLocation<*> -> {
+      val location = locationState.location as? Location
+      "${location?.latitude},${location?.longitude}"
+    }
+  }
+  return currentLocation
 }
 
 @Composable

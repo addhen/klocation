@@ -49,6 +49,22 @@ class FusedLocationProvider(
    * or GPS provider, depending on availability. It automatically manages the lifecycle
    * of the location updates, stopping them when the flow is cancelled.
    *
+   * ```
+   * viewModelScope.launch {
+   *   locationService.observeLocationUpdates()
+   *     .distinctUntilChanged()
+   *     .collectLatest { locationState: LocationState ->
+   *       when( locationState) {
+   *         is LocationState.CurrentLocation<*> -> {
+   *           val location = locationState.location as? Location
+   *             println("${location?.latitude},${location?.longitude}")
+   *         }
+   *         ...
+   *       }
+   *     }
+   * }
+   * ```
+   *
    * @return A [Flow] emitting [LocationState] states as they become available.
    * @throws IllegalStateException if no location provider is available.
    */
@@ -84,6 +100,23 @@ class FusedLocationProvider(
    *
    * This method attempts to get the last known location from the network provider first,
    * and if that's not available, it tries the GPS provider.
+   *
+   * ```
+   * viewModelScope.launch {
+   *   try {
+   *     val locationState = locationService.getLastKnownLocation()
+   *     when( locationState) {
+   *       is LocationState.CurrentLocation<*> -> {
+   *         val location = locationState.location as? Location
+   *         println("${location?.latitude},${location?.longitude}")
+   *       }
+   *       ...
+   *     }
+   *   } catch(cause: Throwable) {
+   *      // handle exception
+   *   }
+   * }
+   * ```
    *
    * @return The last known [LocationState], or a [LocationState.CurrentLocation]
    * with a `null` [Point] if no location is available.

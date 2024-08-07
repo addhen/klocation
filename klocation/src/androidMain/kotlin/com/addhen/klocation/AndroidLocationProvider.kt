@@ -45,6 +45,22 @@ class AndroidLocationProvider(
    * or GPS provider, depending on availability. It automatically manages the lifecycle
    * of the location updates, stopping them when the flow is cancelled.
    *
+   * ```
+   * viewModelScope.launch {
+   *   locationService.observeLocationUpdates()
+   *     .distinctUntilChanged()
+   *     .collectLatest { locationState: LocationState ->
+   *       when( locationState) {
+   *         is LocationState.CurrentLocation<*> -> {
+   *           val location = locationState.location as? Location
+   *             println("${location?.latitude},${location?.longitude}")
+   *         }
+   *         ...
+   *       }
+   *     }
+   * }
+   * ```
+   *
    * @return A [Flow] emitting [LocationState] states as they become available.
    * @throws IllegalStateException if no location provider is available.
    */
@@ -93,7 +109,28 @@ class AndroidLocationProvider(
    * This method attempts to get the last known location from the network provider first,
    * and if that's not available, it tries the GPS provider.
    *
-   * @return The last known [LocationState], or a [LocationState.CurrentLocation]
+   * When a location is obtained it returns the [LocationState.CurrentLocation] with a [Location]
+   * which means at use site due to type erasure, you will need to cast the
+   * `LocationState#CurrentLocation#location` to a [Location] object. Eg at use-site will be:
+   *
+   * ```
+   * viewModelScope.launch {
+   *   try {
+   *     val locationState = locationService.getLastKnownLocation()
+   *     when( locationState) {
+   *       is LocationState.CurrentLocation<*> -> {
+   *         val location = locationState.location as? Location
+   *         println("${location?.latitude},${location?.longitude}")
+   *       }
+   *       ...
+   *     }
+   *   } catch(cause: Throwable) {
+   *      // handle exception
+   *   }
+   * }
+   * ```
+   *
+   * @return The last known [LocationState.CurrentLocation], or a [LocationState.CurrentLocation]
    * with a `null` [Location] if no location is available.
    */
   // Permission already being checked with requestLocation function
