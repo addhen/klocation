@@ -16,7 +16,7 @@ kotlin {
     commonMain {
       dependencies {
         api(projects.klocation)
-        implementation(compose.material3)
+        implementation(compose.foundation)
       }
     }
   }
