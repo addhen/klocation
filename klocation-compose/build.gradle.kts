@@ -27,11 +27,13 @@ kotlin {
 publishing {
   // Configure all publications
   publications.withType<MavenPublication> {
-    artifactId = "klocation-compose"
     // Provide artifacts information required by Maven Central
     pom {
-      name.set("klocation-compose")
-      description.set("A compose multiplatform library for complementing klocation for use with a compose project")
+      name.set("KLocation Compose")
+      description.set(
+        "A compose multiplatform library for complementing klocation for use with " +
+          "a compose project",
+      )
     }
   }
 }
