@@ -44,3 +44,16 @@ android {
     }
   }
 }
+
+publishing {
+  // Configure all publications
+  publications.withType<MavenPublication> {
+    artifactId = "klocation"
+
+    // Provide artifacts information required by Maven Central
+    pom {
+      name.set("klocation")
+      description.set("A kotlin multiplatform library for getting a device's location")
+    }
+  }
+}

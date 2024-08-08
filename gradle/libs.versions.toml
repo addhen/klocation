@@ -1,4 +1,5 @@
 [versions]
+klocation = "0.1.0-SNAPSHOT"
 agp = "8.5.1"
 kotlin = "2.0.0"
 nexus-publish = "2.0.0"
@@ -12,12 +13,12 @@ cacheFixPlugin = "3.0.1"
 dokka = "1.9.20"
 coroutines = "1.8.1"
 androidx-core-ktx = "1.13.1"
-playServicesLocation = "21.3.0"
+play-services-location = "21.3.0"
 androidx-activity-compose = "1.9.1"
 material = "1.12.0"
 appcompat = "1.7.0"
 accompanist-permissions = "0.34.0"
-navigation-compose = "2.8.0-beta06" # Make use of type-safe compose navigation
+navigation-compose = "2.8.0-beta07" # Make use of type-safe compose navigation
 kotlinx-serializer = "1.7.1"
 
 [libraries]
@@ -31,7 +32,7 @@ metalava-gradlePlugin = { module = "me.tylerbwong.gradle.metalava:plugin", versi
 compose-gradlePlugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
-play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-services-location" }
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "coroutines" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }

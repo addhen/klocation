@@ -30,9 +30,7 @@ fun Project.configureMavenPublish() {
 
         // Provide artifacts information required by Maven Central
         pom {
-          name.set("kLocation")
-          description.set("A kotlin multiplatform library for getting a device's location")
-          url.set("https://github.com/addhen/k-location")
+          url.set("https://github.com/addhen/klocation")
 
           licenses {
             license {
@@ -42,14 +40,14 @@ fun Project.configureMavenPublish() {
           }
           developers {
             developer {
-              id.set("Addhen Ltd")
-              name.set("Addhen Ltd Team")
+              id.set("eyedol")
+              name.set("Henry Addo")
               organization.set("Addhen Ltd")
-              organizationUrl.set("https://www.jetbrains.com")
+              organizationUrl.set("https://www.addhen.com")
             }
           }
           scm {
-            url.set("https://github.com/addhen/k-location")
+            url.set("https://github.com/addhen/klocation")
           }
         }
       }
