@@ -61,6 +61,7 @@ jobs:
         arguments: |
           --no-configuration-cache
           ${{ matrix.target }}
+          findSonatypeStagingRepository
           closeSonatypeStagingRepository
           -Psigning.gnupg.passphrase='${{secrets.OSSRH_GPG_SECRET_KEY_PASSWORD}}'
           -Psigning.gnupg.keyName='${{secrets.OSSRH_GPG_SECRET_KEY_ID}}'
