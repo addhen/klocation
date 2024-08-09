@@ -28,6 +28,12 @@ jobs:
             os: macos-latest
           - target: testDebugUnitTest
             os: ubuntu-latest
+          - snapshot-target: publishIosArm64PublicationToSonatypeRepository
+            os: macos-latest
+          - snapshot-target: publishAndroidReleasePublicationToSonatypeRepository
+            os: ubuntu-latest
+          - snapshot-target: publishKotlinMultiplatformPublicationToSonatypeRepository
+            os: ubuntu-latest
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -60,8 +66,7 @@ jobs:
       with:
         arguments: |
           --no-configuration-cache
-          ${{ matrix.target }}
-          findSonatypeStagingRepository
+          ${{ matrix.snapshot-target }}
           closeSonatypeStagingRepository
           -Psigning.gnupg.passphrase='${{secrets.OSSRH_GPG_SECRET_KEY_PASSWORD}}'
           -Psigning.gnupg.keyName='${{secrets.OSSRH_GPG_SECRET_KEY_ID}}'
