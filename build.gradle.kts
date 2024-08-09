@@ -18,3 +18,9 @@ plugins {
   alias(libs.plugins.compose.compiler) apply false
   alias(libs.plugins.dokka)
 }
+
+tasks.register("printVersionName") {
+  doLast {
+    println(libs.versions.klocation.get())
+  }
+}
