@@ -53,12 +53,13 @@ jobs:
       with:
         arguments: ${{ matrix.target }}
     - name: Retrieve Version
-      run: echo "VERSION_NAME=$(./gradlew -q  printVersionName)" >> $GITHUB_ENV
+      run: echo "VERSION_NAME=$(./gradlew -q --no-configuration-cache  printVersionName)" >> $GITHUB_ENV
     - name: Upload Snapshot
       uses: gradle/actions/setup-gradle@v3
       if: success() && endsWith(env.VERSION_NAME, '-SNAPSHOT')
       with:
         arguments: |
+          --no-configuration-cache
           ${{ matrix.target }}
           closeSonatypeStagingRepository
           -Psigning.gnupg.passphrase='${{secrets.OSSRH_GPG_SECRET_KEY_PASSWORD}}'
