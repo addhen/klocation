@@ -60,6 +60,12 @@ jobs:
         arguments: ${{ matrix.target }}
     - name: Retrieve Version
       run: echo "VERSION_NAME=$(./gradlew -q --no-configuration-cache  printVersionName)" >> $GITHUB_ENV
+    - name: Import GPG key
+      uses: crazy-max/ghaction-import-gpg@v6
+      if: success() && endsWith(env.VERSION_NAME, '-SNAPSHOT')
+      with:
+        gpg_private_key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+        passphrase: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
     - name: Upload Snapshot
       uses: gradle/actions/setup-gradle@v3
       if: success() && endsWith(env.VERSION_NAME, '-SNAPSHOT')
