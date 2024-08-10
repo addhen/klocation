@@ -69,6 +69,10 @@ jobs:
     - name: Upload Snapshot
       uses: gradle/actions/setup-gradle@v3
       if: success() && endsWith(env.VERSION_NAME, '-SNAPSHOT')
+      env:
+        OSSRH_GPG_SECRET_KEY_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+        OSSRH_GPG_SECRET_KEY_ID: ${{ secrets.OSSRH_GPG_SECRET_KEY_ID }}
+        OSSRH_GPG_SECRET_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
       with:
         arguments: |
           --no-configuration-cache
