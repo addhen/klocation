@@ -45,6 +45,8 @@ jobs:
         path: |
           ~/.konan
         key: ${{ runner.os }}-${{ hashFiles('**/.lock') }}
+    - name: Retrieve Version
+      run: echo "VERSION_NAME=$(./gradlew -q --no-configuration-cache  printVersionName)" >> $GITHUB_ENV
     - name: Import GPG key
       uses: crazy-max/ghaction-import-gpg@v6
       if: success() && endsWith(env.VERSION_NAME, '-SNAPSHOT')
@@ -64,8 +66,6 @@ jobs:
       uses: gradle/actions/setup-gradle@v3
       with:
         arguments: ${{ matrix.target }}
-    - name: Retrieve Version
-      run: echo "VERSION_NAME=$(./gradlew -q --no-configuration-cache  printVersionName)" >> $GITHUB_ENV
     - name: Upload Snapshot
       uses: gradle/actions/setup-gradle@v3
       if: success() && endsWith(env.VERSION_NAME, '-SNAPSHOT')
