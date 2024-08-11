@@ -27,39 +27,3 @@ fun DependencyHandlerScope.implementation(
 ) {
   add("implementation", artifact.get())
 }
-
-fun DependencyHandlerScope.lintChecks(
-  artifact: Optional<Provider<MinimalExternalModuleDependency>>,
-) {
-  add("lintChecks", artifact.get())
-}
-
-fun DependencyHandlerScope.implementationBundle(
-  artifact: Optional<Provider<ExternalModuleDependencyBundle>>,
-) {
-  add("implementation", artifact.get())
-}
-
-fun DependencyHandlerScope.debugImplementation(
-  artifact: Optional<Provider<MinimalExternalModuleDependency>>,
-) {
-  add("debugImplementation", artifact.get())
-}
-
-fun DependencyHandlerScope.androidTestImplementation(
-  artifact: Optional<Provider<MinimalExternalModuleDependency>>,
-) {
-  add("androidTestImplementation", artifact.get())
-}
-
-fun DependencyHandlerScope.testImplementation(
-  artifact: Optional<Provider<MinimalExternalModuleDependency>>,
-) {
-  add("testImplementation", artifact.get())
-}
-
-private fun DependencyHandlerScope.api(
-  artifact: Optional<Provider<MinimalExternalModuleDependency>>,
-) {
-  add("api", artifact.get())
-}
