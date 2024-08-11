@@ -55,11 +55,7 @@ fun Project.configureMavenPublish() {
 
     signing {
       if (project.hasProperty("signing.gnupg.keyName")) {
-        useInMemoryPgpKeys(
-          System.getenv("OSSRH_GPG_SECRET_KEY_ID"),
-          System.getenv("OSSRH_GPG_SECRET_KEY"),
-          System.getenv("OSSRH_GPG_SECRET_KEY_PASSWORD"),
-        )
+        useGpgCmd()
         sign(publishing.publications)
       }
     }
