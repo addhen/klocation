@@ -1,0 +1,10 @@
+// Signature format: 4.0
+package com.addhen.klocation.compose {
+
+  public final class KlocationComposeKt {
+    method @androidx.compose.runtime.Composable public static androidx.compose.runtime.State<com.addhen.klocation.LocationState> lastKnowLocationState(com.addhen.klocation.LocationService locationService);
+    method @androidx.compose.runtime.Composable public static androidx.compose.runtime.State<com.addhen.klocation.LocationState> locationUpdatesState(com.addhen.klocation.LocationService locationService);
+  }
+
+}
+

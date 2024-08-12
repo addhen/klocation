@@ -1,0 +1,90 @@
+// Signature format: 4.0
+package com.addhen.klocation {
+
+  public final class AndroidLocationProvider extends com.addhen.klocation.BaseLocationProvider<android.location.Location> {
+    ctor public AndroidLocationProvider(android.content.Context context, optional float minDistanceMeters, optional long minTimeMs);
+    method public suspend Object? getLastKnownLocation(kotlin.coroutines.Continuation<? super com.addhen.klocation.LocationState>);
+    method public kotlinx.coroutines.flow.Flow<com.addhen.klocation.LocationState> observeLocationUpdates();
+    method public void stopLocating();
+  }
+
+  public abstract class BaseLocationProvider<T extends android.location.Location> implements com.addhen.klocation.LocationProvider {
+    ctor public BaseLocationProvider(android.content.Context context, optional android.location.LocationManager locationManager);
+    method protected final android.location.LocationManager getLocationManager();
+    method protected final boolean isGPSEnabled();
+    method protected final boolean isNetworkEnabled();
+    method protected final suspend Object? requestLocation(kotlin.jvm.functions.Function1<? super kotlin.coroutines.Continuation<? super com.addhen.klocation.LocationState>,?> requestLocation, kotlin.coroutines.Continuation<? super com.addhen.klocation.LocationState>);
+    property protected final android.location.LocationManager locationManager;
+  }
+
+  public final class CLLocationProvider implements com.addhen.klocation.LocationProvider {
+    ctor public CLLocationProvider(optional error.NonExistentClass accuracy);
+    method public suspend Object? getLastKnownLocation(kotlin.coroutines.Continuation<? super com.addhen.klocation.LocationState>);
+    method public kotlinx.coroutines.flow.Flow<com.addhen.klocation.LocationState> observeLocationUpdates();
+    method public void stopLocating();
+  }
+
+  public final class FusedLocationProvider extends com.addhen.klocation.BaseLocationProvider<android.location.Location> {
+    ctor public FusedLocationProvider(android.content.Context context, optional long intervalMs, optional int priority);
+    method public suspend Object? getLastKnownLocation(kotlin.coroutines.Continuation<? super com.addhen.klocation.LocationState>);
+    method public kotlinx.coroutines.flow.Flow<com.addhen.klocation.LocationState> observeLocationUpdates();
+    method public void stopLocating();
+  }
+
+  public interface LocationProvider {
+    method public suspend Object? getLastKnownLocation(kotlin.coroutines.Continuation<? super com.addhen.klocation.LocationState>);
+    method public kotlinx.coroutines.flow.Flow<com.addhen.klocation.LocationState> observeLocationUpdates();
+    method public void stopLocating();
+  }
+
+  public final class LocationService {
+    ctor public LocationService(android.content.Context context, optional com.addhen.klocation.LocationProvider locationProvider);
+    method public suspend Object? getLastKnownLocation(kotlin.coroutines.Continuation<? super com.addhen.klocation.LocationState>);
+    method public com.addhen.klocation.LocationProvider getLocationProvider();
+    method public kotlinx.coroutines.flow.Flow<com.addhen.klocation.LocationState> observeLocationUpdates();
+    method public void stopLocating();
+    property public final com.addhen.klocation.LocationProvider locationProvider;
+  }
+
+  public final class LocationService {
+    ctor public LocationService(optional com.addhen.klocation.LocationProvider locationProvider);
+    method public suspend Object? getLastKnownLocation(kotlin.coroutines.Continuation<? super com.addhen.klocation.LocationState>);
+    method public com.addhen.klocation.LocationProvider getLocationProvider();
+    method public kotlinx.coroutines.flow.Flow<com.addhen.klocation.LocationState> observeLocationUpdates();
+    method public void stopLocating();
+    property public final com.addhen.klocation.LocationProvider locationProvider;
+  }
+
+  public sealed interface LocationState {
+  }
+
+  public static final class LocationState.CurrentLocation<T> implements com.addhen.klocation.LocationState {
+    ctor public LocationState.CurrentLocation(T? location);
+    method public T? component1();
+    method public com.addhen.klocation.LocationState.CurrentLocation<T> copy(T? location);
+    method public T? getLocation();
+    property public final T? location;
+  }
+
+  public static final class LocationState.Error implements com.addhen.klocation.LocationState {
+    ctor public LocationState.Error(Throwable cause);
+    method public Throwable component1();
+    method public com.addhen.klocation.LocationState.Error copy(Throwable cause);
+    method public Throwable getCause();
+    property public final Throwable cause;
+  }
+
+  public static final class LocationState.LocationDisabled implements com.addhen.klocation.LocationState {
+    field public static final com.addhen.klocation.LocationState.LocationDisabled INSTANCE;
+  }
+
+  public static final class LocationState.NoNetworkEnabled implements com.addhen.klocation.LocationState {
+    field public static final com.addhen.klocation.LocationState.NoNetworkEnabled INSTANCE;
+  }
+
+  public static final class LocationState.PermissionMissing implements com.addhen.klocation.LocationState {
+    field public static final com.addhen.klocation.LocationState.PermissionMissing INSTANCE;
+  }
+
+}
+
