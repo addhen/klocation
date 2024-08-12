@@ -1,0 +1,73 @@
+# Project information
+site_name: 'KLocation'
+site_description: 'A kotlin multiplatform library for location tracking with compose multiplatform support'
+site_author: 'Henry Addo'
+site_url: 'https://addhen.github.io/klocation/'
+edit_uri: 'tree/main/docs/'
+remote_branch: gh-pages
+
+docs_dir: docs
+
+repo_name: 'Haze'
+repo_url: 'https://github.com/addhen/klocation'
+
+# Navigation
+nav:
+  - 'Overview': index.md
+  - 'Usage': usage.md
+  - 'API reference': api/
+  - 'Sample code': https://github.com/addhen/klocation/tree/main/sample
+
+# Configuration
+theme:
+  name: 'material'
+  language: 'en'
+  icon:
+    logo: material/map-marker-radius
+  palette:
+    primary: 'white'
+    accent: 'deep orange'
+  font:
+    text: 'Roboto Condensed'
+    code: 'Roboto Mono'
+  features:
+    - content.tabs.link
+    - content.code.copy
+    - content.code.select
+  shortcuts:
+    help: 191    # ?
+    next: 78     # n
+    previous: 80 # p
+    search: 83   # s
+  user_color_mode_toggle: true
+
+plugins:
+  - social
+  - search
+  - mkdocs-video:
+      is_video: true
+      video_muted: true
+      video_controls: false
+      video_autoplay: true
+      video_loop: true
+      css_style:
+        width: "100%"
+        height: "30rem"
+
+# Extensions
+markdown_extensions:
+  - admonition
+  - attr_list
+  - codehilite:
+      guess_lang: false
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.betterem
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - pymdownx.details
+  - pymdownx.tilde
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
