@@ -1,3 +1,8 @@
+# pip install mkdocs mkdocs-material
+# mkdocs serve
+# mkdocs gh-deploy
+# https://www.mkdocs.org/getting-started/
+
 # Project information
 site_name: 'KLocation'
 site_description: 'A kotlin multiplatform library for location tracking with compose multiplatform support'
