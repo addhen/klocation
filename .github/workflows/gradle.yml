@@ -47,12 +47,6 @@ jobs:
         key: ${{ runner.os }}-${{ hashFiles('**/.lock') }}
     - name: Retrieve Version
       run: echo "VERSION_NAME=$(./gradlew -q --no-configuration-cache  printVersionName)" >> $GITHUB_ENV
-    - name: Import GPG key
-      uses: crazy-max/ghaction-import-gpg@v6
-      if: success() && endsWith(env.VERSION_NAME, '-SNAPSHOT')
-      with:
-        gpg_private_key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-        passphrase: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
@@ -69,12 +63,15 @@ jobs:
     - name: Upload Snapshot
       uses: gradle/actions/setup-gradle@v3
       if: success() && endsWith(env.VERSION_NAME, '-SNAPSHOT')
+      env:
+        OSSRH_GPG_SECRET_KEY_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+        OSSRH_GPG_SECRET_KEY_ID: ${{ secrets.OSSRH_GPG_SECRET_KEY_ID }}
+        OSSRH_GPG_SECRET_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
       with:
         arguments: |
           --no-configuration-cache
           ${{ matrix.snapshot-target }}
           closeSonatypeStagingRepository
-          -Psigning.gnupg.passphrase='${{secrets.OSSRH_GPG_SECRET_KEY_PASSWORD}}'
           -Psigning.gnupg.keyName='${{secrets.OSSRH_GPG_SECRET_KEY_ID}}'
           -PsonatypeUsername='${{secrets.OSSRH_USERNAME}}'
           -PsonatypePassword='${{secrets.OSSRH_PASSWORD}}'
