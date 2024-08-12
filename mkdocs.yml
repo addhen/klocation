@@ -29,9 +29,23 @@ theme:
   language: 'en'
   icon:
     logo: material/map-marker-radius
+  user_color_mode_toggle: true
+  color_mode: auto
   palette:
-    primary: 'white'
-    accent: 'deep orange'
+    - media: '(prefers-color-scheme: light)'
+      scheme: default
+      primary: 'white'
+      accent: 'deep orange'
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
+      primary: 'black'
+      accent: 'deep orange'
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
   font:
     text: 'Roboto Condensed'
     code: 'Roboto Mono'
@@ -44,7 +58,6 @@ theme:
     next: 78     # n
     previous: 80 # p
     search: 83   # s
-  user_color_mode_toggle: true
 
 plugins:
   - social
