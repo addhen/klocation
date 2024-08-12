@@ -1,7 +1,7 @@
 KLocation is a Kotlin Multiplatform library for retrieving device location data, offering seamless
 integration with Compose Multiplatform projects.
 
-<!--![type:video](./media/android.mp4) -->
+![type:video](./media/android.mp4)
 
 Supports the following platforms:
 
