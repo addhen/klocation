@@ -1,6 +1,6 @@
 [versions]
 klocation = "1.0.0-SNAPSHOT"
-agp = "8.5.1"
+agp = "8.5.2"
 kotlin = "2.0.0"
 nexus-publish = "2.0.0"
 minSdk = "24"
