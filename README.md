@@ -1,12 +1,11 @@
-# k-location
+# KLocation
 
-A Kotlin multi-platform location tracker with support for providing your own location provider
-with support for compose multi-platform.
+Checkout the [documentation](https://addhen.github.io/klocation/) for more information.
 
 ## License
 
 ```
-Copyright 2024, Addhen Ltd and the k-location project contributors
+Copyright 2024, Addhen Ltd and the KLocation project contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
