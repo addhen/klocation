@@ -25,7 +25,7 @@ import kotlinx.coroutines.tasks.await
  *
  * @property context The Android context used for accessing system services.
  * @property locationManager The Android system's location manager.
- * @property interval The rate in milliseconds at which the app prefers to receive location updates.
+ * @property intervalMs The rate in milliseconds at which the app prefers to receive location updates.
  *                    The default is 1000 milliseconds.
  * @property priority The priority of the request, which gives the Google Play services location
  *                    services a strong hint about which location sources to use. The default value

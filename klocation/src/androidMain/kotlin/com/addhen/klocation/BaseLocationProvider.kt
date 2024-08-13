@@ -13,10 +13,10 @@ import androidx.core.app.ActivityCompat
  * Base class for location-related operations.
  *
  * This abstract class provides a foundation for implementing location-based features
- * using Kotlin coroutines and Flow. Extend this if you want to implement a custom LocationProvider
+ * using Kotlin coroutines and Flow. Extend this if you want to implement a custom [LocationProvider]
  *
- * @property context The Android context used for accessing system services.
- * @property locationManager The location manager
+ * @param context The Android context used for accessing system services.
+ * @param locationManager The location manager.
  */
 abstract class BaseLocationProvider<T : Location>(
   private val context: Context,
