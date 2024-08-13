@@ -13,8 +13,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Checkout
-      uses: actions/checkout@v4
     - name: Validate Gradle Wrapper
       uses: gradle/actions/wrapper-validation@v3
     - name: Setup JDK ${{ inputs.java-version }} from ${{ inputs.java-distribution }} distribution
