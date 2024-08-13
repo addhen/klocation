@@ -18,7 +18,10 @@ fun Project.configureNexusPublish() {
     // Configure maven central repository
     // https://github.com/gradle-nexus/publish-plugin#publishing-to-maven-central-via-sonatype-ossrh
     repositories {
-      sonatype()
+      sonatype {
+        username.set(findProperty("sonatypeUsername") as String?)
+        password.set(findProperty("sonatypePassword") as String?)
+      }
     }
   }
 }
