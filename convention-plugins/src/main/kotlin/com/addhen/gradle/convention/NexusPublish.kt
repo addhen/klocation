@@ -19,8 +19,8 @@ fun Project.configureNexusPublish() {
     // https://github.com/gradle-nexus/publish-plugin#publishing-to-maven-central-via-sonatype-ossrh
     repositories {
       sonatype {
-        username.set(findProperty("sonatypeUsername") as String?)
-        password.set(findProperty("sonatypePassword") as String?)
+        username.set(System.getenv("OSSRH_USERNAME"))
+        password.set(System.getenv("OSSRH_PASSWORD"))
       }
     }
   }

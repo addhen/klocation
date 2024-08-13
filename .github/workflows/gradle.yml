@@ -67,11 +67,11 @@ jobs:
         OSSRH_GPG_SECRET_KEY_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
         OSSRH_GPG_SECRET_KEY_ID: ${{ secrets.OSSRH_GPG_SECRET_KEY_ID }}
         OSSRH_GPG_SECRET_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+        OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+        OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
       with:
         arguments: |
           --no-configuration-cache
           ${{ matrix.snapshot-target }}
           closeSonatypeStagingRepository
           -Psigning.gnupg.keyName='${{secrets.OSSRH_GPG_SECRET_KEY_ID}}'
-          -PsonatypeUsername='${{secrets.OSSRH_USERNAME}}'
-          -PsonatypePassword='${{secrets.OSSRH_PASSWORD}}'
