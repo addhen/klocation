@@ -39,6 +39,7 @@ package com.addhen.klocation {
 
   public final class LocationService {
     ctor public LocationService(android.content.Context context, optional com.addhen.klocation.LocationProvider locationProvider);
+    ctor public LocationService(com.addhen.klocation.LocationProvider locationProvider);
     method public suspend Object? getLastKnownLocation(kotlin.coroutines.Continuation<? super com.addhen.klocation.LocationState>);
     method public com.addhen.klocation.LocationProvider getLocationProvider();
     method public kotlinx.coroutines.flow.Flow<com.addhen.klocation.LocationState> observeLocationUpdates();
