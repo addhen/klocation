@@ -10,15 +10,25 @@ import kotlinx.coroutines.flow.Flow
  * This class provides methods to observe location updates, retrieve the last known location,
  * and stop location tracking. It uses a [LocationProvider] to handle the actual location operations.
  *
- * @property context The Android [Context] to be used to get the [LocationManager] and for
- *                   checking for the necessary required permissions.
- * @property locationProvider The [LocationProvider] used to manage location updates.
- *                            Defaults to [AndroidLocationProvider].
+ * @param locationProvider The [LocationProvider] used to manage location updates.
+ *                         Defaults to [AndroidLocationProvider].
  */
 actual class LocationService(
-  private val context: Context,
-  actual val locationProvider: LocationProvider = AndroidLocationProvider(context),
+  actual val locationProvider: LocationProvider,
 ) {
+
+  /**
+   * Constructs a [LocationService] with the given [context] and [locationProvider].
+   *
+   * @param context The Android [Context] to be used to get the [LocationManager] and for
+   *                checking for the necessary required permissions.
+   * @param locationProvider The [LocationProvider] used to manage location updates.
+   *                          Defaults to [AndroidLocationProvider].
+   */
+  constructor(
+    context: Context,
+    locationProvider: LocationProvider = AndroidLocationProvider(context)
+  ) : this(locationProvider)
 
   /**
    * Observes location updates as a [Flow] of [LocationState].
