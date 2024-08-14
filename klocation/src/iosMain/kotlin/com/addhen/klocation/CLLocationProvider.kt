@@ -70,26 +70,27 @@ public class CLLocationProvider(
     awaitClose { observeLocationManager.stopUpdatingLocation() }
   }
 
-  public override suspend fun getLastKnownLocation(): LocationState = suspendCoroutine { continuation ->
-    lastKnownLocationDelegate.locationCallback = { locationState ->
-      continuation.resume(locationState)
-    }
+  public override suspend fun getLastKnownLocation(): LocationState =
+    suspendCoroutine { continuation ->
+      lastKnownLocationDelegate.locationCallback = { locationState ->
+        continuation.resume(locationState)
+      }
 
-    when (CLLocationManager.authorizationStatus()) {
-      kCLAuthorizationStatusNotDetermined -> {
-        observeLocationManager.requestWhenInUseAuthorization()
-      }
-      kCLAuthorizationStatusRestricted, kCLAuthorizationStatusDenied -> {
-        continuation.resume(LocationState.PermissionMissing)
-      }
-      kCLAuthorizationStatusAuthorizedAlways, kCLAuthorizationStatusAuthorizedWhenInUse -> {
-        lastKnownLocationManager.requestLocation()
-      }
-      else -> {
-        continuation.resume(LocationState.CurrentLocation(null))
+      when (CLLocationManager.authorizationStatus()) {
+        kCLAuthorizationStatusNotDetermined -> {
+          observeLocationManager.requestWhenInUseAuthorization()
+        }
+        kCLAuthorizationStatusRestricted, kCLAuthorizationStatusDenied -> {
+          continuation.resume(LocationState.PermissionMissing)
+        }
+        kCLAuthorizationStatusAuthorizedAlways, kCLAuthorizationStatusAuthorizedWhenInUse -> {
+          lastKnownLocationManager.requestLocation()
+        }
+        else -> {
+          continuation.resume(LocationState.CurrentLocation(null))
+        }
       }
     }
-  }
 
   public override fun stopRequestingLocationUpdates() {
     observeLocationManager.stopUpdatingLocation()

@@ -16,5 +16,6 @@ public actual class LocationService(
     return locationProvider.getLastKnownLocation()
   }
 
-  public actual fun stopRequestingLocationUpdates(): Unit = locationProvider.stopRequestingLocationUpdates()
+  public actual fun stopRequestingLocationUpdates(): Unit =
+    locationProvider.stopRequestingLocationUpdates()
 }
