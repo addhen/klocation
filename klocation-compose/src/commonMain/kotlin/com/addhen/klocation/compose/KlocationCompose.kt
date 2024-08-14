@@ -11,7 +11,7 @@ import com.addhen.klocation.LocationState
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
-fun locationUpdatesState(locationService: LocationService): State<LocationState> {
+public fun locationUpdatesState(locationService: LocationService): State<LocationState> {
   return locationService
     .requestLocationUpdates()
     .distinctUntilChanged()
@@ -19,7 +19,7 @@ fun locationUpdatesState(locationService: LocationService): State<LocationState>
 }
 
 @Composable
-fun lastKnowLocationState(locationService: LocationService): State<LocationState> {
+public fun lastKnowLocationState(locationService: LocationService): State<LocationState> {
   return produceState(LocationState.CurrentLocation(null)) {
     locationService.getLastKnownLocation()
   }
