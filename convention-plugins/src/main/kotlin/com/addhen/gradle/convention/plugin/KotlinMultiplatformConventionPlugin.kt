@@ -6,10 +6,8 @@ import com.addhen.gradle.convention.configureKotlin
 import com.addhen.gradle.convention.configureSpotless
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.withType
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 class KotlinMultiplatformConventionPlugin : Plugin<Project> {
   override fun apply(target: Project) = with(target) {
@@ -31,6 +29,8 @@ class KotlinMultiplatformConventionPlugin : Plugin<Project> {
 
       configureSpotless()
       configureKotlin()
+      // Strict explicit mode
+      explicitApi()
     }
   }
 }
