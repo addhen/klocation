@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 @Composable
 fun locationUpdatesState(locationService: LocationService): State<LocationState> {
   return locationService
-    .observeLocationUpdates()
+    .requestLocationUpdates()
     .distinctUntilChanged()
     .collectAsState(LocationState.CurrentLocation(null))
 }

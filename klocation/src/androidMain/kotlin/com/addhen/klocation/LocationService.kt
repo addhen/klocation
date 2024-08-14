@@ -31,12 +31,12 @@ actual class LocationService(
   ) : this(locationProvider)
 
   /**
-   * Observes location updates as a [Flow] of [LocationState].
+   * requests location updates as a [Flow] of [LocationState].
    *
    * @return A [Flow] emitting [LocationState] representing location updates or other states.
    */
-  actual fun observeLocationUpdates(): Flow<LocationState> {
-    return locationProvider.observeLocationUpdates()
+  actual fun requestLocationUpdates(): Flow<LocationState> {
+    return locationProvider.requestLocationUpdates()
   }
 
   /**

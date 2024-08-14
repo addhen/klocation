@@ -66,7 +66,7 @@ class AndroidLocationProvider(
    */
   // Permission already being checked with requestLocation function
   @SuppressLint("MissingPermission")
-  override fun observeLocationUpdates(): Flow<LocationState> = callbackFlow {
+  override fun requestLocationUpdates(): Flow<LocationState> = callbackFlow {
     locationListener = LocationListener { location ->
       val currentLocation = LocationState.CurrentLocation(location)
       trySend(currentLocation)

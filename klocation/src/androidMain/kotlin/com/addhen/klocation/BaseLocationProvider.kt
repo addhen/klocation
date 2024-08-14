@@ -16,7 +16,7 @@ import androidx.core.app.ActivityCompat
  * using Kotlin coroutines and Flow. Extend this if you want to implement a custom [LocationProvider]
  *
  * @param context The Android context used for accessing system services.
- * @param locationManager The location manager.
+ * @param locationManager The Android [LocationManager] class.
  */
 abstract class BaseLocationProvider<T : Location>(
   private val context: Context,

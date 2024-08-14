@@ -49,6 +49,8 @@ class FusedLocationProvider(
    * or GPS provider, depending on availability. It automatically manages the lifecycle
    * of the location updates, stopping them when the flow is cancelled.
    *
+   * Emits [LocationState.Error] if there is an error during the flow collection.
+   *
    * ```
    * viewModelScope.launch {
    *   locationService.observeLocationUpdates()
@@ -66,11 +68,10 @@ class FusedLocationProvider(
    * ```
    *
    * @return A [Flow] emitting [LocationState] states as they become available.
-   * @throws IllegalStateException if no location provider is available.
    */
   // Permission already being checked with requestLocation function
   @SuppressLint("MissingPermission")
-  override fun observeLocationUpdates(): Flow<LocationState> = callbackFlow {
+  override fun requestLocationUpdates(): Flow<LocationState> = callbackFlow {
     locationCallback = object : LocationCallback() {
       override fun onLocationResult(locationResult: LocationResult) {
         locationResult.lastLocation?.let { location ->

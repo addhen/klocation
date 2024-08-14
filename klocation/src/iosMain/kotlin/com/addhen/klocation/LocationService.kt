@@ -8,8 +8,8 @@ actual class LocationService(
   actual val locationProvider: LocationProvider = CLLocationProvider(),
 ) {
 
-  actual fun observeLocationUpdates(): Flow<LocationState> {
-    return locationProvider.observeLocationUpdates()
+  actual fun requestLocationUpdates(): Flow<LocationState> {
+    return locationProvider.requestLocationUpdates()
   }
 
   actual suspend fun getLastKnownLocation(): LocationState {

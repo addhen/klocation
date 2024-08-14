@@ -46,7 +46,7 @@ class CLLocationProvider(
     delegate = lastKnownLocationDelegate
   }
 
-  override fun observeLocationUpdates(): Flow<LocationState> = callbackFlow {
+  override fun requestLocationUpdates(): Flow<LocationState> = callbackFlow {
     when (CLLocationManager.authorizationStatus()) {
       kCLAuthorizationStatusNotDetermined -> {
         observeLocationManager.requestWhenInUseAuthorization()

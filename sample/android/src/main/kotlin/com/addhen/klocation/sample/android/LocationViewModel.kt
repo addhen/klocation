@@ -33,7 +33,7 @@ class LocationViewModel(
     )
 
   init {
-    locationService.observeLocationUpdates()
+    locationService.requestLocationUpdates()
       .distinctUntilChanged()
       .onEach { state ->
         Log.d(LocationViewModel::class.simpleName, "state $state")

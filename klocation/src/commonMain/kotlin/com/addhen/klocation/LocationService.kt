@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 expect class LocationService {
   val locationProvider: LocationProvider
-  fun observeLocationUpdates(): Flow<LocationState>
+  fun requestLocationUpdates(): Flow<LocationState>
   suspend fun getLastKnownLocation(): LocationState
   fun stopLocating()
 }
