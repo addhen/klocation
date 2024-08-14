@@ -4,17 +4,17 @@ package com.addhen.klocation
 
 import kotlinx.coroutines.flow.Flow
 
-actual class LocationService(
-  actual val locationProvider: LocationProvider = CLLocationProvider(),
+public actual class LocationService(
+  public actual val locationProvider: LocationProvider = CLLocationProvider(),
 ) {
 
-  actual fun requestLocationUpdates(): Flow<LocationState> {
+  public actual fun requestLocationUpdates(): Flow<LocationState> {
     return locationProvider.requestLocationUpdates()
   }
 
-  actual suspend fun getLastKnownLocation(): LocationState {
+  public actual suspend fun getLastKnownLocation(): LocationState {
     return locationProvider.getLastKnownLocation()
   }
 
-  actual fun stopRequestingLocationUpdates() = locationProvider.stopRequestingLocationUpdates()
+  public actual fun stopRequestingLocationUpdates(): Unit = locationProvider.stopRequestingLocationUpdates()
 }

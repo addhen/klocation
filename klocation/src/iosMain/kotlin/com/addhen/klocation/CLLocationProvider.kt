@@ -29,7 +29,7 @@ import platform.Foundation.NSError
 import platform.Foundation.NSLog
 import platform.darwin.NSObject
 
-class CLLocationProvider(
+public class CLLocationProvider(
   accuracy: CLLocationAccuracy = kCLLocationAccuracyBest,
 ) : LocationProvider {
 
@@ -46,7 +46,7 @@ class CLLocationProvider(
     delegate = lastKnownLocationDelegate
   }
 
-  override fun requestLocationUpdates(): Flow<LocationState> = callbackFlow {
+  public override fun requestLocationUpdates(): Flow<LocationState> = callbackFlow {
     when (CLLocationManager.authorizationStatus()) {
       kCLAuthorizationStatusNotDetermined -> {
         observeLocationManager.requestWhenInUseAuthorization()
@@ -70,7 +70,7 @@ class CLLocationProvider(
     awaitClose { observeLocationManager.stopUpdatingLocation() }
   }
 
-  override suspend fun getLastKnownLocation(): LocationState = suspendCoroutine { continuation ->
+  public override suspend fun getLastKnownLocation(): LocationState = suspendCoroutine { continuation ->
     lastKnownLocationDelegate.locationCallback = { locationState ->
       continuation.resume(locationState)
     }
@@ -91,7 +91,7 @@ class CLLocationProvider(
     }
   }
 
-  override fun stopRequestingLocationUpdates() {
+  public override fun stopRequestingLocationUpdates() {
     observeLocationManager.stopUpdatingLocation()
     lastKnownLocationManager.stopUpdatingLocation()
   }
@@ -105,7 +105,7 @@ class CLLocationProvider(
     private val coroutineScope = WeakReference(scope)
     private val locationsChannel = WeakReference(locationsChannel)
 
-    override fun locationManager(manager: CLLocationManager, didUpdateLocations: List<*>) {
+    public override fun locationManager(manager: CLLocationManager, didUpdateLocations: List<*>) {
       val locations = didUpdateLocations as List<CLLocation>
       val scope = coroutineScope.get() ?: return
       val locationsChannel = locationsChannel.get() ?: return
@@ -115,7 +115,7 @@ class CLLocationProvider(
       }
     }
 
-    override fun locationManager(manager: CLLocationManager, didFailWithError: NSError) {
+    public override fun locationManager(manager: CLLocationManager, didFailWithError: NSError) {
       NSLog("$this fail with $didFailWithError")
       val scope = coroutineScope.get() ?: return
       val locationsChannel = locationsChannel.get() ?: return
@@ -129,14 +129,14 @@ class CLLocationProvider(
   private class LastKnownLocationDelegate : NSObject(), CLLocationManagerDelegateProtocol {
     var locationCallback: ((LocationState) -> Unit)? = null
 
-    override fun locationManager(manager: CLLocationManager, didUpdateLocations: List<*>) {
+    public override fun locationManager(manager: CLLocationManager, didUpdateLocations: List<*>) {
       val locations = didUpdateLocations as List<CLLocation>
       val locationState = LocationState.CurrentLocation(locations.lastOrNull())
       locationCallback?.invoke(locationState)
       locationCallback = null
     }
 
-    override fun locationManager(manager: CLLocationManager, didFailWithError: NSError) {
+    public override fun locationManager(manager: CLLocationManager, didFailWithError: NSError) {
       NSLog("$this fail with $didFailWithError")
       locationCallback?.invoke(LocationState.Error(Throwable(didFailWithError.description)))
       locationCallback = null
