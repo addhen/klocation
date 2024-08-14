@@ -5,7 +5,7 @@ package com.addhen.klocation {
     ctor public AndroidLocationProvider(android.content.Context context, optional float minDistanceMeters, optional long minTimeMs);
     method public suspend Object? getLastKnownLocation(kotlin.coroutines.Continuation<? super com.addhen.klocation.LocationState>);
     method public kotlinx.coroutines.flow.Flow<com.addhen.klocation.LocationState> requestLocationUpdates();
-    method public void stopLocating();
+    method public void stopRequestingLocationUpdates();
   }
 
   public abstract class BaseLocationProvider<T extends android.location.Location> implements com.addhen.klocation.LocationProvider {
@@ -21,20 +21,20 @@ package com.addhen.klocation {
     ctor public CLLocationProvider(optional error.NonExistentClass accuracy);
     method public suspend Object? getLastKnownLocation(kotlin.coroutines.Continuation<? super com.addhen.klocation.LocationState>);
     method public kotlinx.coroutines.flow.Flow<com.addhen.klocation.LocationState> requestLocationUpdates();
-    method public void stopLocating();
+    method public void stopRequestingLocationUpdates();
   }
 
   public final class FusedLocationProvider extends com.addhen.klocation.BaseLocationProvider<android.location.Location> {
     ctor public FusedLocationProvider(android.content.Context context, optional long intervalMs, optional int priority);
     method public suspend Object? getLastKnownLocation(kotlin.coroutines.Continuation<? super com.addhen.klocation.LocationState>);
     method public kotlinx.coroutines.flow.Flow<com.addhen.klocation.LocationState> requestLocationUpdates();
-    method public void stopLocating();
+    method public void stopRequestingLocationUpdates();
   }
 
   public interface LocationProvider {
     method public suspend Object? getLastKnownLocation(kotlin.coroutines.Continuation<? super com.addhen.klocation.LocationState>);
     method public kotlinx.coroutines.flow.Flow<com.addhen.klocation.LocationState> requestLocationUpdates();
-    method public void stopLocating();
+    method public void stopRequestingLocationUpdates();
   }
 
   public final class LocationService {
@@ -43,7 +43,7 @@ package com.addhen.klocation {
     method public suspend Object? getLastKnownLocation(kotlin.coroutines.Continuation<? super com.addhen.klocation.LocationState>);
     method public com.addhen.klocation.LocationProvider getLocationProvider();
     method public kotlinx.coroutines.flow.Flow<com.addhen.klocation.LocationState> requestLocationUpdates();
-    method public void stopLocating();
+    method public void stopRequestingLocationUpdates();
     property public final com.addhen.klocation.LocationProvider locationProvider;
   }
 
@@ -52,7 +52,7 @@ package com.addhen.klocation {
     method public suspend Object? getLastKnownLocation(kotlin.coroutines.Continuation<? super com.addhen.klocation.LocationState>);
     method public com.addhen.klocation.LocationProvider getLocationProvider();
     method public kotlinx.coroutines.flow.Flow<com.addhen.klocation.LocationState> requestLocationUpdates();
-    method public void stopLocating();
+    method public void stopRequestingLocationUpdates();
     property public final com.addhen.klocation.LocationProvider locationProvider;
   }
 
