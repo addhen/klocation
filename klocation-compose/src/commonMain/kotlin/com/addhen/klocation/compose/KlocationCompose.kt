@@ -20,7 +20,62 @@ public fun locationUpdatesState(locationService: LocationService): State<Locatio
 
 @Composable
 public fun lastKnowLocationState(locationService: LocationService): State<LocationState> {
-  return produceState(LocationState.CurrentLocation(null)) {
-    locationService.getLastKnownLocation()
+  return produceState<LocationState>(LocationState.CurrentLocation(null)) {
+    value = locationService.getLastKnownLocation()
+  }
+}
+
+@Composable
+public fun lastKnowLocationState(
+  locationService: LocationService,
+  key1: Any?,
+): State<LocationState> {
+  return produceState<LocationState>(
+    LocationState.CurrentLocation(null),
+    key1,
+  ) {
+    value = locationService.getLastKnownLocation()
+  }
+}
+
+@Composable
+public fun lastKnowLocationState(
+  locationService: LocationService,
+  key1: Any?,
+  key2: Any?,
+): State<LocationState> {
+  return produceState<LocationState>(
+    LocationState.CurrentLocation(null),
+    key1,
+    key2,
+  ) {
+    value = locationService.getLastKnownLocation()
+  }
+}
+
+@Composable
+public fun lastKnowLocationState(
+  locationService: LocationService,
+  key1: Any?,
+  key2: Any?,
+  key3: Any?,
+): State<LocationState> {
+  return produceState<LocationState>(
+    LocationState.CurrentLocation(null),
+    key1,
+    key2,
+    key3,
+  ) {
+    value = locationService.getLastKnownLocation()
+  }
+}
+
+@Composable
+public fun lastKnowLocationState(
+  locationService: LocationService,
+  vararg keys: Any?,
+): State<LocationState> {
+  return produceState<LocationState>(LocationState.CurrentLocation(null), keys) {
+    value = locationService.getLastKnownLocation()
   }
 }
