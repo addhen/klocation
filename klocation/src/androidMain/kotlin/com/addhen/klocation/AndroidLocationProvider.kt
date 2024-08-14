@@ -98,7 +98,7 @@ class AndroidLocationProvider(
     }
 
     if (locationState != LocationState.CurrentLocation(null)) trySend(locationState)
-    awaitClose { stopLocating() }
+    awaitClose { stopRequestingLocationUpdates() }
   }.catch { cause: Throwable ->
     emit(LocationState.Error(cause))
   }
@@ -156,7 +156,7 @@ class AndroidLocationProvider(
   /**
    * Stops all location update requests.
    */
-  override fun stopLocating() {
+  override fun stopRequestingLocationUpdates() {
     locationListener?.let { locationManager.removeUpdates(it) }
     locationListener = null
   }

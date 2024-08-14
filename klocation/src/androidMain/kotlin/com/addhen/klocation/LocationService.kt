@@ -7,7 +7,7 @@ import android.location.LocationManager
 import kotlinx.coroutines.flow.Flow
 
 /**
- * This class provides methods to observe location updates, retrieve the last known location,
+ * This class provides methods to request for location updates, retrieve the last known location,
  * and stop location tracking. It uses a [LocationProvider] to handle the actual location operations.
  *
  * @param locationProvider The [LocationProvider] used to manage location updates.
@@ -54,5 +54,5 @@ actual class LocationService(
    * This method should be called when location updates are no longer needed
    * to conserve system resources and battery life.
    */
-  actual fun stopLocating() = locationProvider.stopLocating()
+  actual fun stopRequestingLocationUpdates() = locationProvider.stopRequestingLocationUpdates()
 }

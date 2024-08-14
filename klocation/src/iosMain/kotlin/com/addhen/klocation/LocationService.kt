@@ -16,5 +16,5 @@ actual class LocationService(
     return locationProvider.getLastKnownLocation()
   }
 
-  actual fun stopLocating() = locationProvider.stopLocating()
+  actual fun stopRequestingLocationUpdates() = locationProvider.stopRequestingLocationUpdates()
 }

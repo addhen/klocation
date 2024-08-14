@@ -8,5 +8,5 @@ expect class LocationService {
   val locationProvider: LocationProvider
   fun requestLocationUpdates(): Flow<LocationState>
   suspend fun getLastKnownLocation(): LocationState
-  fun stopLocating()
+  fun stopRequestingLocationUpdates()
 }

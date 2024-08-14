@@ -90,7 +90,7 @@ class FusedLocationProvider(
     }
 
     if (locationState != LocationState.CurrentLocation(null)) trySend(locationState)
-    awaitClose { stopLocating() }
+    awaitClose { stopRequestingLocationUpdates() }
   }.catch { cause: Throwable ->
     // Handle any exceptions that occur during flow collection.
     emit(LocationState.Error(cause))
@@ -137,7 +137,7 @@ class FusedLocationProvider(
   /**
    * Stops all location update requests.
    */
-  override fun stopLocating() {
+  override fun stopRequestingLocationUpdates() {
     locationCallback?.let { locationProviderClient.removeLocationUpdates(it) }
     locationCallback = null
   }

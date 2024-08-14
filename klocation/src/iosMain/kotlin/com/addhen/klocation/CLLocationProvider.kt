@@ -91,7 +91,7 @@ class CLLocationProvider(
     }
   }
 
-  override fun stopLocating() {
+  override fun stopRequestingLocationUpdates() {
     observeLocationManager.stopUpdatingLocation()
     lastKnownLocationManager.stopUpdatingLocation()
   }

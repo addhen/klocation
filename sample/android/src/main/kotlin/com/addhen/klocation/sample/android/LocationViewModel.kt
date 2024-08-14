@@ -64,7 +64,7 @@ class LocationViewModel(
     }
   }
 
-  fun stopLocating() = locationService.stopLocating()
+  fun stopLocating() = locationService.stopRequestingLocationUpdates()
 
   data class LocationUiState(
     val observeLocationState: LocationState = LocationState.CurrentLocation(null),
