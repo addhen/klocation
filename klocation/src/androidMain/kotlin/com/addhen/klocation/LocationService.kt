@@ -27,7 +27,7 @@ public actual class LocationService(
    */
   public constructor(
     context: Context,
-    locationProvider: LocationProvider = AndroidLocationProvider(context)
+    locationProvider: LocationProvider = AndroidLocationProvider(context),
   ) : this(locationProvider)
 
   /**
@@ -54,5 +54,6 @@ public actual class LocationService(
    * This method should be called when location updates are no longer needed
    * to conserve system resources and battery life.
    */
-  public actual fun stopRequestingLocationUpdates(): Unit = locationProvider.stopRequestingLocationUpdates()
+  public actual fun stopRequestingLocationUpdates(): Unit =
+    locationProvider.stopRequestingLocationUpdates()
 }

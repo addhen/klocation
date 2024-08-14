@@ -18,7 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-public fun SamplesTheme(useDarkColors: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+public fun SamplesTheme(
+  useDarkColors: Boolean = isSystemInDarkTheme(),
+  content: @Composable () -> Unit,
+) {
   MaterialTheme(
     colorScheme = if (useDarkColors) darkColorScheme() else lightColorScheme(),
     content = content,
