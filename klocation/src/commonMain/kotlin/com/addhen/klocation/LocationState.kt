@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 package com.addhen.klocation
 
-sealed interface LocationState {
-  data object PermissionMissing : LocationState
-  data object LocationDisabled : LocationState
-  data object NoNetworkEnabled : LocationState
-  data class CurrentLocation<out T>(val location: T?) : LocationState
-  data class Error(val cause: Throwable) : LocationState
+public sealed interface LocationState {
+  public data object PermissionMissing : LocationState
+  public data object LocationDisabled : LocationState
+  public data object NoNetworkEnabled : LocationState
+  public data class CurrentLocation<out T>(val location: T?) : LocationState
+  public data class Error(val cause: Throwable) : LocationState
 }

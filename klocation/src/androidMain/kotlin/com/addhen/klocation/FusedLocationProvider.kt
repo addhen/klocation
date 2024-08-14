@@ -31,7 +31,7 @@ import kotlinx.coroutines.tasks.await
  *                    services a strong hint about which location sources to use. The default value
  *                    is [Priority.PRIORITY_HIGH_ACCURACY].
  */
-class FusedLocationProvider(
+public class FusedLocationProvider(
   context: Context,
   intervalMs: Long = 1000,
   private val priority: Int = Priority.PRIORITY_HIGH_ACCURACY,

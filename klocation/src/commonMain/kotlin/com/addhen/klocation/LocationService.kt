@@ -4,9 +4,9 @@ package com.addhen.klocation
 
 import kotlinx.coroutines.flow.Flow
 
-expect class LocationService {
-  val locationProvider: LocationProvider
-  fun requestLocationUpdates(): Flow<LocationState>
-  suspend fun getLastKnownLocation(): LocationState
-  fun stopRequestingLocationUpdates()
+public expect class LocationService {
+  public val locationProvider: LocationProvider
+  public fun requestLocationUpdates(): Flow<LocationState>
+  public suspend fun getLastKnownLocation(): LocationState
+  public fun stopRequestingLocationUpdates()
 }

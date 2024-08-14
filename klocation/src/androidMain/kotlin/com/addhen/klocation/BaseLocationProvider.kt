@@ -18,7 +18,7 @@ import androidx.core.app.ActivityCompat
  * @param context The Android context used for accessing system services.
  * @param locationManager The Android [LocationManager] class.
  */
-abstract class BaseLocationProvider<T : Location>(
+public abstract class BaseLocationProvider<T : Location>(
   private val context: Context,
   protected val locationManager: LocationManager = context
     .getSystemService(Context.LOCATION_SERVICE) as LocationManager,

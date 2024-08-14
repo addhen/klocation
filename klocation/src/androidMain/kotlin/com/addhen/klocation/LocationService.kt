@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.Flow
  * @param locationProvider The [LocationProvider] used to manage location updates.
  *                         Defaults to [AndroidLocationProvider].
  */
-actual class LocationService(
-  actual val locationProvider: LocationProvider,
+public actual class LocationService(
+  public actual val locationProvider: LocationProvider,
 ) {
 
   /**
@@ -25,7 +25,7 @@ actual class LocationService(
    * @param locationProvider The [LocationProvider] used to manage location updates.
    *                          Defaults to [AndroidLocationProvider].
    */
-  constructor(
+  public constructor(
     context: Context,
     locationProvider: LocationProvider = AndroidLocationProvider(context)
   ) : this(locationProvider)
@@ -35,7 +35,7 @@ actual class LocationService(
    *
    * @return A [Flow] emitting [LocationState] representing location updates or other states.
    */
-  actual fun requestLocationUpdates(): Flow<LocationState> {
+  public actual fun requestLocationUpdates(): Flow<LocationState> {
     return locationProvider.requestLocationUpdates()
   }
 
@@ -44,7 +44,7 @@ actual class LocationService(
    *
    * @return A [LocationState] representing the last known location or other states.
    */
-  actual suspend fun getLastKnownLocation(): LocationState {
+  public actual suspend fun getLastKnownLocation(): LocationState {
     return locationProvider.getLastKnownLocation()
   }
 
@@ -54,5 +54,5 @@ actual class LocationService(
    * This method should be called when location updates are no longer needed
    * to conserve system resources and battery life.
    */
-  actual fun stopRequestingLocationUpdates() = locationProvider.stopRequestingLocationUpdates()
+  public actual fun stopRequestingLocationUpdates(): Unit = locationProvider.stopRequestingLocationUpdates()
 }

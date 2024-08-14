@@ -30,7 +30,7 @@ private const val MIN_TIME_BW_UPDATES = (1000 * 60 * 2).toLong() // 2 minutes
  * @property minDistanceMeters minimum distance between location updates in meters
  * @property locationManager     the listener to receive location updates
  */
-class AndroidLocationProvider(
+public class AndroidLocationProvider(
   private val context: Context,
   private val minDistanceMeters: Float = MIN_DISTANCE_CHANGE_FOR_UPDATES,
   private val minTimeMs: Long = MIN_TIME_BW_UPDATES,

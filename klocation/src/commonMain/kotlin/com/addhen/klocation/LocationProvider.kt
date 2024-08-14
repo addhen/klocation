@@ -4,8 +4,8 @@ package com.addhen.klocation
 
 import kotlinx.coroutines.flow.Flow
 
-interface LocationProvider {
-  fun requestLocationUpdates(): Flow<LocationState>
-  suspend fun getLastKnownLocation(): LocationState
-  fun stopRequestingLocationUpdates()
+public interface LocationProvider {
+  public fun requestLocationUpdates(): Flow<LocationState>
+  public suspend fun getLastKnownLocation(): LocationState
+  public fun stopRequestingLocationUpdates()
 }

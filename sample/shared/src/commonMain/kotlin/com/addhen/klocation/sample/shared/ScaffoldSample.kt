@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.Color
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScaffoldSample(title: String, content: @Composable BoxScope.() -> Unit) {
+public fun ScaffoldSample(title: String, content: @Composable BoxScope.() -> Unit) {
   Scaffold(
     topBar = {
       TopAppBar(
