@@ -42,7 +42,8 @@ private fun getLocation(locationState: LocationState): String {
     }
 
     is LocationState.CurrentLocation<*> -> {
-      // for Android cast as `android.location.Location` for iOS cast as `CLLocation`
+      // for Android cast as `android.location.Location`
+      // for iOS cast as `CLLocation`
       val location = locationState.location as? Location
       "${location?.latitude},${location?.longitude}"
     }
@@ -79,7 +80,10 @@ fun RefreshableLastLocation(
   locationService: LocationService,
   refreshTrigger: Boolean
 ) {
-    val lastLocationState by lastKnowLocationState(locationService, refreshTrigger)
+    val lastLocationState by lastKnowLocationState(
+      locationService,
+      refreshTrigger
+    )
     // Use lastLocationState as before...
 }
 ```
