@@ -19,6 +19,7 @@ repo_url: 'https://github.com/addhen/klocation'
 # Navigation
 nav:
   - 'Overview': index.md
+  - 'Setup': setup.md
   - 'Usage': usage.md
   - 'API reference': api/
   - 'Sample code': https://github.com/addhen/klocation/tree/main/sample
