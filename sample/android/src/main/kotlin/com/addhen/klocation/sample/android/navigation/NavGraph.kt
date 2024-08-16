@@ -26,10 +26,11 @@ fun AppNavGraph(navController: NavHostController, startDestination: KClass<*>) {
     }
 
     composable<LocationRoute> {
+      val locationService = LocationService(FusedLocationProvider(LocalContext.current))
       val viewModel = LocationViewModelFactory(
-        LocationService(FusedLocationProvider(LocalContext.current)),
+        locationService = locationService,
       ).create(LocationViewModel::class.java)
-      LocationScreen(viewModel)
+      LocationScreen(viewModel, locationService)
     }
   }
 }

@@ -12,16 +12,28 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.addhen.klocation.LocationService
 import com.addhen.klocation.LocationState
+import com.addhen.klocation.compose.lastKnowLocationState
+import com.addhen.klocation.compose.locationUpdatesState
 import com.addhen.klocation.sample.shared.Samples
 import kotlinx.coroutines.launch
 
 @Composable
-fun LocationScreen(locationViewModel: LocationViewModel) {
+fun LocationScreen(
+  locationViewModel: LocationViewModel,
+  locationService: LocationService
+) {
+  // Showing how to consume location updates and last known location without compose [State]
   val uiState by locationViewModel.viewState.collectAsState()
   val coroutineScope = rememberCoroutineScope()
+
+  // Showing how to consume the location updates and last known location with compose [State]
+  val locationUpdatesState by locationUpdatesState(locationService)
+  val lastKnowLocationState by lastKnowLocationState(locationService)
 
   LaunchedEffect(Unit) {
     coroutineScope.launch { locationViewModel.getLastKnowLocation() }
@@ -33,10 +45,14 @@ fun LocationScreen(locationViewModel: LocationViewModel) {
     LocationViewModel.LocationUiState.Flag.IDLE -> {
       val currentLocation = getLocation(uiState.observeLocationState)
       val lastKnownLocation = getLocation(uiState.lastKnowLocationState)
+      val klocationComposeLocationUpdates = getLocation(locationUpdatesState)
+      val klocationComposeLastKnownLocation = getLocation(lastKnowLocationState)
 
       Samples(
         currentLocation = currentLocation,
         lastKnownLocation = lastKnownLocation,
+        klocationComposeLocationUpdates = klocationComposeLocationUpdates,
+        klocationComposeLastKnownLocation = klocationComposeLastKnownLocation,
       ) {
         locationViewModel.stopLocating()
       }
