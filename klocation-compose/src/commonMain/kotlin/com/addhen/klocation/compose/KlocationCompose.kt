@@ -10,6 +10,15 @@ import com.addhen.klocation.LocationService
 import com.addhen.klocation.LocationState
 import kotlinx.coroutines.flow.distinctUntilChanged
 
+/**
+ * Provides a [State] object that emits location updates.
+ *
+ * This function uses [collectAsState] to convert the Flow of location updates into a [State] object.
+ * It applies [distinctUntilChanged] to ensure that only distinct location updates are emitted.
+ *
+ * @return A [State] that represents the current location state.
+ *         The initial value is [LocationState.CurrentLocation] with a null location.
+ */
 @Composable
 public fun locationUpdatesState(locationService: LocationService): State<LocationState> {
   return locationService
@@ -18,6 +27,15 @@ public fun locationUpdatesState(locationService: LocationService): State<Locatio
     .collectAsState(LocationState.CurrentLocation(null))
 }
 
+/**
+ * Provides a [State] object that contains the last known location.
+ *
+ * This function uses [produceState] to create a [State] object that contains the last known location.
+ * The location is retrieved asynchronously using [LocationService.getLastKnownLocation].
+ *
+ * @return A [State] that represents the last known location.
+ *         The initial value is [LocationState.CurrentLocation] with a null location.
+ */
 @Composable
 public fun lastKnowLocationState(locationService: LocationService): State<LocationState> {
   return produceState<LocationState>(LocationState.CurrentLocation(null)) {
@@ -25,6 +43,13 @@ public fun lastKnowLocationState(locationService: LocationService): State<Locati
   }
 }
 
+/**
+ * Provides a [State] object that contains the last known location, with one recomposition key.
+ *
+ * @param key1 A key that can be used to force recomposition when it changes.
+ * @return A [State] that represents the last known location.
+ *         The initial value is [LocationState.CurrentLocation] with a null location.
+ */
 @Composable
 public fun lastKnowLocationState(
   locationService: LocationService,
@@ -38,6 +63,14 @@ public fun lastKnowLocationState(
   }
 }
 
+/**
+ * Provides a [State] object that contains the last known location, with two recomposition keys.
+ *
+ * @param key1 First key that can be used to force recomposition when it changes.
+ * @param key2 Second key that can be used to force recomposition when it changes.
+ * @return A [State] that represents the last known location.
+ *         The initial value is [LocationState.CurrentLocation] with a null location.
+ */
 @Composable
 public fun lastKnowLocationState(
   locationService: LocationService,
@@ -53,6 +86,15 @@ public fun lastKnowLocationState(
   }
 }
 
+/**
+ * Provides a [State] object that contains the last known location, with three recomposition keys.
+ *
+ * @param key1 First key that can be used to force recomposition when it changes.
+ * @param key2 Second key that can be used to force recomposition when it changes.
+ * @param key3 Third key that can be used to force recomposition when it changes.
+ * @return A [State] that represents the last known location.
+ *         The initial value is [LocationState.CurrentLocation] with a null location.
+ */
 @Composable
 public fun lastKnowLocationState(
   locationService: LocationService,
@@ -70,6 +112,15 @@ public fun lastKnowLocationState(
   }
 }
 
+/**
+ * Provides a [State] object that contains the last known location, with a variable number
+ * of recomposition keys.
+ *
+ * @param keys A variable number of keys that can be used to force recomposition when any
+ *             of them change.
+ * @return A [State] that represents the last known location.
+ *         The initial value is [LocationState.CurrentLocation] with a null location.
+ */
 @Composable
 public fun lastKnowLocationState(
   locationService: LocationService,
