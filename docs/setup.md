@@ -4,7 +4,7 @@ Setup KLocation
 KLocation comes with two artifacts: `klocation` and `klocation-compose`. The `klocation` artifact
 is a Kotlin Multiplatform library that provides location services for Android and iOS.
 The `klocation-compose` artifact is a Compose Multiplatform library that provides simple APIs for
-consuming the location services as a Compose [State](https://developer.android.com/develop/ui/compose/state).
+consuming the location services as a compose [State](https://developer.android.com/develop/ui/compose/state).
 
 ## Installation
 

@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.addhen.klocation.LocationService
 import com.addhen.klocation.LocationState
 import kotlin.coroutines.cancellation.CancellationException
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -58,7 +59,7 @@ class LocationViewModel(
           )
         }
       } catch (e: Throwable) {
-        if (e is CancellationException) throw e
+        ensureActive()
         viewStateEmitter.update { it.copy(flag = LocationUiState.Flag.ERROR) }
       }
     }

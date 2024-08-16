@@ -1,9 +1,137 @@
 Usage
 =====
 
-There two main ways to use KLocation library. Either by using the `klocation` artifact or the `klocation-compose` artifact.
+They come with a `LocationService` class which provides a high-level implementations for handling
+location-related operations in your applications. It uses a `LocationProvider` to manage the actual
+location updates, defaulting to `AndroidLocationProvider` if not specified.
+
+## Initialization
+To use `LocationService`, you first need to initialize it. There are few ways to do this:
+
+### Using the default provider
+
+```kotlin
+import com.addhen.klocation.LocationService
+
+val context: Context = /* your application context */
+val locationService = LocationService(context)
+```
+
+This method uses the default `AndroidLocationProvider`.
+
+### Using the FusedLocationProvider
+
+The `FusedLocationProvider` is a wrapper around the Google Play services
+`FusedLocationProviderClient` API. To use it:
+
+Add the following dependencies to your Gradle build file:
+
+```kotlin
+dependencies {
+  implementation 'com.google.android.gms:play-services-location:<version>'
+  // Add other required dependencies
+}
+```
+Initialize the `FusedLocationProvider`:
+
+```kotlin
+val context: Context = // your application context
+val fusedLocationProvider = FusedLocationProvider(
+    context = context,
+    intervalMs = 1000, // Update interval in milliseconds (optional)
+    priority = Priority.PRIORITY_HIGH_ACCURACY // Location priority (optional)
+)
+```
+
+You can then pass the `fusedLocationProvider` to the `LocationService`:
+
+```kotlin
+val locationService = LocationService(fusedLocationProvider)
+```
+
+### Using a custom location provider
+
+```kotlin
+val customProvider: LocationProvider = // your custom location provider
+val locationService = LocationService(locationProvider = customProvider)
+```
+
+### Using the `LocationService`
+
+The library comes with two artifacts: `klocation` and `klocation-compose`. They both come with
+the `LocationService` class.
 
 ## For klcoation artifact
+This guide will walk you through using the `LocationService` APIs for consuming location in your
+non compose based applications.
+
+### Requesting location updates
+To receive continuous location updates, use the `requestLocationUpdates()` method:
+
+```kotlin
+locationService.requestLocationUpdates()
+  .distinctUntilChanged()
+  .onEach { state ->
+    // Handle the location state
+    when (state) {
+      is LocationState.LocationDisabled -> {
+        // Location is disabled
+      }
+      is LocationState.Error -> {
+        // Handle the error
+      }
+      LocationState.NoNetworkEnabled -> {
+        // No network enabled
+      }
+      LocationState.PermissionMissing -> {
+        // Permission missing
+      }
+      is LocationState.CurrentLocation<*> -> {
+        // Handle the current location
+        // for Android cast as `android.location.Location`
+        // for iOS cast as `CLLocation`
+        val location = state.location as? Location
+        // Do something with the location
+      }
+    }
+  }.launchIn(viewModelScope)
+```
+
+### Getting the last known location
+To retrieve the last known location, use the `getLastKnownLocation()` method:
+
+```kotlin
+viewModelScope.launch {
+  try {
+    val locationState = locationService.getLastKnownLocation()
+    // Handle the location state
+    when (locationState) {
+      is LocationState.LocationDisabled -> {
+        // Location is disabled
+      }
+      is LocationState.Error -> {
+        // Handle the error
+      }
+      LocationState.NoNetworkEnabled -> {
+        // No network enabled
+      }
+      LocationState.PermissionMissing -> {
+        // Permission missing
+      }
+      is LocationState.CurrentLocation<*> -> {
+        // Handle the current location
+        // for Android cast as `android.location.Location`
+        // for iOS cast as `CLLocation`
+        val location = locationState.location as? Location
+        // Do something with the location
+      }
+    }
+  } catch (e: Throwable) {
+    ensureActive()
+    // Handle the error
+  }
+}
+```
 
 ## For klocation-compose artifact
 
