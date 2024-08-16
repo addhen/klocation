@@ -12,7 +12,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.addhen.klocation.LocationService
@@ -23,10 +22,7 @@ import com.addhen.klocation.sample.shared.Samples
 import kotlinx.coroutines.launch
 
 @Composable
-fun LocationScreen(
-  locationViewModel: LocationViewModel,
-  locationService: LocationService
-) {
+fun LocationScreen(locationViewModel: LocationViewModel, locationService: LocationService) {
   // Showing how to consume location updates and last known location without compose [State]
   val uiState by locationViewModel.viewState.collectAsState()
   val coroutineScope = rememberCoroutineScope()

@@ -20,6 +20,7 @@ For `klocation-compose`, add the following dependencies to your build.gradle fil
 
 ```kotlin
 dependencies {
+  implementation("androidx.compose.runtime:runtime:<version>")
   implementation("com.addhen:klocation-compose:<version>")
 }
 ```

@@ -47,7 +47,8 @@ public fun Samples(
   lastKnownLocation: String,
   klocationComposeLocationUpdates: String,
   klocationComposeLastKnownLocation: String,
-  onStopClick: () -> Unit) {
+  onStopClick: () -> Unit,
+) {
   Column(
     modifier = Modifier.padding(16.dp).fillMaxSize(),
     verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -63,10 +64,7 @@ public fun Samples(
 }
 
 @Composable
-private fun composeLastKnowLocationState(
-  currentLocation: String,
-  lastKnownLocation: String,
-) {
+private fun composeLastKnowLocationState(currentLocation: String, lastKnownLocation: String) {
   val hasLastKnowLocation = currentLocation.isNotEmpty() || lastKnownLocation.isNotEmpty()
 
   var visibility by remember { mutableStateOf(false) }
@@ -74,11 +72,11 @@ private fun composeLastKnowLocationState(
   AnimatedVisibility(
     visible = visibility,
     enter = expandVertically(),
-    exit = shrinkVertically()
+    exit = shrinkVertically(),
   ) {
     CurrentLocationBox(
       currentLocation,
-      lastKnownLocation
+      lastKnownLocation,
     )
   }
 
@@ -93,7 +91,7 @@ private fun composeLastKnowLocationState(
 }
 
 @Composable
-private fun CurrentLocationBox(currentLocation: String, lastKnownLocation: String,) {
+private fun CurrentLocationBox(currentLocation: String, lastKnownLocation: String) {
   Box(
     modifier = Modifier
       .fillMaxWidth()
@@ -106,4 +104,3 @@ private fun CurrentLocationBox(currentLocation: String, lastKnownLocation: Strin
     }
   }
 }
-
