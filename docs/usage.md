@@ -9,6 +9,7 @@ location updates, defaulting to `AndroidLocationProvider` if not specified.
 To use `LocationService`, you first need to initialize it. There are few ways to do this:
 
 ### Using the default provider
+This method uses the default `AndroidLocationProvider`.
 
 ```kotlin
 import com.addhen.klocation.LocationService
@@ -16,8 +17,6 @@ import com.addhen.klocation.LocationService
 val context: Context = /* your application context */
 val locationService = LocationService(context)
 ```
-
-This method uses the default `AndroidLocationProvider`.
 
 ### Using the FusedLocationProvider
 
@@ -32,7 +31,7 @@ dependencies {
   // Add other required dependencies
 }
 ```
-Initialize the `FusedLocationProvider`:
+Then initialize the `FusedLocationProvider`:
 
 ```kotlin
 val context: Context = // your application context
