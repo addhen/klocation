@@ -8,7 +8,7 @@ consuming the location services as a Compose [State](https://developer.android.c
 
 ## Installation
 
-To use `klocation` in your project, add the following dependencies to your build.gradle file:
+To use `klocation` artifact in your project, add the following dependencies to your gradle build file:
 
 ```kotlin
 dependencies {
@@ -16,7 +16,7 @@ dependencies {
 }
 ```
 
-For `klocation-compose`, add the following dependencies to your build.gradle file:
+For `klocation-compose` artifact, add the following dependencies to your build.gradle file:
 
 ```kotlin
 dependencies {

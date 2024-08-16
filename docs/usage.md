@@ -1,11 +1,11 @@
 Usage
 =====
 
-There two main ways to use KLocation. Either by using the `klocation` artifact or the `klocation-compose` artifact.
+There two main ways to use KLocation library. Either by using the `klocation` artifact or the `klocation-compose` artifact.
 
-## klcoation artifact
+## For klcoation artifact
 
-## klocation-compose artifact
+## For klocation-compose artifact
 
 This guide will walk you through using the APIs provided for consuming location in your
 Compose-based application.
@@ -17,7 +17,7 @@ To receive continuous location updates, use the `locationUpdatesState()` functio
 
 import com.addhen.klocation.compose.locationUpdatesState
 
-Composable
+@Composable
 fun LocationTracking(locationService: LocationService) {
   val locationState by locationUpdatesState(locationService)
 
@@ -75,7 +75,10 @@ useful when you want to force a refresh of the last known location based on cert
 import com.addhen.klocation.compose.lastKnownLocationState
 
 @Composable
-fun RefreshableLastLocation(locationService: LocationService, refreshTrigger: Boolean) {
+fun RefreshableLastLocation(
+  locationService: LocationService,
+  refreshTrigger: Boolean
+) {
     val lastLocationState by lastKnowLocationState(locationService, refreshTrigger)
     // Use lastLocationState as before...
 }
