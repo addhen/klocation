@@ -29,6 +29,12 @@ import platform.Foundation.NSError
 import platform.Foundation.NSLog
 import platform.darwin.NSObject
 
+/**
+ * This class implements the [LocationProvider] interface for iOS.
+ * It manages location updates and permissions using the Core Location framework.
+ *
+ * @param accuracy The desired location accuracy. Defaults to [kCLLocationAccuracyBest].
+ */
 public class CLLocationProvider(
   accuracy: CLLocationAccuracy = kCLLocationAccuracyBest,
 ) : LocationProvider {
@@ -41,11 +47,16 @@ public class CLLocationProvider(
     delegate = observeLocationDelegate
     desiredAccuracy = accuracy
   }
-
   private val lastKnownLocationManager = observeLocationManager.apply {
     delegate = lastKnownLocationDelegate
   }
 
+  /**
+   * Requests location updates and returns a [Flow] of [LocationState].
+   * Handles permission checks and location manager setup.
+   *
+   * @return A [Flow] of [LocationState] representing the stream of location updates.
+   */
   public override fun requestLocationUpdates(): Flow<LocationState> = callbackFlow {
     when (CLLocationManager.authorizationStatus()) {
       kCLAuthorizationStatusNotDetermined -> {
@@ -70,6 +81,12 @@ public class CLLocationProvider(
     awaitClose { observeLocationManager.stopUpdatingLocation() }
   }
 
+  /**
+   * Retrieves the last known location.
+   * Handles permission checks and returns appropriate [LocationState].
+   *
+   * @return A [LocationState] representing the last known location or an error state.
+   */
   public override suspend fun getLastKnownLocation(): LocationState =
     suspendCoroutine { continuation ->
       lastKnownLocationDelegate.locationCallback = { locationState ->
@@ -92,6 +109,10 @@ public class CLLocationProvider(
       }
     }
 
+
+  /**
+   * Stops all location update requests.
+   */
   public override fun stopRequestingLocationUpdates() {
     observeLocationManager.stopUpdatingLocation()
     lastKnownLocationManager.stopUpdatingLocation()
