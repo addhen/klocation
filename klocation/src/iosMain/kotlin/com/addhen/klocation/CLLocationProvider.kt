@@ -109,7 +109,6 @@ public class CLLocationProvider(
       }
     }
 
-
   /**
    * Stops all location update requests.
    */

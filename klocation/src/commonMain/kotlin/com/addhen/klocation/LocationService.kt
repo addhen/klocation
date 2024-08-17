@@ -43,9 +43,9 @@ public expect class LocationService {
   public suspend fun getLastKnownLocation(): LocationState
 
   /**
-  * Stops requesting location updates.
-  *
-  * Call this method to stop receiving location updates when they are no longer needed.
-  */
+   * Stops requesting location updates.
+   *
+   * Call this method to stop receiving location updates when they are no longer needed.
+   */
   public fun stopRequestingLocationUpdates()
 }
