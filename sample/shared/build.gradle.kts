@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
 // Copyright 2024, Addhen Ltd and the k-location project contributors
 // SPDX-License-Identifier: Apache-2.0
 plugins {
@@ -15,6 +17,18 @@ kotlin {
     commonMain {
       dependencies {
         api(compose.material3)
+        api(projects.klocation)
+        api(projects.klocationCompose)
+      }
+    }
+
+    targets.withType<KotlinNativeTarget>().configureEach {
+      binaries.framework {
+        isStatic = true
+        baseName = "KLocationKt"
+
+        export(projects.klocation)
+        export(projects.klocationCompose)
       }
     }
   }
