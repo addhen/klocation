@@ -19,6 +19,11 @@ kotlin {
         api(compose.material3)
         api(projects.klocation)
         api(projects.klocationCompose)
+        api(libs.touchlab.kermit)
+        implementation(compose.runtime)
+        implementation(libs.lifecycle.viewmodel.compose)
+        implementation(libs.androidx.navigation.compose)
+        implementation(libs.kotlinx.serialization)
       }
     }
 

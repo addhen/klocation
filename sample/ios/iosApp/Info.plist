@@ -23,6 +23,8 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+  <string>Our app uses location always for tracking user's location while on the racce track.</string>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
 		<false/>

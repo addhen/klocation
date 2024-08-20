@@ -18,8 +18,10 @@ androidx-activity-compose = "1.9.1"
 material = "1.12.0"
 appcompat = "1.7.0"
 accompanist-permissions = "0.34.0"
-navigation-compose = "2.8.0-beta07" # Make use of type-safe compose navigation
+navigation-compose = "2.8.0-alpha08" # Make use of type-safe compose navigation
 kotlinx-serializer = "1.7.1"
+lifecycle-viewmodel-compose = "2.8.0"
+kermit = "2.0.4"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -38,8 +40,10 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist-permissions" }
-androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
+androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
 kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serializer" }
+lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle-viewmodel-compose" }
+touchlab-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

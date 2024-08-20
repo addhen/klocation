@@ -1,8 +1,7 @@
 // Copyright 2024, Addhen Ltd and the k-location project contributors
 // SPDX-License-Identifier: Apache-2.0
-package com.addhen.klocation.sample.android
+package com.addhen.klocation.sample.shared
 
-import android.location.Location
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
@@ -18,11 +17,14 @@ import com.addhen.klocation.LocationService
 import com.addhen.klocation.LocationState
 import com.addhen.klocation.compose.lastKnowLocationState
 import com.addhen.klocation.compose.locationUpdatesState
-import com.addhen.klocation.sample.shared.Samples
 import kotlinx.coroutines.launch
 
 @Composable
-fun LocationScreen(locationViewModel: LocationViewModel, locationService: LocationService) {
+public fun LocationScreen(
+  locationViewModel: LocationViewModel,
+  locationService: LocationService,
+  onCurrentLocation: (LocationState.CurrentLocation<*>) -> String,
+) {
   // Showing how to consume location updates and last known location without compose [State]
   val uiState by locationViewModel.viewState.collectAsState()
   val coroutineScope = rememberCoroutineScope()
@@ -39,10 +41,10 @@ fun LocationScreen(locationViewModel: LocationViewModel, locationService: Locati
     LocationViewModel.LocationUiState.Flag.LOADING -> FullScreenLoading()
     LocationViewModel.LocationUiState.Flag.ERROR -> Unit
     LocationViewModel.LocationUiState.Flag.IDLE -> {
-      val currentLocation = getLocation(uiState.observeLocationState)
-      val lastKnownLocation = getLocation(uiState.lastKnowLocationState)
-      val klocationComposeLocationUpdates = getLocation(locationUpdatesState)
-      val klocationComposeLastKnownLocation = getLocation(lastKnowLocationState)
+      val currentLocation = getLocation(uiState.observeLocationState, onCurrentLocation)
+      val lastKnownLocation = getLocation(uiState.lastKnowLocationState, onCurrentLocation)
+      val klocationComposeLocationUpdates = getLocation(locationUpdatesState, onCurrentLocation)
+      val klocationComposeLastKnownLocation = getLocation(lastKnowLocationState, onCurrentLocation)
 
       Samples(
         currentLocation = currentLocation,
@@ -57,7 +59,10 @@ fun LocationScreen(locationViewModel: LocationViewModel, locationService: Locati
 }
 
 @Composable
-private fun getLocation(locationState: LocationState): String {
+private fun getLocation(
+  locationState: LocationState,
+  onCurrentLocation: (LocationState.CurrentLocation<*>) -> String,
+): String {
   val currentLocation = when (locationState) {
     is LocationState.LocationDisabled,
     is LocationState.Error,
@@ -68,8 +73,7 @@ private fun getLocation(locationState: LocationState): String {
     }
 
     is LocationState.CurrentLocation<*> -> {
-      val location = locationState.location as? Location
-      "${location?.latitude},${location?.longitude}"
+      onCurrentLocation(locationState)
     }
   }
   return currentLocation
