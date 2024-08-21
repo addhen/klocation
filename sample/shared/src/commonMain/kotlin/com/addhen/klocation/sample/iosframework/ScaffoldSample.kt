@@ -1,6 +1,6 @@
 // Copyright 2024, Addhen Ltd and the k-location project contributors
 // SPDX-License-Identifier: Apache-2.0
-package com.addhen.klocation.sample.shared
+package com.addhen.klocation.sample.iosframework
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope

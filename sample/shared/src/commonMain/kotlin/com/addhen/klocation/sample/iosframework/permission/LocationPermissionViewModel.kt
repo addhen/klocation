@@ -1,4 +1,4 @@
-package com.addhen.klocation.sample.shared.permission
+package com.addhen.klocation.sample.iosframework.permission
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

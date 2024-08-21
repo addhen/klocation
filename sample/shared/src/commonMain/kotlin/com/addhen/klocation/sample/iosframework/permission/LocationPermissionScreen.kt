@@ -1,6 +1,6 @@
 // Copyright 2024, Addhen Ltd and the k-location project contributors
 // SPDX-License-Identifier: Apache-2.0
-package com.addhen.klocation.sample.shared.permission
+package com.addhen.klocation.sample.iosframework.permission
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.addhen.klocation.sample.shared.ScaffoldSample
+import com.addhen.klocation.sample.iosframework.ScaffoldSample
 import com.addhen.shared.generated.resources.Res
 import com.addhen.shared.generated.resources.ic_launcher_foreground
 import com.addhen.shared.generated.resources.request_location_permission_rationale
@@ -33,7 +33,10 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-public fun LocationPermissionScreen(viewModel: LocationPermissionViewModel) {
+public fun LocationPermissionScreen(
+  viewModel: LocationPermissionViewModel,
+  onNavigateToLocation: () -> Unit,
+) {
   val coroutineScope = rememberCoroutineScope()
   BindEffect(viewModel.permissionsController)
   val permissionUiState by viewModel.viewState.collectAsState()
@@ -48,7 +51,7 @@ public fun LocationPermissionScreen(viewModel: LocationPermissionViewModel) {
       when(permissionUiState.flag) {
 
         LocationPermissionViewModel.LocationPermissionUiState.Flag.PERMISSION_GRANTED -> {
-          // By then the user should be redirected to the next screen
+          onNavigateToLocation()
         }
         LocationPermissionViewModel.LocationPermissionUiState.Flag.PERMISSION_DENIED,
         LocationPermissionViewModel.LocationPermissionUiState.Flag.PERMISSION_DENIED_ALWAYS -> {

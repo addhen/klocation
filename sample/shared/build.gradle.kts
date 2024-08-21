@@ -32,14 +32,5 @@ kotlin {
       }
     }
 
-    targets.withType<KotlinNativeTarget>().configureEach {
-      binaries.framework {
-        isStatic = true
-        baseName = "KLocationKt"
-
-        export(projects.klocation)
-        export(projects.klocationCompose)
-      }
-    }
   }
 }

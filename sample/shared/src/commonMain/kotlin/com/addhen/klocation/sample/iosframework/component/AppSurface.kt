@@ -1,6 +1,6 @@
 // Copyright 2024, Addhen Ltd and the k-location project contributors
 // SPDX-License-Identifier: Apache-2.0
-package com.addhen.klocation.sample.android.component
+package com.addhen.klocation.sample.iosframework.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,10 +8,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.addhen.klocation.sample.shared.ScaffoldSample
+import com.addhen.klocation.sample.iosframework.ScaffoldSample
 
 @Composable
-fun AppSurface(appNavHost: @Composable () -> Unit) {
+public fun AppSurface(appNavHost: @Composable () -> Unit) {
   AppBackground(modifier = Modifier.fillMaxSize()) {
     AppFrame(appNavHost = appNavHost)
   }
