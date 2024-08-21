@@ -30,5 +30,5 @@ include(
   ":klocation-compose",
   ":sample:android",
   ":sample:shared",
-  ":sample:ios-framework"
+  ":sample:ios-framework",
 )
