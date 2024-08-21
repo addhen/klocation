@@ -10,10 +10,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.channels.onFailure
-import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import platform.CoreLocation.CLLocation
 import platform.CoreLocation.CLLocationAccuracy
@@ -47,7 +46,7 @@ public class CLLocationProvider(
     delegate = observeLocationDelegate
     desiredAccuracy = accuracy
   }
-  private val lastKnownLocationManager = observeLocationManager.apply {
+  private val lastKnownLocationManager = CLLocationManager().apply {
     delegate = lastKnownLocationDelegate
   }
 
@@ -57,14 +56,15 @@ public class CLLocationProvider(
    *
    * @return A [Flow] of [LocationState] representing the stream of location updates.
    */
-  public override fun requestLocationUpdates(): Flow<LocationState> = callbackFlow {
+  public override fun requestLocationUpdates(): Flow<LocationState> = channelFlow {
+    val localChannel = channel
     when (CLLocationManager.authorizationStatus()) {
       kCLAuthorizationStatusNotDetermined -> {
         observeLocationManager.requestWhenInUseAuthorization()
       }
 
       kCLAuthorizationStatusRestricted, kCLAuthorizationStatusDenied -> {
-        trySend(LocationState.PermissionMissing)
+        localChannel.send(LocationState.PermissionMissing)
       }
 
       kCLAuthorizationStatusAuthorizedAlways, kCLAuthorizationStatusAuthorizedWhenInUse -> {
@@ -72,13 +72,20 @@ public class CLLocationProvider(
       }
 
       else -> {
-        trySend(LocationState.CurrentLocation(null))
+        localChannel.send(LocationState.CurrentLocation(null))
       }
     }
-    locationsChannel.tryReceive()
-      .onSuccess { trySend(it) }
-      .onFailure { trySend(LocationState.Error(it ?: Throwable())) }
-    awaitClose { observeLocationManager.stopUpdatingLocation() }
+
+    val job = launch {
+      while (isActive) {
+        localChannel.send(locationsChannel.receive())
+      }
+    }
+
+    awaitClose {
+      observeLocationManager.stopUpdatingLocation()
+      job.cancel()
+    }
   }
 
   /**
