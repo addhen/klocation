@@ -22,6 +22,7 @@ navigation-compose = "2.8.0-alpha08" # Make use of type-safe compose navigation
 kotlinx-serializer = "1.7.1"
 lifecycle-viewmodel-compose = "2.8.0"
 kermit = "2.0.4"
+moko-permissions = "0.18.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -44,6 +45,8 @@ androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navi
 kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serializer" }
 lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle-viewmodel-compose" }
 touchlab-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
+moko-permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko-permissions" }
+moko-permissions = { module = "dev.icerock.moko:permissions", version.ref = "moko-permissions" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

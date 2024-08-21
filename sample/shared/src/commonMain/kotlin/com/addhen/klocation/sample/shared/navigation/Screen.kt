@@ -1,11 +1,11 @@
 // Copyright 2024, Addhen Ltd and the k-location project contributors
 // SPDX-License-Identifier: Apache-2.0
-package com.addhen.klocation.sample.android.navigation
+package com.addhen.klocation.sample.shared.navigation
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object LocationRoute
+public data object LocationRoute
 
 @Serializable
-data object LocationPermissionRoute
+public data object LocationPermissionRoute

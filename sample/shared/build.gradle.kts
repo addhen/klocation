@@ -6,6 +6,7 @@ plugins {
   id("convention.plugin.android.library")
   id("convention.plugin.kotlin.multiplatform")
   id("convention.plugin.compose")
+  alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -21,8 +22,12 @@ kotlin {
         api(projects.klocationCompose)
         api(libs.touchlab.kermit)
         implementation(compose.runtime)
+        implementation(compose.components.resources)
         implementation(libs.lifecycle.viewmodel.compose)
         implementation(libs.androidx.navigation.compose)
+        implementation(libs.kotlinx.serialization)
+        api(libs.moko.permissions)
+        implementation(libs.moko.permissions.compose)
         implementation(libs.kotlinx.serialization)
       }
     }

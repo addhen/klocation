@@ -13,13 +13,17 @@ import com.addhen.klocation.FusedLocationProvider
 import com.addhen.klocation.LocationService
 import com.addhen.klocation.sample.shared.component.AppSurface
 import com.addhen.klocation.sample.shared.navigation.AppNavGraph
-import com.addhen.klocation.sample.android.navigation.LocationPermissionRoute
-import com.addhen.klocation.sample.android.navigation.LocationRoute
+import com.addhen.klocation.sample.shared.navigation.LocationPermissionRoute
+import com.addhen.klocation.sample.shared.navigation.LocationRoute
 import com.addhen.klocation.sample.shared.LocationScreen
 import com.addhen.klocation.sample.shared.LocationViewModel
 import com.addhen.klocation.sample.shared.SamplesTheme
+import com.addhen.klocation.sample.shared.permission.LocationPermissionScreen
+import com.addhen.klocation.sample.shared.permission.LocationPermissionViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import dev.icerock.moko.permissions.Permission
+import dev.icerock.moko.permissions.PermissionsController
 import kotlin.reflect.KClass
 
 class MainActivity : ComponentActivity() {
@@ -44,16 +48,28 @@ class MainActivity : ComponentActivity() {
               LocationPermissionRoute::class
             }
 
-          AppNavGraph(navController = navController, startDestination) {
-            val locationService = LocationService(FusedLocationProvider(LocalContext.current))
-            val viewModel = LocationViewModelFactory(
-              locationService = locationService,
-            ).create(LocationViewModel::class.java)
-            LocationScreen(viewModel, locationService) { locationState ->
-              val location = locationState.location as? Location
-              "${location?.latitude},${location?.longitude}"
+          AppNavGraph(
+            navController = navController,
+            startDestination,
+            permissionScreen = {
+              val viewModel = LocationPermissionViewModel(
+                PermissionsController(LocalContext.current),
+                Permission.COARSE_LOCATION,
+                Permission.LOCATION,
+              )
+              LocationPermissionScreen(viewModel, )
+            },
+            locationScreen = {
+              val locationService = LocationService(FusedLocationProvider(LocalContext.current))
+              val viewModel = LocationViewModelFactory(
+                locationService = locationService,
+              ).create(LocationViewModel::class.java)
+              LocationScreen(viewModel, locationService) { locationState ->
+                val location = locationState.location as? Location
+                "${location?.latitude},${location?.longitude}"
+              }
             }
-          }
+          )
         }
       }
     }

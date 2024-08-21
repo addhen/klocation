@@ -6,14 +6,13 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.addhen.klocation.sample.android.navigation.LocationPermissionRoute
-import com.addhen.klocation.sample.android.navigation.LocationRoute
 import kotlin.reflect.KClass
 
 @Composable
 public fun AppNavGraph(
   navController: NavHostController,
   startDestination: KClass<*>,
+  permissionScreen: @Composable () -> Unit,
   locationScreen: @Composable () -> Unit,
 ) {
   NavHost(
@@ -21,7 +20,7 @@ public fun AppNavGraph(
     startDestination = startDestination,
   ) {
     composable<LocationPermissionRoute> {
-      ///LocationPermissionScreen()
+      permissionScreen()
     }
 
     composable<LocationRoute> {
