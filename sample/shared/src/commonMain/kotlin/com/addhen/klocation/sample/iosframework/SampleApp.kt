@@ -1,3 +1,5 @@
+// Copyright 2024, Addhen Ltd and the k-location project contributors
+// SPDX-License-Identifier: Apache-2.0
 package com.addhen.klocation.sample.iosframework
 
 import androidx.compose.runtime.Composable
@@ -7,7 +9,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.addhen.klocation.sample.iosframework.component.AppSurface
 import com.addhen.klocation.sample.iosframework.navigation.AppNavGraph
 import com.addhen.klocation.sample.iosframework.navigation.LocationPermissionRoute
@@ -16,15 +17,13 @@ import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.PermissionsController
 import kotlin.reflect.KClass
 
-
 @Composable
 public fun SampleApp(
   navController: NavHostController,
   permissionsController: PermissionsController,
   permissionScreen: @Composable () -> Unit,
-  locationScreen: @Composable () -> Unit
+  locationScreen: @Composable () -> Unit,
 ) {
-
   SamplesTheme {
     var hasAllPermissionGranted by remember { mutableStateOf(false) }
 
@@ -46,7 +45,7 @@ public fun SampleApp(
         navController = navController,
         startDestination,
         permissionScreen = permissionScreen,
-        locationScreen = locationScreen
+        locationScreen = locationScreen,
       )
     }
   }

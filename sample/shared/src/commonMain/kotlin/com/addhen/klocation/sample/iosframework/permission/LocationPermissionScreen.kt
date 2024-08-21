@@ -48,13 +48,13 @@ public fun LocationPermissionScreen(
       verticalArrangement = Arrangement.Center,
       horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-      when(permissionUiState.flag) {
-
+      when (permissionUiState.flag) {
         LocationPermissionViewModel.LocationPermissionUiState.Flag.PERMISSION_GRANTED -> {
           onNavigateToLocation()
         }
         LocationPermissionViewModel.LocationPermissionUiState.Flag.PERMISSION_DENIED,
-        LocationPermissionViewModel.LocationPermissionUiState.Flag.PERMISSION_DENIED_ALWAYS -> {
+        LocationPermissionViewModel.LocationPermissionUiState.Flag.PERMISSION_DENIED_ALWAYS,
+        -> {
           coroutineScope.launch {
             viewModel.permissionsController.openAppSettings()
           }
@@ -75,7 +75,6 @@ public fun LocationPermissionScreen(
           )
         }
       }
-
     }
   }
 }

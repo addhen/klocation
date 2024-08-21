@@ -1,9 +1,10 @@
+// Copyright 2024, Addhen Ltd and the k-location project contributors
+// SPDX-License-Identifier: Apache-2.0
+package com.addhen.klocation.sample.iosframework
+
 import androidx.compose.ui.window.ComposeUIViewController
 import androidx.navigation.compose.rememberNavController
 import com.addhen.klocation.LocationService
-import com.addhen.klocation.sample.iosframework.LocationScreen
-import com.addhen.klocation.sample.iosframework.LocationViewModel
-import com.addhen.klocation.sample.iosframework.SampleApp
 import com.addhen.klocation.sample.iosframework.navigation.LocationRoute
 import com.addhen.klocation.sample.iosframework.navigation.buildNavOptions
 import com.addhen.klocation.sample.iosframework.permission.LocationPermissionScreen
@@ -16,7 +17,8 @@ import platform.CoreLocation.CLLocation
 import platform.UIKit.UIViewController
 
 @OptIn(ExperimentalForeignApi::class)
-public fun MainViewController(): UIViewController = ComposeUIViewController {
+@Suppress("standard:function-naming")
+public fun mainViewController(): UIViewController = ComposeUIViewController {
   val navController = rememberNavController()
   SampleApp(
     navController = navController,
@@ -39,6 +41,6 @@ public fun MainViewController(): UIViewController = ComposeUIViewController {
           "$latitude,$longitude"
         } ?: ""
       }
-    }
+    },
   )
 }

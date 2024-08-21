@@ -1,3 +1,5 @@
+// Copyright 2024, Addhen Ltd and the k-location project contributors
+// SPDX-License-Identifier: Apache-2.0
 package com.addhen.klocation.sample.iosframework.permission
 
 import androidx.lifecycle.ViewModel
@@ -16,11 +18,13 @@ import kotlinx.coroutines.launch
 
 public class LocationPermissionViewModel(
   public val permissionsController: PermissionsController,
-  private vararg val permissionTypes: Permission
-): ViewModel() {
+  private vararg val permissionTypes: Permission,
+) : ViewModel() {
 
   private val viewStateEmitter =
-    MutableStateFlow(LocationPermissionUiState(flag = LocationPermissionUiState.Flag.CHECK_PERMISSION))
+    MutableStateFlow(
+      LocationPermissionUiState(flag = LocationPermissionUiState.Flag.CHECK_PERMISSION),
+    )
 
   public val viewState: StateFlow<LocationPermissionUiState> = viewStateEmitter
     .stateIn(
@@ -42,34 +46,33 @@ public class LocationPermissionViewModel(
 
         viewStateEmitter.update { currentLocationPermissionUiState ->
           currentLocationPermissionUiState.copy(
-            flag = LocationPermissionUiState.Flag.PERMISSION_GRANTED
+            flag = LocationPermissionUiState.Flag.PERMISSION_GRANTED,
           )
         }
-      } catch(deniedAlways: DeniedAlwaysException) {
+      } catch (deniedAlways: DeniedAlwaysException) {
         // Permission is always denied.
         viewStateEmitter.update { currentLocationPermissionUiState ->
           currentLocationPermissionUiState.copy(
-            flag = LocationPermissionUiState.Flag.PERMISSION_DENIED_ALWAYS
+            flag = LocationPermissionUiState.Flag.PERMISSION_DENIED_ALWAYS,
           )
         }
-      } catch(denied: DeniedException) {
+      } catch (denied: DeniedException) {
         // Permission was denied.
         viewStateEmitter.update { currentLocationPermissionUiState ->
           currentLocationPermissionUiState.copy(
-            flag = LocationPermissionUiState.Flag.PERMISSION_DENIED
+            flag = LocationPermissionUiState.Flag.PERMISSION_DENIED,
           )
         }
       } catch (cause: Throwable) {
         ensureActive()
         viewStateEmitter.update { currentLocationPermissionUiState ->
           currentLocationPermissionUiState.copy(
-            flag = LocationPermissionUiState.Flag.ERROR
+            flag = LocationPermissionUiState.Flag.ERROR,
           )
         }
       }
     }
   }
-
 
   public data class LocationPermissionUiState(
     public val flag: Flag = Flag.CHECK_PERMISSION,

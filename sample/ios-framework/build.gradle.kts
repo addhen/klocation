@@ -1,3 +1,5 @@
+// Copyright 2024, Addhen Ltd and the k-location project contributors
+// SPDX-License-Identifier: Apache-2.0
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 // Copyright 2024, Addhen Ltd and the k-location project contributors

@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
             val location = locationState.location as? Location
             "${location?.latitude},${location?.longitude}"
           }
-        }
+        },
       )
     }
   }

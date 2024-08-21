@@ -33,14 +33,13 @@ public fun AppNavGraph(
   }
 }
 
-public fun NavController.buildNavOptions(): NavOptions =
-  navOptions {
-    // Pop up to the start destination of the graph to
-    // avoid building up a large stack of destinations
-    // on the back stack as users select items
-    // Fixes an issue with the back button causing the weather screen to be relaunched
-    // after attempting to navigate back to the map screen.
-    popUpTo(graph.findStartDestination().id) { saveState = true }
-    // Restore state when re-selecting a previously selected item
-    restoreState = true
-  }
+public fun NavController.buildNavOptions(): NavOptions = navOptions {
+  // Pop up to the start destination of the graph to
+  // avoid building up a large stack of destinations
+  // on the back stack as users select items
+  // Fixes an issue with the back button causing the weather screen to be relaunched
+  // after attempting to navigate back to the map screen.
+  popUpTo(graph.findStartDestination().id) { saveState = true }
+  // Restore state when re-selecting a previously selected item
+  restoreState = true
+}
