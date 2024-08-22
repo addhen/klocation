@@ -3,6 +3,7 @@
 package com.addhen.klocation
 
 import android.content.Context
+import android.location.Location
 import android.location.LocationManager
 import kotlinx.coroutines.flow.Flow
 
@@ -57,3 +58,12 @@ public actual class LocationService(
   public actual fun stopRequestingLocationUpdates(): Unit =
     locationProvider.stopRequestingLocationUpdates()
 }
+
+/**
+ * Converts a [LocationState.CurrentLocation.libLocation] to a [Location].
+ *
+ * @return A [Location] if the [LocationState.CurrentLocation.libLocation] is not null,
+ * otherwise null.
+ */
+public val LocationState.CurrentLocation<*>.location: Location?
+  get() = this.libLocation as? Location

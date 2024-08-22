@@ -37,9 +37,9 @@ public sealed interface LocationState {
    * Represents a successfully retrieved location.
    *
    * @param T The type of the location object, which may vary depending on the platform.
-   * @param location The platform specific location object, which may be null if no location data is available.
+   * @param libLocation The platform specific location object, which may be null if no location data is available.
    */
-  public data class CurrentLocation<out T>(val location: T?) : LocationState
+  public data class CurrentLocation<out T>(val libLocation: T?) : LocationState
 
   /**
    * Represents an error that occurred during the location request process.

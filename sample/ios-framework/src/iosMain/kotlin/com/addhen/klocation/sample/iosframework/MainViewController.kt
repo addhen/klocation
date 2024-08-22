@@ -5,13 +5,13 @@ package com.addhen.klocation.sample.iosframework
 import androidx.compose.ui.window.ComposeUIViewController
 import androidx.navigation.compose.rememberNavController
 import com.addhen.klocation.LocationService
+import com.addhen.klocation.cllocation
 import com.addhen.klocation.sample.iosframework.permission.LocationPermissionScreen
 import com.addhen.klocation.sample.iosframework.permission.LocationPermissionViewModel
 import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.ios.PermissionsController
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
-import platform.CoreLocation.CLLocation
 import platform.UIKit.UIViewController
 
 @OptIn(ExperimentalForeignApi::class)
@@ -32,7 +32,7 @@ public fun mainViewController(): UIViewController = ComposeUIViewController {
       val locationService = LocationService()
       val viewModel = LocationViewModel(LocationService())
       LocationScreen(viewModel, locationService) { locationState ->
-        val location = locationState.location as? CLLocation
+        val location = locationState.cllocation
         location?.coordinate?.useContents {
           "$latitude,$longitude"
         } ?: ""

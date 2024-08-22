@@ -3,6 +3,7 @@
 package com.addhen.klocation
 
 import kotlinx.coroutines.flow.Flow
+import platform.CoreLocation.CLLocation
 
 /**
  * This class provides methods to request for location updates, retrieve the last known location,
@@ -39,3 +40,12 @@ public actual class LocationService(
   public actual fun stopRequestingLocationUpdates(): Unit =
     locationProvider.stopRequestingLocationUpdates()
 }
+
+/**
+ * Converts a [LocationState.CurrentLocation.libLocation] to a [CLLocation]
+ * if the location is a [CLLocation].
+ *
+ * @return A [CLLocation] if the location is a [CLLocation], otherwise null.
+ */
+public val LocationState.CurrentLocation<*>.cllocation: CLLocation?
+  get() = this.libLocation as? CLLocation

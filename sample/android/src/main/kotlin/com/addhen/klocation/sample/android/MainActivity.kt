@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 package com.addhen.klocation.sample.android
 
-import android.location.Location
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,6 +10,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
 import com.addhen.klocation.FusedLocationProvider
 import com.addhen.klocation.LocationService
+import com.addhen.klocation.location
 import com.addhen.klocation.sample.iosframework.LocationScreen
 import com.addhen.klocation.sample.iosframework.LocationViewModel
 import com.addhen.klocation.sample.iosframework.SampleApp
@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
             locationService = locationService,
           ).create(LocationViewModel::class.java)
           LocationScreen(viewModel, locationService) { locationState ->
-            val location = locationState.location as? Location
+            val location = locationState.location
             "${location?.latitude},${location?.longitude}"
           }
         },
