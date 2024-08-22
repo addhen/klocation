@@ -5,8 +5,6 @@ package com.addhen.klocation.sample.iosframework
 import androidx.compose.ui.window.ComposeUIViewController
 import androidx.navigation.compose.rememberNavController
 import com.addhen.klocation.LocationService
-import com.addhen.klocation.sample.iosframework.navigation.LocationRoute
-import com.addhen.klocation.sample.iosframework.navigation.buildNavOptions
 import com.addhen.klocation.sample.iosframework.permission.LocationPermissionScreen
 import com.addhen.klocation.sample.iosframework.permission.LocationPermissionViewModel
 import dev.icerock.moko.permissions.Permission
@@ -28,9 +26,7 @@ public fun mainViewController(): UIViewController = ComposeUIViewController {
         PermissionsController(),
         Permission.LOCATION,
       )
-      LocationPermissionScreen(viewModel) {
-        navController.navigate(LocationRoute, navController.buildNavOptions())
-      }
+      LocationPermissionScreen(viewModel, navController)
     },
     locationScreen = {
       val locationService = LocationService()

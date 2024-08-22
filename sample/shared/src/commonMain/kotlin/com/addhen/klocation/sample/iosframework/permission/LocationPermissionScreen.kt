@@ -20,7 +20,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.addhen.klocation.sample.iosframework.ScaffoldSample
+import com.addhen.klocation.sample.iosframework.navigation.LocationRoute
+import com.addhen.klocation.sample.iosframework.navigation.buildNavOptions
 import com.addhen.shared.generated.resources.Res
 import com.addhen.shared.generated.resources.ic_launcher_foreground
 import com.addhen.shared.generated.resources.request_location_permission_rationale
@@ -35,7 +38,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 public fun LocationPermissionScreen(
   viewModel: LocationPermissionViewModel,
-  onNavigateToLocation: () -> Unit,
+  navController: NavController,
 ) {
   val coroutineScope = rememberCoroutineScope()
   BindEffect(viewModel.permissionsController)
@@ -50,7 +53,7 @@ public fun LocationPermissionScreen(
     ) {
       when (permissionUiState.flag) {
         LocationPermissionViewModel.LocationPermissionUiState.Flag.PERMISSION_GRANTED -> {
-          onNavigateToLocation()
+          navController.navigate(LocationRoute, navController.buildNavOptions())
         }
         LocationPermissionViewModel.LocationPermissionUiState.Flag.PERMISSION_DENIED,
         LocationPermissionViewModel.LocationPermissionUiState.Flag.PERMISSION_DENIED_ALWAYS,

@@ -14,8 +14,6 @@ import com.addhen.klocation.LocationService
 import com.addhen.klocation.sample.iosframework.LocationScreen
 import com.addhen.klocation.sample.iosframework.LocationViewModel
 import com.addhen.klocation.sample.iosframework.SampleApp
-import com.addhen.klocation.sample.iosframework.navigation.LocationRoute
-import com.addhen.klocation.sample.iosframework.navigation.buildNavOptions
 import com.addhen.klocation.sample.iosframework.permission.LocationPermissionScreen
 import com.addhen.klocation.sample.iosframework.permission.LocationPermissionViewModel
 import dev.icerock.moko.permissions.Permission
@@ -38,9 +36,7 @@ class MainActivity : ComponentActivity() {
             Permission.COARSE_LOCATION,
             Permission.LOCATION,
           )
-          LocationPermissionScreen(viewModel) {
-            navController.navigate(LocationRoute, navController.buildNavOptions())
-          }
+          LocationPermissionScreen(viewModel, navController)
         },
         locationScreen = {
           val locationService = LocationService(FusedLocationProvider(LocalContext.current))
