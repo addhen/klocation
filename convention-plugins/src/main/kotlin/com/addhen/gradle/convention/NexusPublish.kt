@@ -10,7 +10,7 @@ fun Project.configureNexusPublish() {
   with(pluginManager) { apply("io.github.gradle-nexus.publish-plugin") }
   val klocationVersion = libs.version("klocation").requiredVersion
   allprojects {
-    group = "com.addhen"
+    group = "com.addhen.klocation"
     version = klocationVersion
   }
 
