@@ -16,7 +16,7 @@ dependencies {
 }
 ```
 
-For `klocation-compose` artifact, add the following dependencies to your build.gradle file:
+For `klocation-compose` artifact, add the following dependencies to your gradle build file:
 
 ```kotlin
 dependencies {

@@ -1,15 +1,16 @@
 Usage
 =====
 
-They come with a `LocationService` class which provides a high-level implementations for handling
+The artifacts come with a `LocationService` class which provides a high-level implementations for handling
 location-related operations in your applications. It uses a `LocationProvider` to manage the actual
-location updates, defaulting to `AndroidLocationProvider` if not specified.
+location updates. On **Android** it defaults to `AndroidLocationProvider` and on iOS it defaults to
+`CLLocationProvider` if not specified.
 
 ## Initialization
 To use `LocationService`, you first need to initialize it. There are few ways to do this:
 
 ### Using the default provider
-This method uses the default `AndroidLocationProvider`.
+This method uses the default `AndroidLocationProvider` or `CLLocationProvider` for iOS.
 
 ```kotlin
 import com.addhen.klocation.LocationService
@@ -48,6 +49,8 @@ You can then pass the `fusedLocationProvider` to the `LocationService`:
 val locationService = LocationService(fusedLocationProvider)
 ```
 
+**Note**: The `FusedLocationProvider` is only available on Android.
+
 ### Using a custom location provider
 
 ```kotlin
@@ -57,10 +60,9 @@ val locationService = LocationService(locationProvider = customProvider)
 
 ### Using the `LocationService`
 
-The library comes with two artifacts: `klocation` and `klocation-compose`. They both come with
-the `LocationService` class.
+The two artifacts `klocation` and `klocation-compose` comes with the `LocationService` class.
 
-## For klcoation artifact
+## For klocation artifact
 This guide will walk you through using the `LocationService` APIs for consuming location in your
 non compose based applications.
 
@@ -89,7 +91,8 @@ locationService.requestLocationUpdates()
         // Handle the current location
         // for Android cast as `android.location.Location`
         // for iOS cast as `CLLocation`
-        val location = state.location as? Location
+        val location = state.libLocation as? Location
+        // Or use the extension variable `state.location` for Android and iOS `state.cllocation`
         // Do something with the location
       }
     }
@@ -121,7 +124,8 @@ viewModelScope.launch {
         // Handle the current location
         // for Android cast as `android.location.Location`
         // for iOS cast as `CLLocation`
-        val location = locationState.location as? Location
+        val location = state.libLocation as? Location
+        // Or use the extension variable `state.location` for Android and iOS `state.cllocation`
         // Do something with the location
       }
     }
@@ -169,9 +173,7 @@ private fun getLocation(locationState: LocationState): String {
     }
 
     is LocationState.CurrentLocation<*> -> {
-      // for Android cast as `android.location.Location`
-      // for iOS cast as `CLLocation`
-      val location = locationState.location as? Location
+      val location = locationState.location
       "${location?.latitude},${location?.longitude}"
     }
   }
@@ -199,7 +201,6 @@ The `lastKnownLocationState()` function has `overloads` that accept recompositio
 useful when you want to force a refresh of the last known location based on certain conditions:
 
 ```kotlin
-
 import com.addhen.klocation.compose.lastKnownLocationState
 
 @Composable
@@ -211,7 +212,7 @@ fun RefreshableLastLocation(
       locationService,
       refreshTrigger
     )
-    // Use lastLocationState as before...
+    // Do something with lastLocationState
 }
 ```
 In this example, the last known location will be refreshed whenever `refreshTrigger` changes.
