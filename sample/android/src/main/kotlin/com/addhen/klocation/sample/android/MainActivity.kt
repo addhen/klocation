@@ -11,11 +11,11 @@ import androidx.navigation.compose.rememberNavController
 import com.addhen.klocation.FusedLocationProvider
 import com.addhen.klocation.LocationService
 import com.addhen.klocation.location
-import com.addhen.klocation.sample.iosframework.LocationScreen
-import com.addhen.klocation.sample.iosframework.LocationViewModel
-import com.addhen.klocation.sample.iosframework.SampleApp
-import com.addhen.klocation.sample.iosframework.permission.LocationPermissionScreen
-import com.addhen.klocation.sample.iosframework.permission.LocationPermissionViewModel
+import com.addhen.klocation.sample.shared.LocationScreen
+import com.addhen.klocation.sample.shared.LocationViewModel
+import com.addhen.klocation.sample.shared.SampleApp
+import com.addhen.klocation.sample.shared.permission.LocationPermissionScreen
+import com.addhen.klocation.sample.shared.permission.LocationPermissionViewModel
 import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.PermissionsController
 

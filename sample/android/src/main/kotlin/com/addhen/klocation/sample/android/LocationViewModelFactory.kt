@@ -5,7 +5,7 @@ package com.addhen.klocation.sample.android
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.addhen.klocation.LocationService
-import com.addhen.klocation.sample.iosframework.LocationViewModel
+import com.addhen.klocation.sample.shared.LocationViewModel
 
 @Suppress("UNCHECKED_CAST")
 class LocationViewModelFactory(

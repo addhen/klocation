@@ -1,6 +1,6 @@
 // Copyright 2024, Addhen Ltd and the k-location project contributors
 // SPDX-License-Identifier: Apache-2.0
-package com.addhen.klocation.sample.iosframework.permission
+package com.addhen.klocation.sample.shared.permission
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -21,13 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.addhen.klocation.sample.iosframework.ScaffoldSample
-import com.addhen.klocation.sample.iosframework.navigation.LocationRoute
-import com.addhen.klocation.sample.iosframework.navigation.buildNavOptions
-import com.addhen.shared.generated.resources.Res
-import com.addhen.shared.generated.resources.ic_launcher_foreground
-import com.addhen.shared.generated.resources.request_location_permission_rationale
-import com.addhen.shared.generated.resources.request_permission
+import com.addhen.klocation.sample.shared.ScaffoldSample
+import com.addhen.klocation.sample.shared.navigation.LocationRoute
+import com.addhen.klocation.sample.shared.navigation.buildNavOptions
+import com.addhen.klocation.shared.generated.resources.Res
+import com.addhen.klocation.shared.generated.resources.ic_launcher_foreground
+import com.addhen.klocation.shared.generated.resources.request_location_permission_rationale
+import com.addhen.klocation.shared.generated.resources.request_permission
 import dev.icerock.moko.permissions.compose.BindEffect
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.DrawableResource

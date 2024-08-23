@@ -1,13 +1,13 @@
 // Copyright 2024, Addhen Ltd and the k-location project contributors
 // SPDX-License-Identifier: Apache-2.0
-package com.addhen.klocation.sample.iosframework
+package com.addhen.klocation.sample.shared
 
 import androidx.compose.ui.window.ComposeUIViewController
 import androidx.navigation.compose.rememberNavController
 import com.addhen.klocation.LocationService
 import com.addhen.klocation.cllocation
-import com.addhen.klocation.sample.iosframework.permission.LocationPermissionScreen
-import com.addhen.klocation.sample.iosframework.permission.LocationPermissionViewModel
+import com.addhen.klocation.sample.shared.permission.LocationPermissionScreen
+import com.addhen.klocation.sample.shared.permission.LocationPermissionViewModel
 import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.ios.PermissionsController
 import kotlinx.cinterop.ExperimentalForeignApi
