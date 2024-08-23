@@ -12,7 +12,7 @@ To use `klocation` artifact in your project, add the following dependencies to y
 
 ```kotlin
 dependencies {
-  implementation("com.addhen:klocation:<version>")
+  implementation("com.addhen.klocation:klocation:<version>")
 }
 ```
 
@@ -21,7 +21,7 @@ For `klocation-compose` artifact, add the following dependencies to your gradle 
 ```kotlin
 dependencies {
   implementation("androidx.compose.runtime:runtime:<version>")
-  implementation("com.addhen:klocation-compose:<version>")
+  implementation("com.addhen.klocation:klocation-compose:<version>")
 }
 ```
 ## Note
