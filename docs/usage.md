@@ -60,11 +60,9 @@ val locationService = LocationService(locationProvider = customProvider)
 
 ### Using the `LocationService`
 
-The two artifacts `klocation` and `klocation-compose` comes with the `LocationService` class.
-
 ## For klocation artifact
 This guide will walk you through using the `LocationService` APIs for consuming location in your
-non compose based applications.
+**non** compose-based applications.
 
 ### Requesting location updates
 To receive continuous location updates, use the `requestLocationUpdates()` method:
@@ -139,7 +137,7 @@ viewModelScope.launch {
 ## For klocation-compose artifact
 
 This guide will walk you through using the APIs provided for consuming location in your
-Compose-based application.
+compose-based application.
 
 ### Requesting location updates
 To receive continuous location updates, use the `locationUpdatesState()` function in your Composable:
