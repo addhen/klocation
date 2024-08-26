@@ -8,10 +8,13 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Looper
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 private const val MIN_DISTANCE_CHANGE_FOR_UPDATES: Float = 30f // 30 meters
 private const val MIN_TIME_BW_UPDATES = (1000 * 60 * 2).toLong() // 2 minutes
@@ -36,7 +39,11 @@ public class AndroidLocationProvider(
   private val minTimeMs: Long = MIN_TIME_BW_UPDATES,
 ) : BaseLocationProvider<Location>(context) {
 
-  private var locationListener: LocationListener? = null
+  private val locationChannel = Channel<LocationState>(Channel.CONFLATED)
+  private var locationListener: LocationListener? = LocationListener { location ->
+    val currentLocation = LocationState.CurrentLocation(location)
+    locationChannel.trySend(currentLocation)
+  }
 
   /**
    * Provides a flow [LocationState] of location updates.
@@ -66,11 +73,8 @@ public class AndroidLocationProvider(
    */
   // Permission already being checked with requestLocation function
   @SuppressLint("MissingPermission")
-  override fun requestLocationUpdates(): Flow<LocationState> = callbackFlow {
-    locationListener = LocationListener { location ->
-      val currentLocation = LocationState.CurrentLocation(location)
-      trySend(currentLocation)
-    }
+  override fun requestLocationUpdates(): Flow<LocationState> = channelFlow {
+    val localChannel = channel
 
     val locationState = requestLocation {
       try {
@@ -90,17 +94,23 @@ public class AndroidLocationProvider(
           )
         }
       } catch (cause: Throwable) {
-        trySend(LocationState.Error(cause))
+        localChannel.send(LocationState.Error(cause))
       }
       // This is to satisfy the return type of requestLocation.lambda but the location should be
       // emitted in the listener
       LocationState.CurrentLocation(null)
     }
 
-    if (locationState != LocationState.CurrentLocation(null)) trySend(locationState)
-    awaitClose { stopRequestingLocationUpdates() }
+    if (locationState != LocationState.CurrentLocation(null)) locationChannel.send(locationState)
+
+    val job = launch {
+      while (isActive) {
+        localChannel.send(locationChannel.receive())
+      }
+    }
+    awaitClose { job.cancel() }
   }.catch { cause: Throwable ->
-    emit(LocationState.Error(cause))
+    locationChannel.send(LocationState.Error(cause))
   }
 
   /**

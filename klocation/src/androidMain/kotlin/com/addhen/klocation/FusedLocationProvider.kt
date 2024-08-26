@@ -102,7 +102,7 @@ public class FusedLocationProvider(
     awaitClose { job.cancel() }
   }.catch { cause: Throwable ->
     // Handle any exceptions that occur during flow collection.
-    emit(LocationState.Error(cause))
+    locationsChannel.send(LocationState.Error(cause))
   }
 
   /**
