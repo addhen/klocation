@@ -12,10 +12,13 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 /**
@@ -40,7 +43,14 @@ public class FusedLocationProvider(
   private val locationProviderClient: FusedLocationProviderClient =
     LocationServices.getFusedLocationProviderClient(context)
   private val locationRequest = LocationRequest.Builder(priority, intervalMs).build()
-  private var locationCallback: LocationCallback? = null
+  private val locationsChannel = Channel<LocationState>(Channel.CONFLATED)
+  private var locationCallback: LocationCallback? = object : LocationCallback() {
+    override fun onLocationResult(locationResult: LocationResult) {
+      locationResult.lastLocation?.let { location ->
+        locationsChannel.trySend(LocationState.CurrentLocation(location))
+      }
+    }
+  }
 
   /**
    * Provides a flow [LocationState] of location updates.
@@ -71,26 +81,25 @@ public class FusedLocationProvider(
    */
   // Permission already being checked with requestLocation function
   @SuppressLint("MissingPermission")
-  override fun requestLocationUpdates(): Flow<LocationState> = callbackFlow {
-    locationCallback = object : LocationCallback() {
-      override fun onLocationResult(locationResult: LocationResult) {
-        locationResult.lastLocation?.let { location ->
-          trySend(LocationState.CurrentLocation(location))
-        }
-      }
-    }
-
+  override fun requestLocationUpdates(): Flow<LocationState> = channelFlow {
+    val localChannel = channel
     val locationState = requestLocation {
       locationCallback?.let { callback ->
         locationProviderClient.requestLocationUpdates(locationRequest, callback, null)
-        // This is to satisfy the return type of requestLocation.lambda but the location should be
-        // emitted in the listener already.
       }
+      // This is to satisfy the return type of requestLocation.lambda but the location should be
+      // emitted in the listener already.
       LocationState.CurrentLocation(null)
     }
 
-    if (locationState != LocationState.CurrentLocation(null)) trySend(locationState)
-    awaitClose { stopRequestingLocationUpdates() }
+    if (locationState != LocationState.CurrentLocation(null)) locationsChannel.send(locationState)
+
+    val job = launch {
+      while (isActive) {
+        localChannel.send(locationsChannel.receive())
+      }
+    }
+    awaitClose { job.cancel() }
   }.catch { cause: Throwable ->
     // Handle any exceptions that occur during flow collection.
     emit(LocationState.Error(cause))

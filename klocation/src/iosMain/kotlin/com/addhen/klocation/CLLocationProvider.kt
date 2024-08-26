@@ -83,7 +83,6 @@ public class CLLocationProvider(
     }
 
     awaitClose {
-      observeLocationManager.stopUpdatingLocation()
       job.cancel()
     }
   }

@@ -43,7 +43,10 @@ class MainActivity : ComponentActivity() {
           val viewModel = LocationViewModelFactory(
             locationService = locationService,
           ).create(LocationViewModel::class.java)
-          LocationScreen(viewModel, locationService) { locationState ->
+          LocationScreen(
+            viewModel,
+            LocationService(FusedLocationProvider(LocalContext.current))
+          ) { locationState ->
             val location = locationState.location
             "${location?.latitude},${location?.longitude}"
           }
