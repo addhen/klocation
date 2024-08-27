@@ -17,16 +17,7 @@ jobs:
     uses: ./.github/workflows/gradle.yml
   deploy:
     needs: build
-    strategy:
-      matrix:
-        include:
-          - target: publishIosArm64PublicationToSonatypeRepository
-            os: macos-latest
-          - target: publishAndroidReleasePublicationToSonatypeRepository
-            os: ubuntu-latest
-          - target: publishKotlinMultiplatformPublicationToSonatypeRepository
-            os: ubuntu-latest
-    runs-on: ${{ matrix.os }}
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v4
     - name: Setup
@@ -41,6 +32,7 @@ jobs:
         OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
       with:
         arguments: |
-          ${{ matrix.target }}
-          closeSonatypeStagingRepository
+          --no-configuration-cache
+          publishToSonatype
+          closeAndReleaseSonatypeStagingRepository
           -Psigning.gnupg.keyName='${{secrets.OSSRH_GPG_SECRET_KEY_ID}}'
