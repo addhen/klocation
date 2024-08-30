@@ -1,3 +1,6 @@
+[![Maven Central](https://img.shields.io/maven-central/v/com.addhen.klocation/klocation)](https://search.maven.org/search?q=g:com.addhen.klocation) ![Build status](https://github.com/addhen/klocation/actions/workflows/gradle.yml/badge.svg)
+
+
 # KLocation
 
 Checkout the [documentation](https://addhen.github.io/klocation/) for more information.
