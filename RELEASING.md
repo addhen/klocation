@@ -7,6 +7,7 @@
 
 2. Update the `docs/setup.md`:
    1. Change the snapshot section to reflect the next "SNAPSHOT" version, in case it's changing.
+   2. Update the version in the `dependencies` section to the new release version.
 
 3. Run release script:
 

@@ -27,3 +27,23 @@ dependencies {
 ## Note
 
 If you are using the `klocation-compose` artifact, you don't need to add the `klocation` artifact.
+
+<details>
+<summary>Snapshots of the development version are available in Sonatype's snapshots repository.</summary>
+<p>
+
+```groovy
+repository {
+  mavenCentral()
+  maven {
+    url 'https://oss.sonatype.org/content/repositories/snapshots/'
+  }
+}
+dependencies {
+  implementation("com.addhen.klocation:klocation:<version>-SNAPSHOT")
+  implementation("com.addhen.klocation:klocation-compose:<version>-SNAPSHOT")
+}
+```
+
+</p>
+</details>
