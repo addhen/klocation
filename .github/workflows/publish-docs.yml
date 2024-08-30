@@ -41,13 +41,18 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install mkdocs mkdocs-material mkdocs-video "mkdocs-material[imaging]"
 
+      - name: Copy files for the documentation site
+        run: |
+          cp CHANGELOG.md docs/changelog.md
+          cp CONTRIBUTING.md docs/contributing.md
+          cp CODE_OF_CONDUCT.md docs/code-of-conduct.md
+
       - name: Build site
         run: mkdocs build
         env:
           DYLD_FALLBACK_LIBRARY_PATH: /opt/homebrew/lib
 
       - uses: gradle/gradle-build-action@v3
-
       - run: |
           ./gradlew --no-configuration-cache :dokkaHtmlMultiModule
 
