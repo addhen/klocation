@@ -7,7 +7,10 @@
 
 name: Deploy to central
 
-on: workflow_dispatch
+on:
+  push:
+    tags:
+      - 'v*.*.*'
 
 permissions:
   contents: read
@@ -18,6 +21,8 @@ jobs:
   deploy:
     needs: build
     runs-on: macos-latest
+    permissions:
+      contents: write
     steps:
     - uses: actions/checkout@v4
     - name: Setup
@@ -36,3 +41,12 @@ jobs:
           publishToSonatype
           closeAndReleaseSonatypeStagingRepository
           -Psigning.gnupg.keyName='${{secrets.OSSRH_GPG_SECRET_KEY_ID}}'
+
+    - name: Extract release notes
+      id: release_notes
+      uses: ffurrer2/extract-release-notes@v2
+
+    - name: Create release
+      uses: ncipollo/release-action@v1
+      with:
+        body: ${{ steps.release_notes.outputs.release_notes }}
