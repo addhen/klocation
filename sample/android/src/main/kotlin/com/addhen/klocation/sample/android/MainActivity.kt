@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
+import com.addhen.klocation.FusedLocationProvider
 import com.addhen.klocation.LocationService
 import com.addhen.klocation.location
 import com.addhen.klocation.sample.shared.LocationScreen
@@ -38,13 +39,13 @@ class MainActivity : ComponentActivity() {
           LocationPermissionScreen(viewModel, navController)
         },
         locationScreen = {
-          val locationService = LocationService(this)
+          val locationService = LocationService(FusedLocationProvider(LocalContext.current))
           val viewModel = LocationViewModelFactory(
             locationService = locationService,
           ).create(LocationViewModel::class.java)
           LocationScreen(
             viewModel,
-            LocationService(this),
+            LocationService(FusedLocationProvider(LocalContext.current)),
           ) { locationState ->
             val location = locationState.location
             "${location?.latitude},${location?.longitude}"
