@@ -21,20 +21,20 @@ if [ -z "$NEW_SNAPSHOT_VERSION" ]; then
   NEW_SNAPSHOT_VERSION=$CUR_SNAPSHOT_VERSION
 fi
 
-echo "Publishing $NEW_VERSION"
+echo "Publishing v$NEW_VERSION"
 
 # Prepare release
 sed -i.bak "s/${CUR_SNAPSHOT_VERSION}/${NEW_VERSION}/g" gradle/libs.versions.toml
-#git add gradle/libs.versions.toml
-echo "Prepare for release $NEW_VERSION"
-#git commit -m "Prepare for release $NEW_VERSION"
+git add gradle/libs.versions.toml
+echo "Prepare for release v$NEW_VERSION"
+git commit -m "Prepare for release v$NEW_VERSION"
 
 # Sanity check
 ./gradlew spotlessCheck --no-configuration-cache && ./gradlew lint --stacktrace --no-configuration-cache
 
 # Add git tag
-echo "add new version $NEW_VERSION"
-git tag "$NEW_VERSION"
+echo "Add new version v$NEW_VERSION"
+git tag "v$NEW_VERSION"
 # Prepare next snapshot
 echo "Setting next snapshot version $NEW_SNAPSHOT_VERSION"
 sed -i.bak "s/${NEW_VERSION}/${NEW_SNAPSHOT_VERSION}/g" gradle/libs.versions.toml
