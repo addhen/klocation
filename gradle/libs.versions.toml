@@ -1,5 +1,5 @@
 [versions]
-klocation = "1.0.0-SNAPSHOT"
+klocation = "1.0.0"
 minSdk = "24"
 targetSdk = "35"
 compileSdk = "35"
