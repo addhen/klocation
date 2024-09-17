@@ -20,7 +20,7 @@ appcompat = "1.7.0"
 accompanist-permissions = "0.34.0"
 navigation-compose = "2.8.0-alpha08" # Make use of type-safe compose navigation
 kotlinx-serializer = "1.7.1"
-lifecycle-viewmodel-compose = "2.8.0"
+lifecycle-viewmodel-compose = "2.8.2"
 kermit = "2.0.4"
 moko-permissions = "0.18.0"
 
