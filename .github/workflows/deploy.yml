@@ -28,16 +28,14 @@ jobs:
     - name: Setup
       uses: ./.github/actions/setup
     - name: Gradle publish
-      uses: gradle/actions/setup-gradle@v4
       env:
         OSSRH_GPG_SECRET_KEY_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
         OSSRH_GPG_SECRET_KEY_ID: ${{ secrets.OSSRH_GPG_SECRET_KEY_ID }}
         OSSRH_GPG_SECRET_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
         OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
         OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-      with:
-        arguments: |
-          --no-configuration-cache
+      run: >
+          ./gradlew --no-configuration-cache
           publishToSonatype
           closeAndReleaseSonatypeStagingRepository
           -Psigning.gnupg.keyName='${{secrets.OSSRH_GPG_SECRET_KEY_ID}}'
