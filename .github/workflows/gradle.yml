@@ -51,7 +51,7 @@ jobs:
     - name: Build with Gradle
       uses: gradle/actions/setup-gradle@v4
     - name: Setup target matrix
-      run: ${{ matrix.target }}
+      run: ./gradlew ${{ matrix.target }}
   publish-snapshots:
     runs-on: macos-latest
     if: github.repository == 'addhen/klocation' && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
