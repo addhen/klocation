@@ -67,7 +67,8 @@ jobs:
         OSSRH_GPG_SECRET_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
         OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
         OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-      run: |
-        ./gradlew --no-configuration-cache publishAllPublicationsToSonatypeRepository
+      run: >
+        ./gradlew --no-configuration-cache
+        publishAllPublicationsToSonatypeRepository
         closeSonatypeStagingRepository
         -Psigning.gnupg.keyName='${{secrets.OSSRH_GPG_SECRET_KEY_ID}}'
