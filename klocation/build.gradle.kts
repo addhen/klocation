@@ -56,4 +56,5 @@ publishing {
       description.set("A kotlin multiplatform library for getting a device's location")
     }
   }
+
 }
