@@ -48,7 +48,7 @@ jobs:
       run: ./gradlew spotlessCheck --stacktrace
     - name: Lint
       run: ./gradlew lint --stacktrace
-    - name: Setup target matrix
+    - name: Run tests
       run: ./gradlew ${{ matrix.target }}
   publish-snapshots:
     runs-on: macos-latest
@@ -70,7 +70,7 @@ jobs:
           echo " ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}\n${{ secrets.OSSRH_GPG_SECRET_KEY_ID }}\n${{ secrets.OSSRH_USERNAME }}\n" > secret.txt
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: clear-file
         path: secret.txt
