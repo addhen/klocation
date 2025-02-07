@@ -8,6 +8,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.addhen.klocation.FusedLocationProvider
 import com.addhen.klocation.LocationService
@@ -17,7 +18,6 @@ import com.addhen.klocation.sample.shared.LocationViewModel
 import com.addhen.klocation.sample.shared.SampleApp
 import com.addhen.klocation.sample.shared.permission.LocationPermissionScreen
 import com.addhen.klocation.sample.shared.permission.LocationPermissionViewModel
-import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.PermissionsController
 
 class MainActivity : ComponentActivity() {
@@ -28,24 +28,22 @@ class MainActivity : ComponentActivity() {
     permissionsController.bind(this)
     setContent {
       val navController = rememberNavController()
+      val locationPermissionViewModel = viewModel<LocationPermissionViewModel>(
+        factory = LocationPermissionViewModelFactory(LocalContext.current)
+      )
+      val locationService = LocationService(FusedLocationProvider(LocalContext.current))
+      val locationViewModel = viewModel<LocationViewModel>(factory =
+        LocationViewModelFactory(locationService = locationService)
+      )
       SampleApp(
         navController,
         permissionsController,
         permissionScreen = {
-          val viewModel = LocationPermissionViewModel(
-            PermissionsController(LocalContext.current),
-            Permission.COARSE_LOCATION,
-            Permission.LOCATION,
-          )
-          LocationPermissionScreen(viewModel, navController)
+          LocationPermissionScreen(locationPermissionViewModel, navController)
         },
         locationScreen = {
-          val locationService = LocationService(FusedLocationProvider(LocalContext.current))
-          val viewModel = LocationViewModelFactory(
-            locationService = locationService,
-          ).create(LocationViewModel::class.java)
           LocationScreen(
-            viewModel,
+            locationViewModel,
             LocationService(FusedLocationProvider(LocalContext.current)),
           ) { locationState ->
             val location = locationState.location
