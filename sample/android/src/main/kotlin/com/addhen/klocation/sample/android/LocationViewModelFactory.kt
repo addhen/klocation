@@ -9,11 +9,9 @@ import com.addhen.klocation.LocationService
 import com.addhen.klocation.sample.shared.LocationViewModel
 
 @Suppress("UNCHECKED_CAST")
-class LocationViewModelFactory(
-  private val locationService: LocationService,
-) : ViewModelProvider.Factory {
+class LocationViewModelFactory(private val locationService: LocationService) :
+  ViewModelProvider.Factory {
 
-  override fun <T : ViewModel> create(modelClass: Class<T>): T {
-    return LocationViewModel(locationService) as T
-  }
+  override fun <T : ViewModel> create(modelClass: Class<T>): T =
+    LocationViewModel(locationService) as T
 }

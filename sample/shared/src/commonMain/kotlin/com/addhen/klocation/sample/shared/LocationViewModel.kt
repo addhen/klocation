@@ -19,9 +19,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-public class LocationViewModel(
-  private val locationService: LocationService,
-) : ViewModel() {
+public class LocationViewModel(private val locationService: LocationService) : ViewModel() {
   private val viewStateEmitter =
     MutableStateFlow(LocationUiState(flag = LocationUiState.Flag.LOADING))
 

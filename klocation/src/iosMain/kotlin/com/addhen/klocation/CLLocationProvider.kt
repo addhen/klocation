@@ -35,9 +35,8 @@ import platform.darwin.NSObject
  *
  * @param accuracy The desired location accuracy. Defaults to [kCLLocationAccuracyBest].
  */
-public class CLLocationProvider(
-  accuracy: CLLocationAccuracy = kCLLocationAccuracyBest,
-) : LocationProvider {
+public class CLLocationProvider(accuracy: CLLocationAccuracy = kCLLocationAccuracyBest) :
+  LocationProvider {
 
   private val locationsChannel = Channel<LocationState>(Channel.BUFFERED)
   private val trackerScope = CoroutineScope(Dispatchers.Main)
@@ -129,7 +128,8 @@ public class CLLocationProvider(
   private class ObserveLocationDelegate(
     locationsChannel: Channel<LocationState>,
     scope: CoroutineScope,
-  ) : NSObject(), CLLocationManagerDelegateProtocol {
+  ) : NSObject(),
+    CLLocationManagerDelegateProtocol {
     private val coroutineScope = WeakReference(scope)
     private val locationsChannel = WeakReference(locationsChannel)
 
@@ -154,7 +154,9 @@ public class CLLocationProvider(
   }
 
   @Suppress("UNCHECKED_CAST")
-  private class LastKnownLocationDelegate : NSObject(), CLLocationManagerDelegateProtocol {
+  private class LastKnownLocationDelegate :
+    NSObject(),
+    CLLocationManagerDelegateProtocol {
     var locationCallback: ((LocationState) -> Unit)? = null
 
     public override fun locationManager(manager: CLLocationManager, didUpdateLocations: List<*>) {

@@ -146,22 +146,20 @@ public class AndroidLocationProvider(
    */
   // Permission already being checked with requestLocation function
   @SuppressLint("MissingPermission")
-  override suspend fun getLastKnownLocation(): LocationState {
-    return requestLocation {
-      val networkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-      val gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+  override suspend fun getLastKnownLocation(): LocationState = requestLocation {
+    val networkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+    val gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
 
-      val bestLocation = when {
-        networkLocation != null && gpsLocation != null ->
-          if (gpsLocation.time > networkLocation.time) gpsLocation else networkLocation
+    val bestLocation = when {
+      networkLocation != null && gpsLocation != null ->
+        if (gpsLocation.time > networkLocation.time) gpsLocation else networkLocation
 
-        gpsLocation != null -> gpsLocation
-        networkLocation != null -> networkLocation
-        else -> null
-      }
-
-      LocationState.CurrentLocation(bestLocation)
+      gpsLocation != null -> gpsLocation
+      networkLocation != null -> networkLocation
+      else -> null
     }
+
+    LocationState.CurrentLocation(bestLocation)
   }
 
   /**

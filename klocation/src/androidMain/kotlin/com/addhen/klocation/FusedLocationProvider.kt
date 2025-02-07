@@ -134,14 +134,12 @@ public class FusedLocationProvider(
    */
   // Permission already being checked with requestLocation function
   @SuppressLint("MissingPermission")
-  override suspend fun getLastKnownLocation(): LocationState {
-    return requestLocation {
-      val request = CurrentLocationRequest.Builder()
-        .setPriority(priority)
-        .build()
-      val location = locationProviderClient.getCurrentLocation(request, null).await()
-      LocationState.CurrentLocation(location)
-    }
+  override suspend fun getLastKnownLocation(): LocationState = requestLocation {
+    val request = CurrentLocationRequest.Builder()
+      .setPriority(priority)
+      .build()
+    val location = locationProviderClient.getCurrentLocation(request, null).await()
+    LocationState.CurrentLocation(location)
   }
 
   /**

@@ -21,12 +21,11 @@ import kotlinx.coroutines.flow.distinctUntilChanged
  *         The initial value is [LocationState.CurrentLocation] with a null location.
  */
 @Composable
-public fun locationUpdatesState(locationService: LocationService): State<LocationState> {
-  return locationService
+public fun locationUpdatesState(locationService: LocationService): State<LocationState> =
+  locationService
     .requestLocationUpdates()
     .distinctUntilChanged()
     .collectAsState(LocationState.CurrentLocation(null))
-}
 
 /**
  * Provides a [State] object that contains the last known location.
@@ -38,11 +37,10 @@ public fun locationUpdatesState(locationService: LocationService): State<Locatio
  *         The initial value is [LocationState.CurrentLocation] with a null location.
  */
 @Composable
-public fun lastKnowLocationState(locationService: LocationService): State<LocationState> {
-  return produceState<LocationState>(LocationState.CurrentLocation(null)) {
+public fun lastKnowLocationState(locationService: LocationService): State<LocationState> =
+  produceState<LocationState>(LocationState.CurrentLocation(null)) {
     value = locationService.getLastKnownLocation()
   }
-}
 
 /**
  * Provides a [State] object that contains the last known location, with one recomposition key.
@@ -55,13 +53,11 @@ public fun lastKnowLocationState(locationService: LocationService): State<Locati
 public fun lastKnowLocationState(
   locationService: LocationService,
   key1: Any?,
-): State<LocationState> {
-  return produceState<LocationState>(
-    LocationState.CurrentLocation(null),
-    key1,
-  ) {
-    value = locationService.getLastKnownLocation()
-  }
+): State<LocationState> = produceState<LocationState>(
+  LocationState.CurrentLocation(null),
+  key1,
+) {
+  value = locationService.getLastKnownLocation()
 }
 
 /**
@@ -77,14 +73,12 @@ public fun lastKnowLocationState(
   locationService: LocationService,
   key1: Any?,
   key2: Any?,
-): State<LocationState> {
-  return produceState<LocationState>(
-    LocationState.CurrentLocation(null),
-    key1,
-    key2,
-  ) {
-    value = locationService.getLastKnownLocation()
-  }
+): State<LocationState> = produceState<LocationState>(
+  LocationState.CurrentLocation(null),
+  key1,
+  key2,
+) {
+  value = locationService.getLastKnownLocation()
 }
 
 /**
@@ -102,15 +96,13 @@ public fun lastKnowLocationState(
   key1: Any?,
   key2: Any?,
   key3: Any?,
-): State<LocationState> {
-  return produceState<LocationState>(
-    LocationState.CurrentLocation(null),
-    key1,
-    key2,
-    key3,
-  ) {
-    value = locationService.getLastKnownLocation()
-  }
+): State<LocationState> = produceState<LocationState>(
+  LocationState.CurrentLocation(null),
+  key1,
+  key2,
+  key3,
+) {
+  value = locationService.getLastKnownLocation()
 }
 
 /**
@@ -126,8 +118,6 @@ public fun lastKnowLocationState(
 public fun lastKnowLocationState(
   locationService: LocationService,
   vararg keys: Any?,
-): State<LocationState> {
-  return produceState<LocationState>(LocationState.CurrentLocation(null), keys) {
-    value = locationService.getLastKnownLocation()
-  }
+): State<LocationState> = produceState<LocationState>(LocationState.CurrentLocation(null), keys) {
+  value = locationService.getLastKnownLocation()
 }

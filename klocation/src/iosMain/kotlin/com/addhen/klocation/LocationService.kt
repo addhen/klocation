@@ -22,18 +22,16 @@ public actual class LocationService(
    *
    * @return A [Flow] of [LocationState] representing the stream of location updates.
    */
-  public actual fun requestLocationUpdates(): Flow<LocationState> {
-    return locationProvider.requestLocationUpdates()
-  }
+  public actual fun requestLocationUpdates(): Flow<LocationState> =
+    locationProvider.requestLocationUpdates()
 
   /**
    * Retrieves the last known location from the underlying location provider.
    *
    * @return A [LocationState] representing the last known location or or other states
    */
-  public actual suspend fun getLastKnownLocation(): LocationState {
-    return locationProvider.getLastKnownLocation()
-  }
+  public actual suspend fun getLastKnownLocation(): LocationState =
+    locationProvider.getLastKnownLocation()
 
   /**
    * Stops requesting location updates from the underlying location provider.

@@ -25,36 +25,33 @@ public abstract class BaseLocationProvider<T : Location>(
     .getSystemService(Context.LOCATION_SERVICE) as LocationManager,
 ) : LocationProvider {
 
-  protected fun isGPSEnabled(): Boolean {
-    return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-  }
+  protected fun isGPSEnabled(): Boolean =
+    locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
-  protected fun isNetworkEnabled(): Boolean {
-    return locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-  }
+  protected fun isNetworkEnabled(): Boolean =
+    locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
   protected suspend fun requestLocation(
     requestLocation: suspend () -> LocationState,
-  ): LocationState {
-    return runCatching {
-      if (ActivityCompat.checkSelfPermission(
-          context,
-          Manifest.permission.ACCESS_FINE_LOCATION,
-        ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-          context,
-          Manifest.permission.ACCESS_COARSE_LOCATION,
-        ) != PackageManager.PERMISSION_GRANTED
-      ) {
-        LocationState.PermissionMissing
-      } else if (isGPSEnabled().not()) {
-        LocationState.LocationDisabled
-      } else if (isNetworkEnabled().not()) {
-        LocationState.NoNetworkEnabled
-      } else {
-        requestLocation()
-      }
-    }.getOrElse {
-      LocationState.Error(it)
+  ): LocationState = runCatching {
+    if (ActivityCompat.checkSelfPermission(
+        context,
+        Manifest.permission.ACCESS_FINE_LOCATION,
+      ) != PackageManager.PERMISSION_GRANTED &&
+      ActivityCompat.checkSelfPermission(
+        context,
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+      ) != PackageManager.PERMISSION_GRANTED
+    ) {
+      LocationState.PermissionMissing
+    } else if (isGPSEnabled().not()) {
+      LocationState.LocationDisabled
+    } else if (isNetworkEnabled().not()) {
+      LocationState.NoNetworkEnabled
+    } else {
+      requestLocation()
     }
+  }.getOrElse {
+    LocationState.Error(it)
   }
 }

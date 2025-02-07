@@ -75,9 +75,7 @@ public class LocationPermissionViewModel(
     }
   }
 
-  public data class LocationPermissionUiState(
-    public val flag: Flag = Flag.CHECK_PERMISSION,
-  ) {
+  public data class LocationPermissionUiState(public val flag: Flag = Flag.CHECK_PERMISSION) {
     public enum class Flag {
       CHECK_PERMISSION,
       PERMISSION_GRANTED,
