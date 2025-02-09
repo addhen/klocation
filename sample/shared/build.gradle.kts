@@ -27,6 +27,7 @@ kotlin {
         implementation(libs.androidx.navigation.compose)
         implementation(libs.kotlinx.serialization)
         api(libs.moko.permissions)
+        api(libs.moko.permissions.location)
         implementation(libs.moko.permissions.compose)
         implementation(libs.kotlinx.serialization)
       }

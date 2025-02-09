@@ -16,6 +16,8 @@ import com.addhen.klocation.sample.shared.navigation.LocationPermissionRoute
 import com.addhen.klocation.sample.shared.navigation.LocationRoute
 import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.PermissionsController
+import dev.icerock.moko.permissions.location.COARSE_LOCATION
+import dev.icerock.moko.permissions.location.LOCATION
 import kotlin.reflect.KClass
 
 @Composable
