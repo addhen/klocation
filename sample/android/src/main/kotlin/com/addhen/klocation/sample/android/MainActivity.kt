@@ -29,11 +29,12 @@ class MainActivity : ComponentActivity() {
     setContent {
       val navController = rememberNavController()
       val locationPermissionViewModel = viewModel<LocationPermissionViewModel>(
-        factory = LocationPermissionViewModelFactory(LocalContext.current)
+        factory = LocationPermissionViewModelFactory(LocalContext.current),
       )
       val locationService = LocationService(FusedLocationProvider(LocalContext.current))
-      val locationViewModel = viewModel<LocationViewModel>(factory =
-        LocationViewModelFactory(locationService = locationService)
+      val locationViewModel = viewModel<LocationViewModel>(
+        factory =
+        LocationViewModelFactory(locationService = locationService),
       )
       SampleApp(
         navController,

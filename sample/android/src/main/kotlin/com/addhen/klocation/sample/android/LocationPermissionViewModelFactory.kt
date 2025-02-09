@@ -1,3 +1,6 @@
+// Copyright 2025, Addhen Ltd and the k-location project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.klocation.sample.android
 
 import android.content.Context
@@ -11,10 +14,9 @@ import dev.icerock.moko.permissions.PermissionsController
 class LocationPermissionViewModelFactory(private val context: Context) :
   ViewModelProvider.Factory {
 
-  override fun <T : ViewModel> create(modelClass: Class<T>): T =
-    LocationPermissionViewModel(
-      PermissionsController(context),
-      Permission.COARSE_LOCATION,
-      Permission.LOCATION,
-    ) as T
+  override fun <T : ViewModel> create(modelClass: Class<T>): T = LocationPermissionViewModel(
+    PermissionsController(context),
+    Permission.COARSE_LOCATION,
+    Permission.LOCATION,
+  ) as T
 }
