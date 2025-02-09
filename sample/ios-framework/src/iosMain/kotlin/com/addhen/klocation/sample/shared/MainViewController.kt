@@ -11,6 +11,7 @@ import com.addhen.klocation.sample.shared.permission.LocationPermissionScreen
 import com.addhen.klocation.sample.shared.permission.LocationPermissionViewModel
 import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.ios.PermissionsController
+import dev.icerock.moko.permissions.location.LOCATION
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
 import platform.UIKit.UIViewController
